@@ -8,7 +8,7 @@ protected:
     int pv;
     int niveau;
     double poidsmax;
-    double poidsactuel;
+    double poidsactuel; 
     int points;
     std::unordered_map<std::string, int> competences;
 
