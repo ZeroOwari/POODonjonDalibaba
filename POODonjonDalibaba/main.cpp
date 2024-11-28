@@ -1,5 +1,5 @@
 #include <iostream>
-//#include "SFML/Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include "window.hpp"
 #include "Barbare.hpp"
 #include "Elfe.hpp"
@@ -9,7 +9,7 @@
 
 int main() {
 	//window fenetre(1920, 1080);
-	//enetre.afficher();
+	//fenetre.afficher();
 	Barbare b(110, 50);
 	Elfe e(150, 40);
 	Humain h(100, 60);
