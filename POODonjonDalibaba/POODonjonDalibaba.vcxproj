@@ -130,7 +130,13 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Barbare.hpp" />
+    <ClInclude Include="Elfe.hpp" />
     <ClInclude Include="Heros.hpp" />
+    <ClInclude Include="Humain.hpp" />
+    <ClInclude Include="Nain.hpp" />
+    <ClInclude Include="salles.hpp" />
+    <ClInclude Include="window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
