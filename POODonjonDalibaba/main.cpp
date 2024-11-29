@@ -5,6 +5,9 @@
 #include "Elfe.hpp"
 #include "Humain.hpp"
 #include "Nain.hpp"
+#include "GobelinSarcastique.hpp"
+#include "TrollRhetoricien.hpp"
+#include "CanardExplosif.hpp"
 
 
 int main() {
@@ -36,6 +39,22 @@ int main() {
 	b.ajoutPoint("Force", 5);
 
 	b.afficher();
+
+	//Affichage Monstre pour tester si ça fonctionne
+	vector<Monstre*> monstres;
+	monstres.push_back(new GobelinSarcastique());
+	monstres.push_back(new TrollRhetoricien());
+	monstres.push_back(new CanardExplosif());
+
+	for (Monstre* monstre : monstres)
+	{
+		monstre->afficher();
+	}
+
+	for (Monstre* monstre : monstres)
+	{
+		delete monstre;
+	}
 
 	return 0;
 }

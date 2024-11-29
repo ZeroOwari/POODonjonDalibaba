@@ -42,7 +42,7 @@ public:
 		sf::Texture playerTexture;
 		sf::Sprite PlayerSprite;
 		PlayerSprite.setPosition(720, 288);
-		if (!playerTexture.loadFromFile("C:/Users/bapti/Desktop/C++/DonjonDalibaba/texture/chevalier.png")) {
+		if (!playerTexture.loadFromFile("C:/Users/lukpr/Desktop/DonjonAliababa/texture/perso.png")) {
 			std::cout << "Erreur lors du chargement de la texture" << std::endl;
 			return;
 		}
@@ -61,7 +61,7 @@ public:
 				}
 			}
 			sf::Texture background;
-			if (!background.loadFromFile("C:/Users/bapti/Desktop/C++/DonjonDalibaba/texture/background.png")) {
+			if (!background.loadFromFile("C:/Users/lukpr/Desktop/DonjonAliababa/texture/fond1.png")) {
 				std::cout << "Erreur lors du chargement de la texture" << std::endl;
 				break;
 			}
