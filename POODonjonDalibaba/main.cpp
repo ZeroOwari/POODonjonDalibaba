@@ -37,7 +37,10 @@ int main() {
 	b.UpNiveau();
 
 	b.ajoutPoint("Force", 5);
-
+	
+	b.ajoutPoint("Intelligence", 5);
+	b.AddInventaire("Epee");
+	b.AddInventaire("Bouclier");
 	b.afficher();
 
 	//Affichage Monstre pour tester si ça fonctionne

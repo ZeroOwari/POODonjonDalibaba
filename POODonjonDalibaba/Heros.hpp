@@ -51,10 +51,10 @@ public:
 
     virtual void ajoutPoint(std::string competence, int n) {
         if (this->points - n < 0) {
-            std::cout << "Vous n'avez pas assez de points ! Vous etes actuellements à " << this->get_points() << " et il vous faut " << n << " points !" << std::endl;
+            std::cout << "Vous n'avez pas assez de points ! Vous etes actuellements a " << this->get_points() << " et il vous faut " << n << " points !" << std::endl;
             return;
         }
-        std::cout << "Vous avez ajoute " << n << " points a la competence. " << competence << std::endl;
+        std::cout << "Vous avez ajoute " << n << " points a la competence " << competence << std::endl;
         this->competences[competence] += n;
         this->points -= n;
     }
@@ -62,6 +62,13 @@ public:
     virtual void AddInventaire(std::string objet) {
         this->inventaire.push_back(objet);
     }
+
+	virtual void afficherInventaire() {
+		std::cout << "Inventaire : " << std::endl;
+		for (int i = 0; i < this->inventaire.size(); i++) {
+			std::cout << this->inventaire[i] << std::endl;
+		}
+	}
 
     virtual void afficher() {
         std::cout << "Origine : " << this->get_origine() << std::endl;
@@ -75,6 +82,7 @@ public:
         std::cout << "Courage : " << this->get_courage() << std::endl;
         std::cout << "Niveau : " << this->get_niveau() << std::endl;
         std::cout << "Points : " << this->get_points() << std::endl;
+        this->afficherInventaire();
         std::cout << "" << std::endl;
     }
 };
