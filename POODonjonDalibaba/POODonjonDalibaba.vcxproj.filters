@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\FichierHero">
+      <UniqueIdentifier>{020750ad-a490-4d7e-9531-45410e59b532}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -20,24 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Heros.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Nain.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Humain.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Elfe.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Barbare.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="window.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="salles.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -54,6 +39,27 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Personnages.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Barbare.hpp">
+      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Elfe.hpp">
+      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Heros.hpp">
+      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Humain.hpp">
+      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Nain.hpp">
+      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

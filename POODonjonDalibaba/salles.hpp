@@ -27,7 +27,7 @@ public:
     void afficherSalle(sf::RenderWindow& window) {
 
         sf::Texture texture;
-        if (!texture.loadFromFile("C:/Users/bapti/Desktop/C++/DonjonDalibaba/texture/ground_scaled_3x_pngcrushed.png")) {
+        if (!texture.loadFromFile("C:/Users/lukpr/Desktop/DonjonAliababa/texture/fond1.png")) {
             std::cout << "Erreur lors du chargement de la texture" << std::endl;
             return;
         }
