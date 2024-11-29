@@ -24,8 +24,9 @@ public:
 
 	}
 
+	// initialison fond ecran
 	void initWorld() {
-		if (!worldTexture.loadFromFile("C:/Users/lukpr/Desktop/DonjonAliababa/texture/fond1.png")) {
+		if (!worldTexture.loadFromFile("texture/fond1.png")) {
 			std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		}
 		Background.setTexture(worldTexture);

@@ -17,7 +17,7 @@ public:
 
 	void initTexture()
 	{
-		if (!texture.loadFromFile("C:/Users/lukpr/Desktop/DonjonAliababa/texture/perso.png"))
+		if (!texture.loadFromFile("texture/perso.png"))
 		{
 			std::cout << "Error init texture" << std::endl;
 		}
