@@ -9,6 +9,8 @@ protected:
     double poidsmax;
     double poidsactuel; 
     int points;
+    std::unordered_map<std::string, int> competences;
+    std::vector<std::string> inventaire;
 
 public:
     Heros(int pv, double poidsmax) : poidsmax(poidsmax), poidsactuel(0), points(0) {}
@@ -55,6 +57,10 @@ public:
         std::cout << "Vous avez ajoute " << n << " points a la competence. " << competence << std::endl;
         this->competences[competence] += n;
         this->points -= n;
+    }
+
+    virtual void AddInventaire(std::string objet) {
+        this->inventaire.push_back(objet);
     }
 
     virtual void afficher() {
