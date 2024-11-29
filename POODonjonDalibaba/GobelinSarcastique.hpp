@@ -19,7 +19,7 @@ public:
         this->set_courage(1);
     }
 
-    string get_origine() const override
+    string get_origine() override
     {
         return "Gobelin Sarcastique";
     }

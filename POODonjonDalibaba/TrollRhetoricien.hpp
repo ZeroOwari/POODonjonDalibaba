@@ -18,7 +18,7 @@ public:
         this->set_courage(5);
     }
 
-    string get_origine() const override
+    string get_origine() override
     {
         return "Troll Rhetoricien";
     }
