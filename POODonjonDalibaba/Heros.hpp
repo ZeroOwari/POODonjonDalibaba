@@ -64,10 +64,12 @@ public:
     }
 
 	virtual void afficherInventaire() {
-		std::cout << "Inventaire : " << std::endl;
+		std::cout << "" << std::endl;
+		std::cout << "=Inventaire=" << std::endl;
 		for (int i = 0; i < this->inventaire.size(); i++) {
 			std::cout << this->inventaire[i] << std::endl;
 		}
+		std::cout << "============" << std::endl;
 	}
 
     virtual void afficher() {
