@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include "Personnages.hpp"
+#include "Combat.hpp"
 
 using namespace std;
 
@@ -20,5 +21,15 @@ public:
         cout << "Courage : " << this->get_courage() << endl;
         cout << "Niveau : " << this->get_niveau() << endl;
         cout << "" << endl;
+    }
+
+    void subitDegats(int degats)
+    {
+        this->pv -= degats;
+        cout << "MONSTRE subit" << degats << "degats" << endl;
+    }
+    bool estVivant()
+    {
+        return this->pv > 0;
     }
 };

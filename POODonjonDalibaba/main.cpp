@@ -62,6 +62,31 @@ int main() {
 	//{
 	//	delete monstre;
 	//}
+/*	Heros heros(100, 50.0);
+	Monstre monstre;
+	monstre.set_pv(80);
 
+	heros.set_force(10);
+	heros.set_intelligence(8);
+	heros.set_adresse(12);
+	heros.set_charisme(6);
+	heros.set_courage(10);
+	monstre.set_force(12);
+	monstre.set_intelligence(6);
+	monstre.set_adresse(10);
+	monstre.set_charisme(4);
+	monstre.set_courage(8);
+
+	Combat combat(heros, monstre);
+
+	cout << "Le combat commence !" << endl;
+	combat.demarrerCombat();
+
+	if (heros.estVivant()) {
+		cout << "Le héros a gagné !" << endl;
+	}
+	else {
+		cout << "Le monstre a gagné !" << endl;
+	}*/
 	return 0;
 }
