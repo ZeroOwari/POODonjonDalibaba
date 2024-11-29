@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="Barbare.hpp" />
     <ClInclude Include="CanardExplosif.hpp" />
+    <ClInclude Include="Combat.hpp" />
     <ClInclude Include="Elfe.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GobelinSarcastique.hpp" />
