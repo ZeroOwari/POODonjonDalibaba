@@ -146,7 +146,6 @@
     <ClInclude Include="Elfe.hpp" />
     <ClInclude Include="Heros.hpp" />
     <ClInclude Include="Humain.hpp" />
-    <ClInclude Include="Metier.hpp" />
     <ClInclude Include="Nain.hpp" />
     <ClInclude Include="salles.hpp" />
     <ClInclude Include="window.hpp" />

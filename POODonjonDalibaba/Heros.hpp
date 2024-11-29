@@ -2,7 +2,6 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
-#include <vector>
 
 class Heros {
 protected:
@@ -12,10 +11,9 @@ protected:
     double poidsactuel; 
     int points;
     std::unordered_map<std::string, int> competences;
-	std::vector<std::string> inventaire ;
 
 public:
-    Heros(int pv, double poidsmax) : pv(pv), niveau(0), poidsmax(poidsmax), poidsactuel(0), points(0), inventaire({}) {}
+    Heros(int pv, double poidsmax) : pv(pv), niveau(0), poidsmax(poidsmax), poidsactuel(0), points(0) {}
 
     virtual void set_pv(int pv) {
         this->pv = pv;
@@ -98,10 +96,6 @@ public:
     virtual int get_points() {
         return this->points;
     }
-    
-	virtual void AddInventaire(std::string objet) {
-		this->inventaire.push_back(objet);
-	}
 
     virtual void UpNiveau() {
         this->niveau++;
