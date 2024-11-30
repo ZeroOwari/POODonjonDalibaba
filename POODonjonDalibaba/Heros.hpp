@@ -58,15 +58,6 @@ public:
         this->competences[competence] += n;
         this->points -= n;
     }
-    void subitDegats(int degats)
-    {
-        this->pv -= degats;
-        cout << "CREATURE subit" << degats << "degats" << endl;
-    }
-    bool estVivant()
-    {
-        return this->pv > 0;
-    }
 
     virtual void AddInventaire(std::string objet) {
         this->inventaire.push_back(objet);

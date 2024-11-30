@@ -6,7 +6,7 @@
 #include "Heros.hpp"
 #include "Monstre.hpp"
 using namespace std;
-
+/*
 class Combat {
 private:
     Heros& heros;

@@ -41,7 +41,7 @@ public:
 	}
 
 	void initWindow() {
-		window = new sf::RenderWindow(sf::VideoMode(540, 480), "Game 2", sf::Style::Close | sf::Style::Titlebar);
+		window = new sf::RenderWindow(sf::VideoMode(640, 320), "Game 2", sf::Style::Close | sf::Style::Titlebar);
 		window->setFramerateLimit(60);
 		window->setVerticalSyncEnabled(false);
 	}
@@ -104,7 +104,7 @@ public:
 	{
 		window->clear();
 
-		salles salle1(480, 480);
+		salles salle1(320, 320);
 		salle1.afficherSalle(*window);
 		//renderBackground();
 

@@ -32,7 +32,7 @@ public:
             return;
         }
 
-        const int caseSize = 48;
+        const int caseSize = 32;
 
         // Calculer le nombre de cases en largeur et en longueur
         int nbCasesLargeur = this->largeur / caseSize;

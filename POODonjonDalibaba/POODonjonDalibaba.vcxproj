@@ -150,6 +150,7 @@
     <ClInclude Include="GobelinSarcastique.hpp" />
     <ClInclude Include="Heros.hpp" />
     <ClInclude Include="Humain.hpp" />
+    <ClInclude Include="Metier.hpp" />
     <ClInclude Include="Monstre.hpp" />
     <ClInclude Include="Nain.hpp" />
     <ClInclude Include="Personnages.hpp" />
