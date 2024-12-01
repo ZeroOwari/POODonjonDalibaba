@@ -1,73 +1,98 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <utility>
+#include <sstream>
+#include <vector>
 #include <iostream>
-#include "SFML/Audio.hpp"
-#include "SFML/Config.hpp"
-#include "SFML/Graphics.hpp"
-#include "SFML/Network.hpp"
-#include "SFML/Window.hpp"
 
-class Player
-{
-private:
-	sf::Sprite sprite;
-	sf::Texture texture;
+class Player {
+protected:
+	sf::Texture heroTexture;
+	sf::Sprite heroSprite;
+	sf::Clock heroAnimClock;
 
-	float movementSpeed;
+	const int SPRITE_SIZE = 32;
+	const int WALK_SPEED = 5;
+
+	sf::Vector2i heroAnim = sf::Vector2i(0, Player::Down);
+
 public:
+	enum Dir { Down, Left, Right, Up };
+	bool heroIdle = true;
 
-	void initTexture()
-	{
-		if (!texture.loadFromFile("texture/perso.png"))
+	void initTexture() {
+		if (!heroTexture.loadFromFile("texture/soldat.png"))
+			std::cout << "Erreur chargement texture heros" << std::endl;
+
+	}
+	void initSprite() {
+		heroSprite.setTexture(heroTexture);
+		heroSprite.scale(0.7f, 0.7f);
+		initAnimation();
+	}
+	void initAnimation() {
+		heroSprite.setTextureRect(sf::IntRect(heroAnim.x * SPRITE_SIZE, heroAnim.y * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE));
+
+		if (heroAnimClock.getElapsedTime().asSeconds() > 0.1f)
 		{
-			std::cout << "Error init texture" << std::endl;
+			if (heroAnim.x * SPRITE_SIZE >= heroTexture.getSize().x - SPRITE_SIZE) {
+				heroAnim.x = 0;
+			}
+			else
+			{
+				if (!heroIdle)
+					heroAnim.x++;
+			}
+			heroAnimClock.restart();
 		}
 	}
-
-	void initSprite()
-	{
-		sprite.setTexture(texture);
-		sprite.scale(0.1f, 0.1f);
+	sf::Sprite& getShape() {
+		return heroSprite;
 	}
 
-	Player()
-	{
-		movementSpeed = 5.f;
+	int getSpriteSize() {
+		return SPRITE_SIZE;
+	}
+
+	int getMoveSpeed() {
+		return WALK_SPEED;
+	}
+
+	void setDirection(int direction) {
+		heroAnim.y = direction;
+		initAnimation();
+	}
+
+	Player() {
+
 		initTexture();
 		initSprite();
 	}
 
-	~Player()
-	{
+	virtual ~Player() {
+
 	}
 
-	void updateWindowBoundsCollision(const sf::RenderTarget* target)
-	{
-		//left
-		if (this->sprite.getGlobalBounds().left <= 0.f)
-			this->sprite.setPosition(0.f, this->sprite.getGlobalBounds().top);
-		//right
-		if (this->sprite.getGlobalBounds().left + this->sprite.getGlobalBounds().width >= target->getSize().x)
-			this->sprite.setPosition(target->getSize().x - this->sprite.getGlobalBounds().width, this->sprite.getGlobalBounds().top);
-		//top
-		if (this->sprite.getGlobalBounds().top <= 0.f)
-			this->sprite.setPosition(this->sprite.getGlobalBounds().left, 0.f);
-		//Bottom
-		if (this->sprite.getGlobalBounds().top + this->sprite.getGlobalBounds().height >= target->getSize().y)
-			this->sprite.setPosition(this->sprite.getGlobalBounds().left, target->getSize().y - this->sprite.getGlobalBounds().height);
+	sf::Vector2f getPosition() const {
+		return heroSprite.getPosition();
+	}
+	void setPosition(float x, float y) { // Ajoutez cette méthode
+		heroSprite.setPosition(x, y);
 	}
 
-	void move(const float dirX, const float dirY)
-	{
-		sprite.move(movementSpeed * dirX, movementSpeed * dirY);
+	int getDirection() const {
+		return heroAnim.y;
 	}
 
-	void update(const sf::RenderTarget* target)
-	{
-		updateWindowBoundsCollision(target);
+	void move(const float x, const float y) {
+		heroSprite.move(WALK_SPEED * x, WALK_SPEED * y);
 	}
 
-	void render(sf::RenderTarget& target)
-	{
-		target.draw(this->sprite);
+	void render(sf::RenderTarget& target) {
+		target.draw(heroSprite);
 	}
+
 };

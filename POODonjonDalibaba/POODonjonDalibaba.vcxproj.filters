@@ -13,8 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\FichierHero">
+    <Filter Include="Fichiers d%27en-tête\Entités">
+      <UniqueIdentifier>{3fd3ab78-fc0b-4442-a05a-524146dfe3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entités\FichierHero">
       <UniqueIdentifier>{020750ad-a490-4d7e-9531-45410e59b532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entités\Monstres">
+      <UniqueIdentifier>{3e9b58c1-9173-4846-a5d3-1c21d25bd89f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,41 +32,50 @@
     <ClInclude Include="salles.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="CanardExplosif.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GobelinSarcastique.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Monstre.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="TrollRhetoricien.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Personnages.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Barbare.hpp">
-      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
     <ClInclude Include="Elfe.hpp">
-      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
     <ClInclude Include="Heros.hpp">
-      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
     <ClInclude Include="Humain.hpp">
-      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
     <ClInclude Include="Nain.hpp">
-      <Filter>Fichiers d%27en-tête\FichierHero</Filter>
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
     <ClInclude Include="Game.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Combat.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CanardExplosif.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
+    </ClInclude>
+    <ClInclude Include="GobelinSarcastique.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollRhetoricien.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
+    </ClInclude>
+    <ClInclude Include="Metier.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
+    </ClInclude>
+    <ClInclude Include="Personnages.hpp">
+      <Filter>Fichiers d%27en-tête\Entités</Filter>
+    </ClInclude>
+    <ClInclude Include="Monstre.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
