@@ -41,7 +41,7 @@ public:
 	}
 
 	void initWindow() {
-		window = new sf::RenderWindow(sf::VideoMode(640, 320), "Game 2", sf::Style::Close | sf::Style::Titlebar);
+		window = new sf::RenderWindow(sf::VideoMode(320, 320), "Game 2", sf::Style::Close | sf::Style::Titlebar);
 		window->setFramerateLimit(60);
 		window->setVerticalSyncEnabled(false);
 	}
