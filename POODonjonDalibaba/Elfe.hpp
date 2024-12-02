@@ -5,12 +5,12 @@
 class Elfe : public Heros {
 public:
     Elfe(int pv, double poidsmax) : Heros(pv, poidsmax) {
-        this->pv = 150;
-        this->competences["Force"] = 4;
-        this->competences["Intelligence"] = 5;
-        this->competences["Adresse"] = 5;
-        this->competences["Charisme"] = 4;
-        this->competences["Courage"] = 3;
+        this->pv = 25;
+        this->competences["Force"] = 12;
+        this->competences["Intelligence"] = 11;
+        this->competences["Adresse"] = 12;
+        this->competences["Charisme"] = 12;
+        this->competences["Courage"] = 10;
     }
     std::string get_origine() override {
         return "Elfe";

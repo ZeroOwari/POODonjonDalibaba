@@ -5,12 +5,12 @@
 class Nain : public Heros {
 public:
     Nain(int pv, double poidsmax) : Heros(pv, poidsmax) {
-        this->pv = 120;
-        competences["Force"] = 5;
-        competences["Intelligence"] = 3;
-        competences["Adresse"] = 2;
-        competences["Charisme"] = 2;
-        competences["Courage"] = 5;
+        this->pv = 35;
+        competences["Force"] = 12;
+        competences["Intelligence"] = 9;
+        competences["Adresse"] = 7;
+        competences["Charisme"] = 7;
+        competences["Courage"] = 11;
     }
     std::string get_origine() override {
         return "Nain";

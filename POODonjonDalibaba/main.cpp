@@ -27,16 +27,8 @@ int main() {
 	h.afficher();
 	n.afficher();
 
-	b.set_pv(120);
-	b.set_force(6);
-	b.set_intelligence(3);
-	b.set_adresse(3);
-	b.set_charisme(4);
-	b.set_courage(4);
-	b.set_poidsmax(60);
-	b.set_poidsactuel(30);
-
 	b.afficher();
+	b.AfficherSpells();
 	b.UpNiveau();
 	b.UpNiveau();
 
@@ -46,6 +38,11 @@ int main() {
 	b.AddInventaire("Epee");
 	b.AddInventaire("Bouclier");
 	b.afficher();
+
+	b.AddSpells("Boule de feu");
+	b.AddSpells("Eclair");
+	b.AfficherSpells();
+
 
 	////Affichage Monstre pour tester si ça fonctionne
 	//vector<Monstre*> monstres;

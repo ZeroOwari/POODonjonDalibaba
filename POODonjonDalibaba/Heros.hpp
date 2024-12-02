@@ -10,6 +10,7 @@ protected:
     double poidsactuel; 
     int points;
     std::vector<std::string> inventaire;
+	std::vector<std::string> spells;
 
 public:
     Heros(int pv, double poidsmax) : poidsmax(poidsmax), poidsactuel(0), points(0) {}
@@ -58,6 +59,10 @@ public:
         this->points -= n;
     }
 
+	virtual void AddSpells(std::string spell) {
+		this->spells.push_back(spell);
+	}
+
     virtual void AddInventaire(std::string objet) {
         this->inventaire.push_back(objet);
     }
@@ -67,6 +72,15 @@ public:
 		std::cout << "=Inventaire=" << std::endl;
 		for (int i = 0; i < this->inventaire.size(); i++) {
 			std::cout << this->inventaire[i] << std::endl;
+		}
+		std::cout << "============" << std::endl;
+	}
+
+	virtual void AfficherSpells() {
+		std::cout << "" << std::endl;
+		std::cout << "===Spells===" << std::endl;
+		for (int i = 0; i < this->spells.size(); i++) {
+			std::cout << this->spells[i] << std::endl;
 		}
 		std::cout << "============" << std::endl;
 	}
