@@ -191,7 +191,7 @@ void Inventaire(sf::RenderWindow& window) {
 		sprite_Boisson.setPosition(200, 200);
 		window.draw(sprite_Boisson);
 	}
-
+	 
 	*/
 
 	// poids de l'inventaire : +
