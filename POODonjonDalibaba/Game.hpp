@@ -8,10 +8,16 @@
 #include "Player.hpp"
 #include "MonstresGraphique.hpp"
 #include "Map.hpp"
-
+#include "Asset.hpp"
 using namespace sf;
 
 class Game {
+
+private:
+    bool inventaireOuvert = false;
+    bool PrintInventaire = false;
+
+
 protected:
     RenderWindow* window;
     VideoMode videoMode;
@@ -114,6 +120,28 @@ public:
             isMoving = true;
         }
 
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
+            inventaireOuvert = !inventaireOuvert;  // Change l'état de l'inventaire
+        }
+        if (inventaireOuvert) {
+            sf::sleep(sf::milliseconds(200));
+
+            if (inventaireOuvert) {
+                PrintInventaire = true;
+
+
+            }
+
+
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
+            PrintInventaire = false;
+            inventaireOuvert = false;
+        }
+
+
+
         player->heroIdle = !isMoving;
         if (isMoving) {
             player->initAnimation();
@@ -194,7 +222,11 @@ public:
         player->render(*window);
         slime->render(*window);
         renderColisison();
+        if (PrintInventaire == true) {
+            Inventaire(*window);
+        }
 
         window->display();
     }
+
 };

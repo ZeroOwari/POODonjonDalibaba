@@ -22,6 +22,9 @@
     <Filter Include="Fichiers d%27en-tête\Entités\Monstres">
       <UniqueIdentifier>{3e9b58c1-9173-4846-a5d3-1c21d25bd89f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inventaire">
+      <UniqueIdentifier>{085af912-1a94-45f6-853e-a8ef96ddb516}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="Entity.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.hpp">
+      <Filter>Fichiers d%27en-tête\Inventaire</Filter>
+    </ClInclude>
+    <ClInclude Include="calcul_new_poids.hpp">
+      <Filter>Fichiers d%27en-tête\Inventaire</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Fichiers d%27en-tête\Inventaire</Filter>
+    </ClInclude>
+    <ClInclude Include="Item_sous_classe.h">
+      <Filter>Fichiers d%27en-tête\Inventaire</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
