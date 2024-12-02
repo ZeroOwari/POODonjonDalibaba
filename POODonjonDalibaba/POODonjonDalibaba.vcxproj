@@ -142,7 +142,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asset.hpp" />
     <ClInclude Include="Barbare.hpp" />
+    <ClInclude Include="calcul_new_poids.hpp" />
     <ClInclude Include="CanardExplosif.hpp" />
     <ClInclude Include="Combat.hpp" />
     <ClInclude Include="Elfe.hpp" />
@@ -151,6 +153,8 @@
     <ClInclude Include="GobelinSarcastique.hpp" />
     <ClInclude Include="Heros.hpp" />
     <ClInclude Include="Humain.hpp" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Item_sous_classe.h" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Metier.hpp" />
     <ClInclude Include="Monstre.hpp" />
