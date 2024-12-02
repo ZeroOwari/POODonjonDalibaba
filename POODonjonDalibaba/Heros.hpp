@@ -9,7 +9,6 @@ protected:
     double poidsmax;
     double poidsactuel; 
     int points;
-    std::unordered_map<std::string, int> competences;
     std::vector<std::string> inventaire;
 
 public:
