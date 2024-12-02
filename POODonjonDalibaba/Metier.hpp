@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
-#include <string>
+#include "Heros.hpp"
+class Metier : public Heros {
 
-class Metier {
 };

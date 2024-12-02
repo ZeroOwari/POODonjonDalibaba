@@ -12,40 +12,27 @@
 
 int main() {
 	
-	Game game;
-	game.run();
-
+	//Game game;
+	//game.run();
+	//std::cout << "Fin du jeu" << std::endl;
 	/*window fenetre(1920, 1080);
 	fenetre.afficher();*/
-	//Barbare b(110, 50);
-	//Elfe e(150, 40);
-	//Humain h(100, 60);
-	//Nain n(120, 70);
+	Barbare b(110, 50);
+	Elfe e(150, 40);
+	Humain h(100, 60);
+	Nain n(120, 70);
 
-	//b.afficher();
-	////e.afficher();
-	////h.afficher();
-	////n.afficher();
+	n.afficher();
 
-	//b.set_pv(120);
-	//b.set_force(6);
-	//b.set_intelligence(3);
-	//b.set_adresse(3);
-	//b.set_charisme(4);
-	//b.set_courage(4);
-	//b.set_poidsmax(60);
-	//b.set_poidsactuel(30);
+	b.afficher();
+	b.UpNiveau();
+	b.UpNiveau();
 
-	//b.afficher();
-	//b.UpNiveau();
-	//b.UpNiveau();
+	b.ajoutPoint("Force", 5);
+	
+	b.ajoutPoint("Intelligence", 5);
 
-	//b.ajoutPoint("Force", 5);
-	//
-	//b.ajoutPoint("Intelligence", 5);
-	//b.AddInventaire("Epee");
-	//b.AddInventaire("Bouclier");
-	//b.afficher();
+	b.afficher();
 
 	////Affichage Monstre pour tester si ça fonctionne
 	//vector<Monstre*> monstres;
