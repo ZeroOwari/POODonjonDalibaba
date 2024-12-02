@@ -119,21 +119,12 @@ public:
             player->move(0.f, 1.f);
             isMoving = true;
         }
-
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
             inventaireOuvert = !inventaireOuvert;  // Change l'état de l'inventaire
         }
         if (inventaireOuvert) {
             sf::sleep(sf::milliseconds(200));
-
-            if (inventaireOuvert) {
-                PrintInventaire = true;
-
-
-            }
-
-
+            PrintInventaire = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
             PrintInventaire = false;
@@ -223,7 +214,7 @@ public:
         slime->render(*window);
         renderColisison();
         if (PrintInventaire == true) {
-            Inventaire(*window);
+            Inventaire(*window, *player);
         }
 
         window->display();

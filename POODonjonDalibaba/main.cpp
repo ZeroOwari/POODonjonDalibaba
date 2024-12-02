@@ -11,7 +11,6 @@
 
 
 int main() {
-	
 	Game game;
 	game.run();
 	//std::cout << "Fin du jeu" << std::endl;

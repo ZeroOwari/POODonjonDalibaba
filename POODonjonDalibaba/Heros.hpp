@@ -85,6 +85,37 @@ public:
 		std::cout << "============" << std::endl;
 	}
 
+    virtual int JetCOU() {
+        int jetCOU = rand() % 6 + 1;
+        jetCOU = jetCOU + 7;
+        return jetCOU;
+    }
+
+    virtual int JetINT() {
+        int jetINT = rand() % 6 + 1;
+        jetINT = jetINT + 7;
+        return jetINT;
+    }
+
+    virtual int JetCHA() {
+        int jetCHA = rand() % 6 + 1;
+        jetCHA = jetCHA + 7;
+        return jetCHA;
+    }
+
+    virtual int JetAD() {
+        int jetAD = rand() % 6 + 1;
+        jetAD = jetAD + 7;
+        return jetAD;
+    }
+
+    virtual int JetFO() {
+        int jetFO = rand() % 6 + 1;
+        jetFO = jetFO + 7;
+        return jetFO;
+    }
+
+
     virtual void afficher() {
         std::cout << "Origine : " << this->get_origine() << std::endl;
         std::cout << "PV : " << this->get_pv() << std::endl;
@@ -97,6 +128,11 @@ public:
         std::cout << "Courage : " << this->get_courage() << std::endl;
         std::cout << "Niveau : " << this->get_niveau() << std::endl;
         std::cout << "Points : " << this->get_points() << std::endl;
+        std::cout << "Jet Courage : " << this->JetCOU() << std::endl;
+        std::cout << "Jet Intelligence : " << this->JetINT() << std::endl;
+        std::cout << "Jet Charisme : " << this->JetCHA() << std::endl;
+        std::cout << "Jet Adresse : " << this->JetAD() << std::endl;
+        std::cout << "Jet Force : " << this->JetFO() << std::endl;
         this->afficherInventaire();
         std::cout << "" << std::endl;
     }
