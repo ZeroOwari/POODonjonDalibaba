@@ -1,115 +1,200 @@
 #pragma once
-#include <iostream>
-#include <ctime>
+#include <fstream>
+#include <string>
 #include <vector>
-
+#include <utility>
+#include <sstream>
+#include <stdlib.h>
 #include "Player.hpp"
-#include "salles.hpp"
+#include "Map.hpp"
 
-class Game
-{
-private:
-	sf::RenderWindow* window;
-	Player* player;
+using namespace sf;
 
-	sf::Texture worldTexture;
-	sf::Sprite Background;
+class Game {
+protected:
+    RenderWindow* window;
+    VideoMode videoMode;
+    Player* player;
+    Map map;
+    View view;
+
+    const int WIN_WIDTH = 800;
+    const int WIN_HEIGHT = 576;
+
+    int levelLoaded[450];
+    int levelColision[450];
+    sf::RectangleShape rects[450];
+    bool canShowCollisionDebug = false;
 
 public:
+    void initMap() {
+        if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
+            std::cerr << "Erreur lors du chargement de la carte" << std::endl;
+            return;
+        }
 
-	Game() {
-		initWindow();
-		initWorld();
-		initPlayer();
+        if (!map.load("res/tileset.png", sf::Vector2u(player->getSpriteSize(), player->getSpriteSize()), levelLoaded, map.COL_COUNT, map.ROW_COUNT)) {
+            std::cerr << "Erreur lors du chargement de la carte" << std::endl;
+        }
+    }
 
-	}
+    void initMapColision() {
+        if (!map.loadFromFile("res/map1_colision.txt", levelColision, 450)) {
+            std::cerr << "Erreur lors du chargement de la carte de collision" << std::endl;
+            return;
+        }
+    }
 
-	// initialison fond ecran
-	void initWorld() {
-		if (!worldTexture.loadFromFile("texture/fond1.png")) {
-			std::cout << "Erreur lors du chargement de la texture" << std::endl;
-		}
-		Background.setTexture(worldTexture);
-	}
+    void initWindow() {
+        this->window = new RenderWindow(VideoMode(WIN_WIDTH, WIN_HEIGHT), "Mon jeu SFML", Style::Default);
+        this->window->setFramerateLimit(60);
+        this->window->setVerticalSyncEnabled(false);
+    }
 
-	~Game() {
-		delete window;
-	}
+    void initPlayer() {
+        player = new Player();
+    }
 
-	void initBackGround() {
+    Game() {
+        initWindow();
+        initPlayer();
+        initMap();
+        initMapColision();
+        view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
+    }
 
-	}
+    ~Game() {
+        delete window;
+        delete player;
+    }
 
-	void initWindow() {
-		window = new sf::RenderWindow(sf::VideoMode(320, 320), "Game 2", sf::Style::Close | sf::Style::Titlebar);
-		window->setFramerateLimit(60);
-		window->setVerticalSyncEnabled(false);
-	}
+    void run() {
+        while (window->isOpen()) {
+            update();
+            render();
+        }
+    }
 
-	void initPlayer()
-	{
-		player = new Player();
-	}
+    void updatePollEvent() {
+        Event event;
+        while (window->pollEvent(event)) {
+            if (event.type == Event::Closed)
+                window->close();
+            if (event.key.code == Keyboard::Escape)
+                window->close();
+        }
+    }
 
-	void run()
-	{
-		while (window->isOpen())
-		{
-			update();
-			render();
-		}
+    void updateInput() {
+        bool isMoving = false;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            player->setDirection(Player::Left);
+            player->move(-1.f, 0.f);
+            isMoving = true;
+            player->heroIdle = false;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            player->setDirection(Player::Right);
+            player->move(1.f, 0.f);
+            isMoving = true;
+            player->heroIdle = false;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+            player->setDirection(Player::Up);
+            player->move(0.f, -1.f);
+            isMoving = true;
+            player->heroIdle = false;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            player->setDirection(Player::Down);
+            player->move(0.f, 1.f);
+            isMoving = true;
+            player->heroIdle = false;
+        }
+        else if (isMoving) {
+            player->initAnimation();
+        }
+        else {
+            player->heroIdle = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            canShowCollisionDebug = true;
+        else {
+            canShowCollisionDebug = false;
+        }
+    }
 
-	}
+    void update() {
+        updatePollEvent();
+        updateInput();
+        checkCollision();
+        view.setCenter(player->getPosition());
+    }
 
-	void updateInput()
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-			player->move(-1.f, 0.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			player->move(1.f, 0.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-			player->move(0.f, -1.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			player->move(0.f, 1.f);
-		}
-	}
+    void renderColisison() {
+        for (unsigned int j = 0; j < 18; ++j) {
+            for (unsigned int i = 0; i < 25; ++i) {
+                if (levelColision[(i + j * 25)] == 1) {
+                    sf::Vector2f pos = sf::Vector2f(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize())); // Conversion explicite en float
+                    rects[(i + j * 25)].setPosition(pos);
+                    rects[(i + j * 25)].setSize(sf::Vector2f(static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize()))); // Conversion explicite en float
+                    rects[(i + j * 25)].setFillColor(Color(250, 0, 0, 100));
+                    if (canShowCollisionDebug)
+                        window->draw(rects[(i + j * 25)]);
+                }
+            }
+        }
+    }
 
-	void updatePollEvent()
-	{
-		sf::Event event;
-		while (window->pollEvent(event)) {
-			if (event.Event::type == sf::Event::Closed)
-				window->close();
-			if (event.Event::KeyPressed && event.Event::key.code == sf::Keyboard::Escape)
-				window->close();
-		}
-	}
+    void checkCollision() {
+        sf::FloatRect playerBounds = player->getShape().getGlobalBounds();
+        for (unsigned int j = 0; j < 18; ++j) {
+            for (unsigned int i = 0; i < 25; ++i) {
+                if (levelColision[(i + j * 25)] == 1) {
+                    sf::FloatRect tileBounds(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize()), static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize())); // Conversion explicite en float
+                    if (playerBounds.intersects(tileBounds)) {
+                        // Ajuster la position du joueur en fonction de la collision
+                        if (player->getDirection() == Player::Left) {
+                            player->setPosition(tileBounds.left + tileBounds.width, player->getPosition().y);
+                        }
+                        else if (player->getDirection() == Player::Right) {
+                            player->setPosition(tileBounds.left - playerBounds.width, player->getPosition().y);
+                        }
+                        else if (player->getDirection() == Player::Up) {
+                            player->setPosition(player->getPosition().x, tileBounds.top + tileBounds.height);
+                        }
+                        else if (player->getDirection() == Player::Down) {
+                            player->setPosition(player->getPosition().x, tileBounds.top - playerBounds.height);
+                        }
+                    }
+                }
+            }
+        }
 
-	void renderBackground() {
-		window->draw(Background);
-	}
+        // Empêcher le joueur de sortir de la carte
+        sf::Vector2f playerPos = player->getPosition();
+        if (playerPos.x < 0) {
+            player->setPosition(0, playerPos.y);
+        }
+        if (playerPos.y < 0) {
+            player->setPosition(playerPos.x, 0);
+        }
+        if (playerPos.x + playerBounds.width > map.COL_COUNT * player->getSpriteSize()) {
+            player->setPosition(map.COL_COUNT * player->getSpriteSize() - playerBounds.width, playerPos.y);
+        }
+        if (playerPos.y + playerBounds.height > map.ROW_COUNT * player->getSpriteSize()) {
+            player->setPosition(playerPos.x, map.ROW_COUNT * player->getSpriteSize() - playerBounds.height);
+        }
+    }
 
-	void update()
-	{
-		updatePollEvent();
-		updateInput();
-		player->updateWindowBoundsCollision(window);
+    void render() {
+        window->setView(view);
+        window->clear();
 
-	}
+        window->draw(map);
+        player->render(*window);
+        renderColisison();
 
-	void render()
-	{
-		window->clear();
-
-		salles salle1(320, 320);
-		salle1.afficherSalle(*window);
-		//renderBackground();
-
-		this->player->render(*this->window);
-
-		window->display();
-	}
+        window->display();
+    }
 };
