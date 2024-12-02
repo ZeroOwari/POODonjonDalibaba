@@ -7,7 +7,7 @@ public:
 	bool heroIdle = true;
 
 	Player() {
-		walkSpeed = 5.f;
+		walkSpeed = 2.5f;
 		initTexture("texture/soldat.png");
 		sprite.scale(0.7f, 0.7f);
 		initSprite();
