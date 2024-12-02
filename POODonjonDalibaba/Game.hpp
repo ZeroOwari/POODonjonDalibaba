@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include "Player.hpp"
+#include "MonstresGraphique.hpp"
 #include "Map.hpp"
 
 using namespace sf;
@@ -15,6 +16,7 @@ protected:
     RenderWindow* window;
     VideoMode videoMode;
     Player* player;
+    Monstres* slime;
     Map map;
     View view;
 
@@ -27,6 +29,28 @@ protected:
     bool canShowCollisionDebug = false;
 
 public:
+    Game() {
+        initWindow();
+        initPlayer();
+        initSlime();
+        initMap();
+        initMapColision();
+        view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
+    }
+
+    ~Game() {
+        delete window;
+        delete player;
+        delete slime;
+    }
+
+    void run() {
+        while (window->isOpen()) {
+            update();
+            render();
+        }
+    }
+
     void initMap() {
         if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
             std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -55,32 +79,14 @@ public:
         player = new Player();
     }
 
-    Game() {
-        initWindow();
-        initPlayer();
-        initMap();
-        initMapColision();
-        view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
-    }
-
-    ~Game() {
-        delete window;
-        delete player;
-    }
-
-    void run() {
-        while (window->isOpen()) {
-            update();
-            render();
-        }
+    void initSlime() {
+        slime = new Monstres();
     }
 
     void updatePollEvent() {
         Event event;
         while (window->pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window->close();
-            if (event.key.code == Keyboard::Escape)
+            if (event.type == Event::Closed || (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
                 window->close();
         }
     }
@@ -91,43 +97,36 @@ public:
             player->setDirection(Player::Left);
             player->move(-1.f, 0.f);
             isMoving = true;
-            player->heroIdle = false;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             player->setDirection(Player::Right);
             player->move(1.f, 0.f);
             isMoving = true;
-            player->heroIdle = false;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
             player->setDirection(Player::Up);
             player->move(0.f, -1.f);
             isMoving = true;
-            player->heroIdle = false;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             player->setDirection(Player::Down);
             player->move(0.f, 1.f);
             isMoving = true;
-            player->heroIdle = false;
         }
-        else if (isMoving) {
+
+        player->heroIdle = !isMoving;
+        if (isMoving) {
             player->initAnimation();
         }
-        else {
-            player->heroIdle = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-            canShowCollisionDebug = true;
-        else {
-            canShowCollisionDebug = false;
-        }
+
+        canShowCollisionDebug = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
     }
 
     void update() {
         updatePollEvent();
         updateInput();
         checkCollision();
+        slime->initAnimation();
         view.setCenter(player->getPosition());
     }
 
@@ -193,6 +192,7 @@ public:
 
         window->draw(map);
         player->render(*window);
+        slime->render(*window);
         renderColisison();
 
         window->display();

@@ -12,12 +12,12 @@
 
 int main() {
 	
-	//Game game;
-	//game.run();
+	Game game;
+	game.run();
 	//std::cout << "Fin du jeu" << std::endl;
 	/*window fenetre(1920, 1080);
 	fenetre.afficher();*/
-	Barbare b(110, 50);
+	/*Barbare b(110, 50);
 	Elfe e(150, 40);
 	Humain h(100, 60);
 	Nain n(120, 70);
@@ -41,7 +41,7 @@ int main() {
 
 	b.AddSpells("Boule de feu");
 	b.AddSpells("Eclair");
-	b.AfficherSpells();
+	b.AfficherSpells();*/
 
 
 	////Affichage Monstre pour tester si ça fonctionne
