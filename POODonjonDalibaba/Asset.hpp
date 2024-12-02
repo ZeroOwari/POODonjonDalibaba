@@ -31,7 +31,7 @@ void Inventaire(sf::RenderWindow& window) {
 
 	// police d'écriture : 
 	sf::Font Police;
-	if (!Police.loadFromFile("C:/Users/quent/source/repos/PROJET JEU/ressource/Police.ttf")) {
+	if (!Police.loadFromFile("fonts/Police.ttf")) {
 		std::cout << "Erreur de chargement de la police!" << std::endl;
 		return;
 	}
@@ -39,7 +39,7 @@ void Inventaire(sf::RenderWindow& window) {
 	// definition casque
 	//if (objet == "Casque") {
 	sf::Texture Casque;
-	if (!Casque.loadFromFile("C:/Users/quent/sfml/asset/Casque de base.png")) {
+	if (!Casque.loadFromFile("texture/Casque de base.png")) {
 		std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		return;
 	}
@@ -51,7 +51,7 @@ void Inventaire(sf::RenderWindow& window) {
 
 	//if (objet == "Plastron") {
 	sf::Texture Plastron;
-	if (!Plastron.loadFromFile("C:/Users/quent/sfml/asset/Plastron.png")) {
+	if (!Plastron.loadFromFile("texture/Plastron.png")) {
 		std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		return;
 	}
@@ -62,7 +62,7 @@ void Inventaire(sf::RenderWindow& window) {
 	//if (objet == "Pantalon") {
 
 	sf::Texture Pantalon;
-	if (!Pantalon.loadFromFile("C:/Users/quent/sfml/asset/Pantalon.png")) {
+	if (!Pantalon.loadFromFile("texture/Pantalon.png")) {
 		std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		return;
 	}
@@ -75,7 +75,7 @@ void Inventaire(sf::RenderWindow& window) {
 	//if (objet == "Chaussure") {
 
 	sf::Texture Chaussure;
-	if (!Chaussure.loadFromFile("C:/Users/quent/sfml/asset/chaussure.png")) {
+	if (!Chaussure.loadFromFile("texture/chaussure.png")) {
 		std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		return;
 	}
@@ -86,7 +86,7 @@ void Inventaire(sf::RenderWindow& window) {
 	//if (objet == "Boisson") {
 
 	sf::Texture Boisson;
-	if (!Boisson.loadFromFile("C:/Users/quent/sfml/asset/Boisson papi.png")) {
+	if (!Boisson.loadFromFile("texture/Boisson papi.png")) {
 		std::cout << "Erreur lors du chargement de la texture" << std::endl;
 		return;
 	}
