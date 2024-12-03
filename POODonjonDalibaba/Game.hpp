@@ -241,9 +241,11 @@ public:
     }
 
     void renderDialogue() {
-        sf::Vector2f position = player->getPosition();
+        sf::Vector2f positionPlayer = player->getPosition();
+        sf::Vector2f positionPnj = pnj->getPosition();
         
-        if (position.x >= 160 && position.x <= 192 && position.y >= 192 && position.y <= 224) {
+        if (positionPlayer.x >= 320 && positionPlayer.x <= 352 && 
+            positionPlayer.y >= 352 && positionPlayer.y <= 374) {
             //le texte 
             const std::string texte1 = "Fait attention aux ennemis";
             text.setFont(font);
@@ -259,7 +261,6 @@ public:
             dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
             dial.setScale(1.9f, 0.75f);
             
-
             window->draw(dial);
             window->draw(text);
         }
