@@ -11,8 +11,11 @@
 
 
 int main() {
-	Game game;
-	game.run();
+	//Game game;
+	//game.run();
+	Heros monHeros(100, 50.0);
+	monHeros.TestDeJet();
+
 	//std::cout << "Fin du jeu" << std::endl;
 	/*window fenetre(1920, 1080);
 	fenetre.afficher();*/
