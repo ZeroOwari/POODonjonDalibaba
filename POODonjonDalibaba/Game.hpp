@@ -17,6 +17,7 @@ class Game {
 private:
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
+    sf::Music music;
 
 
 protected:
@@ -36,14 +37,15 @@ protected:
     bool canShowCollisionDebug = false;
 
 public:
+
     Game() {
         initWindow();
         initPlayer();
         initSlime();
         initMap();
-		initSound();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
+		initMusic();
     }
 
     ~Game() {
@@ -59,13 +61,14 @@ public:
         }
     }
 
-    void initSound() {
-        sf::SoundBuffer b;
-		b.loadFromFile("res/dungeonsound.wav");
-		sf::Sound sound;
-		sound.setBuffer(b);
-		sound.play();
-
+    void initMusic() {
+		if (!music.openFromFile("dungeonsound.ogg")) {
+			std::cerr << "Erreur lors du chargement de la musique" << std::endl;
+			return;
+		}
+		music.setVolume(12);
+		music.setLoop(true);
+        music.play();
     }
 
     void initMap() {
