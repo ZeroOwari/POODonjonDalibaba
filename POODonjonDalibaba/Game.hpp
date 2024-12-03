@@ -77,7 +77,7 @@ public:
     }
 
     void initMusic() {
-		if (!music.openFromFile("dungeonsound.ogg")) {
+		if (!music.openFromFile("dungeonsound.wav")) {
 			std::cerr << "Erreur lors du chargement de la musique" << std::endl;
 			return;
 		}

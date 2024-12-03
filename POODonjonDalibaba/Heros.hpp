@@ -11,6 +11,7 @@ protected:
     int points;
     std::vector<std::string> inventaire;
 	std::vector<std::string> spells;
+    std::vector <std::string> competences_specifiques;
 
 public:
     Heros(int pv, double poidsmax) : poidsmax(poidsmax), poidsactuel(0), points(0) {}
@@ -62,6 +63,10 @@ public:
 	virtual void AddSpells(std::string spell) {
 		this->spells.push_back(spell);
 	}
+
+    virtual void AddCompetenceSpecifique(std::string competence) {
+        this->competences_specifiques.push_back(competence);
+    }
 
     virtual void AddInventaire(std::string objet) {
         this->inventaire.push_back(objet);

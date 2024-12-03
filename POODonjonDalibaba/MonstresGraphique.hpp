@@ -13,7 +13,7 @@ public:
     void initAnimation() override {
         sprite.move(walkSpeed, 0);
 
-        if (sprite.getPosition().x > 600 || sprite.getPosition().x < 100)
+        if (sprite.getPosition().x > 400 || sprite.getPosition().x < 200)
             walkSpeed *= -1;
 
         sprite.setTextureRect(sf::IntRect(anim.x * SPRITE_SIZE, anim.y * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE));
