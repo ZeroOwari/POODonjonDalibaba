@@ -9,6 +9,7 @@
 #include "MonstresGraphique.hpp"
 #include "Map.hpp"
 #include "Asset.hpp"
+
 using namespace sf;
 
 class Game {
@@ -40,6 +41,7 @@ public:
         initPlayer();
         initSlime();
         initMap();
+		initSound();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
     }
@@ -55,6 +57,15 @@ public:
             update();
             render();
         }
+    }
+
+    void initSound() {
+        sf::SoundBuffer b;
+		b.loadFromFile("res/dungeonsound.wav");
+		sf::Sound sound;
+		sound.setBuffer(b);
+		sound.play();
+
     }
 
     void initMap() {

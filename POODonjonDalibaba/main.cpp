@@ -11,8 +11,8 @@
 
 
 int main() {
-	//Game game;
-	//game.run();
+	Game game;
+	game.run();
 	Heros monHeros(100, 50.0);
 	monHeros.TestDeJet();
 
