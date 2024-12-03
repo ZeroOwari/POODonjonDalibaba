@@ -14,7 +14,9 @@ int main() {
 	//Game game;
 	//game.run();
 	Heros monHeros(100, 50.0);
-	monHeros.TestDeJet();
+	monHeros.JetDuHeros();
+	Monstre monMonstre(100,2);
+	monMonstre.JetDuMonstre();
 
 	//std::cout << "Fin du jeu" << std::endl;
 	/*window fenetre(1920, 1080);

@@ -3,12 +3,13 @@
 #include <unordered_map>
 #include <string>
 #include "Monstre.hpp"
-
 using namespace std;
 
 class GobelinSarcastique : public Monstre
 {
 public:
+    GobelinSarcastique(int pv, int niveau) : Monstre(pv, niveau) {}
+
     GobelinSarcastique()
     {
         this->set_pv(25);

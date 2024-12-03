@@ -4,12 +4,22 @@
 #include <string>
 #include "Personnages.hpp"
 #include "Combat.hpp"
-
 using namespace std;
 
 class Monstre : public Personnages
 {
 public:
+    Monstre() : Personnages() {}
+    Monstre(int pv, int niveau) : Personnages(pv, niveau) {}
+
+    virtual std::string get_origine() override {
+        return "Monstre";
+    }
+    virtual void JetDuMonstre() {
+        std::cout << "Jet Courage : " << this->JetCOU() << std::endl;
+        std::cout << "Jet Adresse : " << this->JetAD() << std::endl;
+        std::cout << "Jet Force : " << this->JetFO() << std::endl;
+    }
     virtual void afficher()
     {
         cout << "Origine : " << this->get_origine() << endl;

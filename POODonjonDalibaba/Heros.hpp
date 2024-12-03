@@ -89,37 +89,7 @@ public:
         return "Heros";
     }
 
-    virtual int JetCOU() {
-        int jetCOU = rand() % 6 + 1;
-        jetCOU = jetCOU + 7;
-        return jetCOU;
-    }
-
-    virtual int JetINT() {
-        int jetINT = rand() % 6 + 1;
-        jetINT = jetINT + 7;
-        return jetINT;
-    }
-
-    virtual int JetCHA() {
-        int jetCHA = rand() % 6 + 1;
-        jetCHA = jetCHA + 7;
-        return jetCHA;
-    }
-
-    virtual int JetAD() {
-        int jetAD = rand() % 6 + 1;
-        jetAD = jetAD + 7;
-        return jetAD;
-    }
-
-    virtual int JetFO() {
-        int jetFO = rand() % 6 + 1;
-        jetFO = jetFO + 7;
-        return jetFO;
-    }
-
-    virtual void TestDeJet() {
+    virtual void JetDuHeros() {
         std::cout << "Jet Courage : " << this->JetCOU() << std::endl;
         std::cout << "Jet Intelligence : " << this->JetINT() << std::endl;
         std::cout << "Jet Charisme : " << this->JetCHA() << std::endl;
