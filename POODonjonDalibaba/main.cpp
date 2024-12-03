@@ -13,8 +13,10 @@
 int main() {
 	Game game;
 	game.run();
+	std::cout << "Heros" << std::endl;
 	Heros monHeros(100, 50.0);
 	monHeros.JetDuHeros();
+	std::cout << "Monstre" << std::endl;
 	Monstre monMonstre(100,2);
 	monMonstre.JetDuMonstre();
 

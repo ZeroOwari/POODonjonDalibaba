@@ -11,9 +11,9 @@ public:
         this->competences["Adresse"] = 9;
         this->competences["Charisme"] = 9;
         this->competences["Courage"] = 9;
-		this->AddCompetenceSpecifique("Diplomatie");
-		this->AddCompetenceSpecifique("Commerce");
-		this->AddCompetenceSpecifique("Coup de retournée acrobatique");
+		this->AddCompetenceSpecifique("Diplomatie",5);
+        this->AddCompetenceSpecifique("Commerce", 7);
+		this->AddCompetenceSpecifique("Coup de retournée acrobatique",9);
     }
 
     std::string get_origine() override {

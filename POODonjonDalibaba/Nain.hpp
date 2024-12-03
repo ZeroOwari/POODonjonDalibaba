@@ -11,9 +11,9 @@ public:
         competences["Adresse"] = 7;
         competences["Charisme"] = 7;
         competences["Courage"] = 11;
-        this->AddCompetenceSpecifique("Coup de marteau");
-		this->AddCompetenceSpecifique("Resistance a l'alcool");
-		this->AddCompetenceSpecifique("Tailler la barbeZZ");
+        this->AddCompetenceSpecifique("Coup de marteau",5);
+		this->AddCompetenceSpecifique("Resistance a l'alcool",7);
+		this->AddCompetenceSpecifique("Tailler la barbe",9);
     }
     std::string get_origine() override {
         return "Nain";

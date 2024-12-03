@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include "Personnages.hpp"
+#include <map>
 
 class Heros : public Personnages {
 protected:
@@ -11,7 +12,7 @@ protected:
     int points;
     std::vector<std::string> inventaire;
 	std::vector<std::string> spells;
-    std::vector <std::string> competences_specifiques;
+	std::map <std::string, int> competences_specifiques;
 
 public:
     Heros(int pv, double poidsmax) : poidsmax(poidsmax), poidsactuel(0), points(0) {}
@@ -64,8 +65,8 @@ public:
 		this->spells.push_back(spell);
 	}
 
-    virtual void AddCompetenceSpecifique(std::string competence) {
-        this->competences_specifiques.push_back(competence);
+    virtual void AddCompetenceSpecifique(std::string competence, int n) {
+		this->competences_specifiques[competence] = n;
     }
 
     virtual void AddInventaire(std::string objet) {
