@@ -76,7 +76,7 @@ public:
     }
 
     void initWindow() {
-        this->window = new RenderWindow(VideoMode(WIN_WIDTH, WIN_HEIGHT), "Mon jeu SFML", Style::Default);
+        this->window = new RenderWindow(VideoMode(WIN_WIDTH, WIN_HEIGHT), "Mon jeu SFML", sf::Style::Fullscreen);
         this->window->setFramerateLimit(60);
         this->window->setVerticalSyncEnabled(false);
     }
