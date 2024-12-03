@@ -277,7 +277,7 @@ public:
         renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
-            Inventaire(*window, *player);
+            //Inventaire(*window, *player);
         }
         
         window->display();
