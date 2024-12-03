@@ -9,6 +9,8 @@
 #include "MonstresGraphique.hpp"
 #include "Map.hpp"
 #include "Asset.hpp"
+#include "pnj.hpp"
+
 using namespace sf;
 
 class Game {
@@ -16,6 +18,8 @@ class Game {
 private:
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
+    sf::Music music;
+    PNJ* pnj;
 
 
 protected:
@@ -25,6 +29,11 @@ protected:
     Monstres* slime;
     Map map;
     View view;
+    sf::Font font;
+    sf::Text text;
+    sf::Texture dialTexture;
+    sf::Sprite dial;
+    std::string string;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -35,6 +44,7 @@ protected:
     bool canShowCollisionDebug = false;
 
 public:
+
     Game() {
         initWindow();
         initPlayer();
@@ -42,12 +52,16 @@ public:
         initMap();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
+		initMusic();
+        initPNJ();
+        initFont();
     }
 
     ~Game() {
         delete window;
         delete player;
         delete slime;
+        delete pnj;
     }
 
     void run() {
@@ -55,6 +69,21 @@ public:
             update();
             render();
         }
+    }
+    void initFont() {
+        if (!font.loadFromFile("fonts/poppins.ttf")) {
+            std::cout << "Erreur chargement fonte" << std::endl;
+        }
+    }
+
+    void initMusic() {
+		if (!music.openFromFile("dungeonsound.wav")) {
+			std::cerr << "Erreur lors du chargement de la musique" << std::endl;
+			return;
+		}
+		music.setVolume(12);
+		music.setLoop(true);
+        music.play();
     }
 
     void initMap() {
@@ -88,6 +117,12 @@ public:
     void initSlime() {
         slime = new Monstres();
     }
+
+    void initPNJ() {
+        pnj = new PNJ();
+    }
+
+    
 
     void updatePollEvent() {
         Event event;
@@ -205,6 +240,32 @@ public:
         }
     }
 
+    void renderDialogue() {
+        sf::Vector2f positionPlayer = player->getPosition();
+        sf::Vector2f positionPnj = pnj->getPosition();
+        
+        if (positionPlayer.x >= 320 && positionPlayer.x <= 352 && 
+            positionPlayer.y >= 352 && positionPlayer.y <= 374) {
+            //le texte 
+            const std::string texte1 = "Fait attention aux ennemis";
+            text.setFont(font);
+            text.setCharacterSize(18);
+            text.setFillColor(sf::Color::White);
+            text.setStyle(sf::Text::Bold);
+            text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+            text.setString(texte1);
+
+            //la box de dialogue
+            dialTexture.loadFromFile("res/dialbox.png");
+            dial.setTexture(dialTexture);
+            dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+            dial.setScale(1.9f, 0.75f);
+            
+            window->draw(dial);
+            window->draw(text);
+        }
+    }
+
     void render() {
         window->setView(view);
         window->clear();
@@ -212,12 +273,13 @@ public:
         window->draw(map);
         player->render(*window);
         slime->render(*window);
+        pnj->render(*window);
+        renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
             Inventaire(*window, *player);
         }
-
+        
         window->display();
     }
-
 };

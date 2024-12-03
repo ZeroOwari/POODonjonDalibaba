@@ -10,6 +10,8 @@ protected:
     const int SPRITE_SIZE = 32;
     float walkSpeed = 1.f;
 
+    int hPosX = round(sprite.getPosition().x / SPRITE_SIZE);
+    int hPosY = round(sprite.getPosition().y / SPRITE_SIZE);
     sf::Vector2i anim = sf::Vector2i(0, 0);
 
 public:
@@ -20,7 +22,7 @@ public:
 
     virtual void initSprite() {
         sprite.setTexture(texture);
-        sprite.setPosition(5 * SPRITE_SIZE, 5 * SPRITE_SIZE);
+        sprite.setPosition(10 * SPRITE_SIZE, 10 * SPRITE_SIZE);
         initAnimation();
     }
 

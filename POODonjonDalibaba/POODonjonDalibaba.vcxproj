@@ -162,6 +162,7 @@
     <ClInclude Include="Nain.hpp" />
     <ClInclude Include="Personnages.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="pnj.hpp" />
     <ClInclude Include="salles.hpp" />
     <ClInclude Include="TrollRhetoricien.hpp" />
   </ItemGroup>

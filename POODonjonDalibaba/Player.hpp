@@ -36,4 +36,5 @@ public:
 	int getDirection() const {
 		return anim.y;
 	}
+
 };
