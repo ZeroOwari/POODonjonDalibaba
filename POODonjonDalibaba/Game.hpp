@@ -16,8 +16,10 @@ using namespace sf;
 class Game {
 
 private:
+    bool coffreOuvert=true;
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
+    bool proche_du_coffre = false;
     sf::Music music;
     PNJ* pnj;
 
@@ -34,6 +36,10 @@ protected:
     sf::Texture dialTexture;
     sf::Sprite dial;
     std::string string;
+    sf::Texture texture3;
+    sf::Texture texture2;
+    sf::Sprite sprite2;
+    sf::Sprite sprite3;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -55,6 +61,7 @@ public:
 		initMusic();
         initPNJ();
         initFont();
+        initcoffre();
     }
 
     ~Game() {
@@ -85,6 +92,29 @@ public:
 		music.setLoop(true);
         music.play();
     }
+
+    void initcoffre(){
+        
+        if (!texture2.loadFromFile("texture/Coffre_final.png")) {
+            std::cout << "Erreur lors du chargement de la texture" << std::endl;
+            return;
+        }
+        if (!texture3.loadFromFile("texture/Coffre_final_ouvert.png")) {
+            std::cout << "Erreur lors du chargement de la texture" << std::endl;
+            return;
+        }
+        
+        sprite2.setTexture(texture2);
+
+
+        
+        sprite3.setTexture(texture3);
+    
+    
+        sprite2.setPosition(448, 288); 
+        sprite3.setPosition(448, 288); 
+    }
+
 
     void initMap() {
         if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
@@ -165,6 +195,20 @@ public:
             PrintInventaire = false;
             inventaireOuvert = false;
         }
+
+
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+            coffreOuvert = !coffreOuvert; // Inverser l'état du coffre
+            sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
+            newPOIDS(2, "Consommable", "Boison_de_papi");
+
+
+
+        }
+        
+
+        
 
 
 
@@ -265,6 +309,15 @@ public:
             window->draw(text);
         }
     }
+    
+    
+
+            
+        
+    
+        
+
+    
 
     void render() {
         window->setView(view);
@@ -274,11 +327,20 @@ public:
         player->render(*window);
         slime->render(*window);
         pnj->render(*window);
+        if (coffreOuvert) {
+            window->draw(sprite2); // Affiche le coffre ouvert
+        }
+        else {
+            window->draw(sprite3);
+             // Affiche le coffre fermé
+        }
+
         renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
             Inventaire(*window, *player);
         }
+        
         
         window->display();
     }

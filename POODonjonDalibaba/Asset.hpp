@@ -286,3 +286,4 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
     window.draw(Sac_a_dos_text);
     window.draw(Poids_personnage);
 }
+
