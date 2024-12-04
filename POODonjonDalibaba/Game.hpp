@@ -46,6 +46,10 @@ protected:
     sf::Texture texture2;
     sf::Sprite sprite2;
     sf::Sprite sprite3;
+	sf::Texture resumeButtonTexture;
+	sf::Sprite resumeButton;
+    sf::Texture leaveButtonTexture;
+	sf::Sprite leaveButton;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -74,6 +78,7 @@ public:
         initBullet();
         mobDestroyed = false;
         initcoffre();
+        initButtons();
     }
 
     ~Game() {
@@ -89,6 +94,23 @@ public:
             render();
         }
     }
+
+    void initButtons() {
+        if (!resumeButtonTexture.loadFromFile("res/resumebutton.png")) {
+            std::cerr << "Erreur lors du chargement de la texture du bouton Resume" << std::endl;
+            return;
+        }
+        resumeButton.setTexture(resumeButtonTexture);
+
+        if (!leaveButtonTexture.loadFromFile("res/leavebutton.png")) {
+            std::cerr << "Erreur lors du chargement de la texture du bouton Leave" << std::endl;
+            return;
+        }
+        leaveButton.setTexture(leaveButtonTexture);
+    }
+
+
+
     void initFont() {
         if (!font.loadFromFile("fonts/poppins.ttf")) {
             std::cout << "Erreur chargement fonte" << std::endl;
@@ -268,6 +290,20 @@ public:
             else {
                 pKeyReleased = true;
             }
+
+            // Vérifier si les boutons sont cliqués
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+                sf::Vector2f worldPos = window->mapPixelToCoords(mousePos);
+
+                if (resumeButton.getGlobalBounds().contains(worldPos)) {
+                    pause = false;
+                    music.play();
+                }
+                else if (leaveButton.getGlobalBounds().contains(worldPos)) {
+                    window->close();
+                }
+            }
             return;
         }
         updateInput();
@@ -275,6 +311,7 @@ public:
         mob();
         view.setCenter(player->getPosition());
     }
+
 
 
 
@@ -344,17 +381,6 @@ public:
         }
     }
 
-    void renderPauseMessage() {
-        sf::Text pauseText;
-        pauseText.setFont(font);
-        pauseText.setCharacterSize(50);
-        pauseText.setFillColor(sf::Color::White);
-        pauseText.setStyle(sf::Text::Bold);
-        pauseText.setString("Pause");
-        pauseText.setPosition(view.getCenter().x - pauseText.getGlobalBounds().width / 2, view.getCenter().y - pauseText.getGlobalBounds().height / 2);
-        window->draw(pauseText);
-    }
-
     void checkCollision() {
         sf::FloatRect playerBounds = player->getShape().getGlobalBounds();
         for (unsigned int j = 0; j < 18; ++j) {
@@ -422,12 +448,24 @@ public:
         }
     }
     
-    
+    void renderPauseMessage() {
+        sf::Text pauseText;
+        pauseText.setFont(font);
+        pauseText.setCharacterSize(50);
+        pauseText.setFillColor(sf::Color::White);
+        pauseText.setStyle(sf::Text::Bold);
+        pauseText.setString("Pause");
+        pauseText.setPosition(view.getCenter().x - pauseText.getGlobalBounds().width / 2, view.getCenter().y - pauseText.getGlobalBounds().height / 2 - 100);
+        window->draw(pauseText);
 
-            
-        
-    
-        
+        // Mettre à jour la position des boutons
+        resumeButton.setPosition(view.getCenter().x - resumeButton.getGlobalBounds().width / 2, view.getCenter().y - resumeButton.getGlobalBounds().height / 2);
+        leaveButton.setPosition(view.getCenter().x - leaveButton.getGlobalBounds().width / 2, view.getCenter().y - leaveButton.getGlobalBounds().height / 2 + 100);
+
+        // Dessiner les boutons
+        window->draw(resumeButton);
+        window->draw(leaveButton);
+    }
 
     
 
@@ -437,15 +475,14 @@ public:
 
         window->draw(map);
         player->render(*window);
-        if(!mobDestroyed)
+        if (!mobDestroyed)
             slime->render(*window);
         pnj->render(*window);
         if (coffreOuvert) {
             window->draw(sprite2); // Affiche le coffre ouvert
         }
         else {
-            window->draw(sprite3);
-             // Affiche le coffre fermé
+            window->draw(sprite3); // Affiche le coffre fermé
         }
 
         renderDialogue();
@@ -456,9 +493,8 @@ public:
         HandleBullet();
         if (pause == true) {
             renderPauseMessage();
-			music.pause();
+            music.pause();
         }
         window->display();
-
     }
 };
