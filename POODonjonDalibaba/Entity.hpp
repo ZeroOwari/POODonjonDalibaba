@@ -22,7 +22,6 @@ public:
 
     virtual void initSprite() {
         sprite.setTexture(texture);
-        sprite.setPosition(10 * SPRITE_SIZE, 10 * SPRITE_SIZE);
         initAnimation();
     }
 

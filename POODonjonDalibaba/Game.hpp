@@ -64,6 +64,7 @@ public:
         initPNJ();
         initFont();
         initBullet();
+        mobDestroyed = false;
     }
 
     ~Game() {
@@ -200,8 +201,20 @@ public:
         updatePollEvent();
         updateInput();
         checkCollision();
-        slime->initAnimation();
+        mob();
         view.setCenter(player->getPosition());
+    }
+
+    void mob() {
+        slime->initAnimation();
+        sf::FloatRect herrohITBOX = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        if (herrohITBOX.intersects(slimeHitbox))
+        {
+            // On masque la flèche et le monstre !
+            mobDestroyed = true;
+            bulletActive = false;
+        }
     }
 
     void HandleBullet() {
@@ -331,7 +344,8 @@ public:
 
         window->draw(map);
         player->render(*window);
-        slime->render(*window);
+        if(!mobDestroyed)
+            slime->render(*window);
         pnj->render(*window);
         renderDialogue();
         renderColisison();
