@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <string>
 #include "Monstre.hpp"
-#include "ObserverPersonnages.hpp"
 using namespace std;
 
 class GobelinSarcastique : public Monstre, public Observer
@@ -31,7 +30,7 @@ public:
         Monstre::afficher();
         cout << "Ceci est un gobelin sarcastique." << endl;
     }
-    void update(Monstre* monstre) override {
-        cout << "Gobelin Sarcastique a été notifié que " << monstre->get_origine() << " a subi des dégâts." << endl;
-    }
+    //void update(Monstre* monstre) override {
+    //    cout << "Gobelin Sarcastique a été notifié que " << monstre->get_origine() << " a subi des dégâts." << endl;
+    //}
 };

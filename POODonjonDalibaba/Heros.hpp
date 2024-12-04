@@ -4,8 +4,34 @@
 #include <string>
 #include "Personnages.hpp"
 #include <map>
+#include <vector>
+#include <list>
 
-class Heros : public Personnages {
+class Observer {
+public:
+    virtual void update(const std::string& origine) = 0;
+};
+
+class Subject {
+private:
+    std::list<Observer*> observers;
+public:
+    void addObserver(Observer* observer) {
+        observers.push_back(observer);
+    }
+
+    void removeObserver(Observer* observer) {
+        observers.remove(observer);
+    }
+
+    void notifyObservers(const std::string& origine) {
+        for (Observer* observer : observers) {
+            observer->update(origine);
+        }
+    }
+};
+
+class Heros : public Personnages, public Subject {
 protected:
     double poidsmax;
     double poidsactuel; 
@@ -94,7 +120,9 @@ public:
     virtual std::string get_origine() override {
         return "Heros";
     }
-
+    void changeOrigine(const std::string& nouvelleOrigine) {
+        notifyObservers(nouvelleOrigine);
+    }
     virtual void JetDuHeros() {
         std::cout << "Jet Courage : " << this->JetCOU() << std::endl;
         std::cout << "Jet Intelligence : " << this->JetINT() << std::endl;

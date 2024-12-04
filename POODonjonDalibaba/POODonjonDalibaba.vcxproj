@@ -160,7 +160,6 @@
     <ClInclude Include="Monstre.hpp" />
     <ClInclude Include="MonstresGraphique.hpp" />
     <ClInclude Include="Nain.hpp" />
-    <ClInclude Include="ObserverPersonnages.hpp" />
     <ClInclude Include="Personnages.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="pnj.hpp" />

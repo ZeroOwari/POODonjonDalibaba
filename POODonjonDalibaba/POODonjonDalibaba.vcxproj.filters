@@ -98,9 +98,6 @@
     <ClInclude Include="Item_sous_classe.h">
       <Filter>Fichiers d%27en-tête\Inventaire</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverPersonnages.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="pnj.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
