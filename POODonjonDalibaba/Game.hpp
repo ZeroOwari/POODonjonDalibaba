@@ -18,6 +18,8 @@ class Game {
 private:
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
+	bool pause = false;
+	bool pKeyReleased = true;
     sf::Music music;
     PNJ* pnj;
 
@@ -189,6 +191,15 @@ public:
                 bulletClock.restart();
             }
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            if (pKeyReleased) {
+                pause = !pause;
+                pKeyReleased = false;
+            }
+        }
+        else {
+            pKeyReleased = true;
+        }
         player->heroIdle = !isMoving;
         if (isMoving) {
             player->initAnimation();
@@ -197,13 +208,29 @@ public:
         canShowCollisionDebug = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
     }
 
+
     void update() {
         updatePollEvent();
+        if (pause) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                if (pKeyReleased) {
+                    pause = !pause;
+                    music.play();
+                    pKeyReleased = false;
+                }
+            }
+            else {
+                pKeyReleased = true;
+            }
+            return;
+        }
         updateInput();
         checkCollision();
         mob();
         view.setCenter(player->getPosition());
     }
+
+
 
     void mob() {
         slime->initAnimation();
@@ -269,6 +296,17 @@ public:
                 }
             }
         }
+    }
+
+    void renderPauseMessage() {
+        sf::Text pauseText;
+        pauseText.setFont(font);
+        pauseText.setCharacterSize(50);
+        pauseText.setFillColor(sf::Color::White);
+        pauseText.setStyle(sf::Text::Bold);
+        pauseText.setString("Pause");
+        pauseText.setPosition(view.getCenter().x - pauseText.getGlobalBounds().width / 2, view.getCenter().y - pauseText.getGlobalBounds().height / 2);
+        window->draw(pauseText);
     }
 
     void checkCollision() {
@@ -353,6 +391,11 @@ public:
             Inventaire(*window, *player);
         }
         HandleBullet();
+        if (pause == true) {
+            renderPauseMessage();
+			music.pause();
+        }
         window->display();
+
     }
 };
