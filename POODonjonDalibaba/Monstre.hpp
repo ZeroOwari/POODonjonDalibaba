@@ -4,10 +4,13 @@
 #include <string>
 #include "Personnages.hpp"
 #include "Combat.hpp"
+#include "Observer.hpp"
 using namespace std;
 
-class Monstre : public Personnages
-{
+class Monstre : public Personnages {
+private :
+    vector<Observer*> observers;
+
 public:
     Monstre() : Personnages() {}
     Monstre(int pv, int niveau) : Personnages(pv, niveau) {}
@@ -37,9 +40,23 @@ public:
     {
         this->pv -= degats;
         cout << "MONSTRE subit" << degats << "degats" << endl;
+        notifyObservers();
     }
     bool estVivant()
     {
         return this->pv > 0;
+    }
+    void attach(Observer* observer) {
+        observers.push_back(observer);
+    }
+
+    void detach(Observer* observer) {
+        observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
+    }
+
+    void notifyObservers() {
+        for (Observer* observer : observers) {
+            observer->update(this);
+        }
     }
 };
