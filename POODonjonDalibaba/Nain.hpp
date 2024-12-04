@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Heros.hpp"
 
-class Nain : public Heros {
+class Nain : public Heros, public Observer {
 public:
     Nain(int pv, double poidsmax) : Heros(pv, poidsmax) {
         this->pv = 35;
@@ -17,5 +17,8 @@ public:
     }
     std::string get_origine() override {
         return "Nain";
+    }
+    void update(const std::string& origine) override {
+        std::cout << "La race du héros a changé en : " << origine << std::endl;
     }
 };

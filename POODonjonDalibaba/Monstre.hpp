@@ -4,12 +4,11 @@
 #include <string>
 #include "Personnages.hpp"
 #include "Combat.hpp"
-#include "ObserverPersonnages.hpp"
 using namespace std;
 
 class Monstre : public Personnages {
 private :
-    vector<Observer*> observers;
+    //vector<Observer*> observers;
 
 public:
     Monstre() : Personnages() {}
@@ -40,23 +39,23 @@ public:
     {
         this->pv -= degats;
         cout << "MONSTRE subit" << degats << "degats" << endl;
-        notifyObservers();
+        //notifyObservers();
     }
     bool estVivant()
     {
         return this->pv > 0;
     }
-    void attach(Observer* observer) {
-        observers.push_back(observer);
-    }
+    //void attach(Observer* observer) {
+    //    observers.push_back(observer);
+    //}
 
-    void detach(Observer* observer) {
-        observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
-    }
+    //void detach(Observer* observer) {
+    //    observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
+    //}
 
-    void notifyObservers() {
-        for (Observer* observer : observers) {
-            observer->update(this);
-        }
-    }
+    //void notifyObservers() {
+    //    for (Observer* observer : observers) {
+    //        observer->update(this);
+    //    }
+    //}
 };

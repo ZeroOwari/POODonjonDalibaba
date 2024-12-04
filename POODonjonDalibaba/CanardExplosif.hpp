@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <string>
 #include "Monstre.hpp"
-#include "ObserverPersonnages.hpp"
 using namespace std;
 
 class CanardExplosif : public Monstre, public Observer
@@ -29,7 +28,7 @@ public:
         Monstre::afficher();
         cout << "Ceci est un Canard explosif." << endl;
     }
-    void update(Monstre* monstre) override {
-        cout << "Canard Explosif a été notifié que " << monstre->get_origine() << " a subi des dégâts." << endl;
-    }
+    //void update(Monstre* monstre) override {
+    //    cout << "Canard Explosif a été notifié que " << monstre->get_origine() << " a subi des dégâts." << endl;
+    //}
 };
