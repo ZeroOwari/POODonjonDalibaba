@@ -22,6 +22,7 @@ private:
 	bool pause = false;
 	bool pKeyReleased = true;
     bool proche_du_coffre = false;
+	bool IsStarting = true;
     sf::Music music;
     PNJ* pnj;
 
@@ -50,6 +51,10 @@ protected:
 	sf::Sprite resumeButton;
     sf::Texture leaveButtonTexture;
 	sf::Sprite leaveButton;
+    sf::Texture StartButtonTexture;
+	sf::Sprite startButton;
+	sf::Texture StartBackgroundTexture;
+	sf::Sprite startBackground;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -72,14 +77,16 @@ public:
         initMap();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
-		initMusic();
+        initMusic();
         initPNJ();
         initFont();
         initBullet();
         mobDestroyed = false;
         initcoffre();
         initButtons();
+        initStartMenu(); // Initialiser le menu de démarrage
     }
+
 
     ~Game() {
         delete window;
@@ -107,8 +114,32 @@ public:
             return;
         }
         leaveButton.setTexture(leaveButtonTexture);
+
+		if (!StartButtonTexture.loadFromFile("res/startbutton.png")) {
+			std::cerr << "Erreur lors du chargement de la texture du bouton Start" << std::endl;
+			return;
+		}
     }
 
+    void initStartMenu() {
+        if (!StartBackgroundTexture.loadFromFile("res/startbackground.png")) {
+            std::cerr << "Erreur lors du chargement de la texture du fond" << std::endl;
+            return;
+        }
+        startBackground.setTexture(StartBackgroundTexture);
+        startBackground.setScale(
+            static_cast<float>(WIN_WIDTH) / StartBackgroundTexture.getSize().x,
+            static_cast<float>(WIN_HEIGHT) / StartBackgroundTexture.getSize().y
+        );
+        startBackground.setPosition(100, 220);
+
+        if (!StartButtonTexture.loadFromFile("res/startbutton.png")) {
+            std::cerr << "Erreur lors du chargement de la texture du bouton Start" << std::endl;
+            return;
+        }
+        startButton.setTexture(StartButtonTexture);
+        startButton.setPosition(675, 675);
+    }
 
 
     void initFont() {
@@ -310,6 +341,20 @@ public:
 
     void update() {
         updatePollEvent();
+        if (IsStarting) {
+            // Vérifier si le bouton Start est cliqué
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+                sf::Vector2f worldPos = window->mapPixelToCoords(mousePos);
+
+                if (startButton.getGlobalBounds().contains(worldPos)) {
+                    IsStarting = false;
+                    music.play();
+                }
+            }
+            return;
+        }
+
         if (pause) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                 if (pKeyReleased) {
@@ -342,9 +387,6 @@ public:
         mob();
         view.setCenter(player->getPosition());
     }
-
-
-
 
     void mob() {
         slime->initAnimation();
@@ -499,11 +541,21 @@ public:
         window->draw(leaveButton);
     }
 
-    
+    void renderStartMenu() {
+        window->clear();
+        window->draw(startBackground);
+        window->draw(startButton);
+        window->display();
+    }
 
     void render() {
         window->setView(view);
         window->clear();
+
+        if (IsStarting) {
+            renderStartMenu();
+            return;
+        }
 
         window->draw(map);
         player->render(*window);
