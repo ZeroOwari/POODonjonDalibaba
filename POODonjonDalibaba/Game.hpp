@@ -34,6 +34,10 @@ protected:
     sf::Texture dialTexture;
     sf::Sprite dial;
     std::string string;
+    sf::Texture bTexture;
+    sf::Sprite bullet;
+    sf::Clock bulletClock;
+    int bulletDirection;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -42,7 +46,11 @@ protected:
     int levelColision[450];
     sf::RectangleShape rects[450];
     bool canShowCollisionDebug = false;
+    bool mobDestroyed = false;
 
+    bool bulletActive = false;
+    const int Bullet_Speed = 5;
+    enum BulletDirection { Down, Left, Right, Up };
 public:
 
     Game() {
@@ -55,6 +63,7 @@ public:
 		initMusic();
         initPNJ();
         initFont();
+        initBullet();
     }
 
     ~Game() {
@@ -85,7 +94,13 @@ public:
 		music.setLoop(true);
         music.play();
     }
-
+    void initBullet() {
+        if (!bTexture.loadFromFile("texture/arrow.png")) {
+            std::cerr << "Erreur lors du chargement de l'arrow" << std::endl;
+            return;
+        }
+        bullet.setTexture(bTexture);
+    }
     void initMap() {
         if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
             std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -121,8 +136,6 @@ public:
     void initPNJ() {
         pnj = new PNJ();
     }
-
-    
 
     void updatePollEvent() {
         Event event;
@@ -165,9 +178,16 @@ public:
             PrintInventaire = false;
             inventaireOuvert = false;
         }
-
-
-
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            if (!bulletActive) {
+                bulletActive = true;
+                bullet.setPosition(player->getPosition().x + 16, player->getPosition().y + 16);
+                bullet.setScale(0.75f, 0.75f);
+                bullet.setOrigin(16, 16);
+                bulletDirection = player->getDirection();
+                bulletClock.restart();
+            }
+        }
         player->heroIdle = !isMoving;
         if (isMoving) {
             player->initAnimation();
@@ -184,6 +204,45 @@ public:
         view.setCenter(player->getPosition());
     }
 
+    void HandleBullet() {
+        if (bulletActive) {
+            switch (bulletDirection) {
+            case Down:
+                bullet.setRotation(270);
+                bullet.move(0, Bullet_Speed);
+                break;
+            case Up:
+                bullet.setRotation(90);
+                bullet.move(0, -Bullet_Speed);
+                break;
+            case Left:
+                bullet.setRotation(0);
+                bullet.move(-Bullet_Speed, 0);
+                break;
+            case Right:
+                bullet.setRotation(180);
+                bullet.move(Bullet_Speed, 0);
+                break;
+            }
+            window->draw(bullet);
+        }
+
+        if (bulletClock.getElapsedTime().asSeconds() > 1.5f)
+        {
+            bulletActive = false;
+        }
+
+        sf::FloatRect bulletHitbox = bullet.getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        if (bulletHitbox.intersects(slimeHitbox))
+        {
+            // On masque la flèche et le monstre !
+            mobDestroyed = true;
+            bulletActive = false;
+            slime->setPosition(10000, 10000);
+        }
+
+    }
     void renderColisison() {
         for (unsigned int j = 0; j < 18; ++j) {
             for (unsigned int i = 0; i < 25; ++i) {
@@ -279,7 +338,7 @@ public:
         if (PrintInventaire == true) {
             Inventaire(*window, *player);
         }
-        
+        HandleBullet();
         window->display();
     }
 };
