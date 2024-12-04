@@ -16,7 +16,7 @@ using namespace sf;
 class Game {
 
 private:
-    bool coffreOuvert=true;
+    bool coffreFerme=true;
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
 	bool pause = false;
@@ -227,16 +227,9 @@ public:
                 bulletClock.restart();
             }
         }
+    
+  
 
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-            coffreOuvert = !coffreOuvert; // Inverser l'état du coffre
-            sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-            newPOIDS(2, "Consommable", "Boison_de_papi");
-
-
-
-        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
             if (pKeyReleased) {
                 pause = !pause;
@@ -252,6 +245,44 @@ public:
         }
 
         canShowCollisionDebug = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+    }
+
+    void check_coffre() {
+        sf::Vector2f positionPlayer = player->getPosition();
+        sf::Vector2f positionPnj = pnj->getPosition();
+
+        if (positionPlayer.x >= 416 && positionPlayer.x <= 480 &&
+            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
+
+
+
+            const std::string texte1 = "PRESS E ";
+            text.setFont(font);
+            text.setCharacterSize(18);
+            text.setFillColor(sf::Color::White);
+            text.setStyle(sf::Text::Bold);
+            text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+            text.setString(texte1);
+
+            //la box de dialogue
+            dialTexture.loadFromFile("res/dialbox.png");
+            dial.setTexture(dialTexture);
+            dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+            dial.setScale(1.9f, 0.75f);
+
+            window->draw(dial);
+            window->draw(text);
+            if (coffreFerme == true) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+                    coffreFerme = !coffreFerme; // Inverser l'état du coffre
+                    sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
+                    newPOIDS(2, "Consommable", "Boison_de_papi");
+
+
+
+                }
+            }
+        }
     }
 
 
@@ -440,7 +471,7 @@ public:
         if(!mobDestroyed)
             slime->render(*window);
         pnj->render(*window);
-        if (coffreOuvert) {
+        if (coffreFerme) {
             window->draw(sprite2); // Affiche le coffre ouvert
         }
         else {
@@ -458,6 +489,8 @@ public:
             renderPauseMessage();
 			music.pause();
         }
+
+        check_coffre();
         window->display();
 
     }
