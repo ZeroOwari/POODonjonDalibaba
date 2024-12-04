@@ -457,8 +457,8 @@ public:
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
         
-        if (positionPlayer.x >= 320 && positionPlayer.x <= 352 && 
-            positionPlayer.y >= 352 && positionPlayer.y <= 374) {
+        if  (positionPlayer.x >= 278 && positionPlayer.x <= 310 &&
+            positionPlayer.y >= 300 && positionPlayer.y <= 374) {
             //le texte 
             const std::string texte1 = "Fait attention aux ennemis";
             text.setFont(font);
@@ -478,6 +478,7 @@ public:
             window->draw(text);
         }
     }
+    
     
     void renderPauseMessage() {
         sf::Text pauseText;
