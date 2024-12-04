@@ -4,7 +4,7 @@
 #include <string>
 #include "Personnages.hpp"
 #include "Combat.hpp"
-#include "Observer.hpp"
+#include "ObserverPersonnages.hpp"
 using namespace std;
 
 class Monstre : public Personnages {

@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include "Monstre.hpp"
-#include "Observer.hpp"
+#include "ObserverPersonnages.hpp"
 using namespace std;
 
 class GobelinSarcastique : public Monstre, public Observer
