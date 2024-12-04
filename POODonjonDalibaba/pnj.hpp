@@ -18,6 +18,7 @@ public:
         initTexture("res/pnj.png");
         sprite.scale(0.7f, 0.7f);
         initSprite();
+        sprite.setPosition(9 * SPRITE_SIZE+5, 10 * SPRITE_SIZE);
     }
 
     void initAnimation() override {

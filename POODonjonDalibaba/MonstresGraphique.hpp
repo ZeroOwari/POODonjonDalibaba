@@ -8,6 +8,7 @@ public:
         initTexture("res/slime.png");
         sprite.scale(0.5f, 0.5f);
         initSprite();
+        sprite.setPosition(8 * SPRITE_SIZE, 8 * SPRITE_SIZE);
     }
 
     void initAnimation() override {
