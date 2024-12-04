@@ -36,6 +36,10 @@ protected:
     sf::Texture dialTexture;
     sf::Sprite dial;
     std::string string;
+    sf::Texture bTexture;
+    sf::Sprite bullet;
+    sf::Clock bulletClock;
+    int bulletDirection;
     sf::Texture texture3;
     sf::Texture texture2;
     sf::Sprite sprite2;
@@ -48,7 +52,11 @@ protected:
     int levelColision[450];
     sf::RectangleShape rects[450];
     bool canShowCollisionDebug = false;
+    bool mobDestroyed = false;
 
+    bool bulletActive = false;
+    const int Bullet_Speed = 5;
+    enum BulletDirection { Down, Left, Right, Up };
 public:
 
     Game() {
@@ -61,6 +69,8 @@ public:
 		initMusic();
         initPNJ();
         initFont();
+        initBullet();
+        mobDestroyed = false;
         initcoffre();
     }
 
@@ -93,8 +103,19 @@ public:
         music.play();
     }
 
-    void initcoffre(){
-        
+    void initBullet() {
+        if (!bTexture.loadFromFile("texture/arrow.png")) {
+            std::cerr << "Erreur lors du chargement de l'arrow" << std::endl;
+            return;
+        }
+
+        bullet.setTexture(bTexture);
+    }
+
+
+
+    void initcoffre() {
+
         if (!texture2.loadFromFile("texture/Coffre_final.png")) {
             std::cout << "Erreur lors du chargement de la texture" << std::endl;
             return;
@@ -103,18 +124,17 @@ public:
             std::cout << "Erreur lors du chargement de la texture" << std::endl;
             return;
         }
-        
+
         sprite2.setTexture(texture2);
 
 
-        
-        sprite3.setTexture(texture3);
-    
-    
-        sprite2.setPosition(448, 288); 
-        sprite3.setPosition(448, 288); 
-    }
 
+        sprite3.setTexture(texture3);
+
+
+        sprite2.setPosition(448, 288);
+        sprite3.setPosition(448, 288);
+    }
 
     void initMap() {
         if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
@@ -151,8 +171,6 @@ public:
     void initPNJ() {
         pnj = new PNJ();
     }
-
-    
 
     void updatePollEvent() {
         Event event;
@@ -197,6 +215,17 @@ public:
         }
 
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            if (!bulletActive) {
+                bulletActive = true;
+                bullet.setPosition(player->getPosition().x + 16, player->getPosition().y + 16);
+                bullet.setScale(0.75f, 0.75f);
+                bullet.setOrigin(16, 16);
+                bulletDirection = player->getDirection();
+                bulletClock.restart();
+            }
+        }
+
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
             coffreOuvert = !coffreOuvert; // Inverser l'état du coffre
@@ -206,9 +235,6 @@ public:
 
 
         }
-        
-
-        
 
 
 
@@ -224,10 +250,61 @@ public:
         updatePollEvent();
         updateInput();
         checkCollision();
-        slime->initAnimation();
+        mob();
         view.setCenter(player->getPosition());
     }
 
+    void mob() {
+        slime->initAnimation();
+        sf::FloatRect herrohITBOX = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        if (herrohITBOX.intersects(slimeHitbox))
+        {
+            // On masque la flèche et le monstre !
+            mobDestroyed = true;
+            bulletActive = false;
+        }
+    }
+
+    void HandleBullet() {
+        if (bulletActive) {
+            switch (bulletDirection) {
+            case Down:
+                bullet.setRotation(270);
+                bullet.move(0, Bullet_Speed);
+                break;
+            case Up:
+                bullet.setRotation(90);
+                bullet.move(0, -Bullet_Speed);
+                break;
+            case Left:
+                bullet.setRotation(0);
+                bullet.move(-Bullet_Speed, 0);
+                break;
+            case Right:
+                bullet.setRotation(180);
+                bullet.move(Bullet_Speed, 0);
+                break;
+            }
+            window->draw(bullet);
+        }
+
+        if (bulletClock.getElapsedTime().asSeconds() > 1.5f)
+        {
+            bulletActive = false;
+        }
+
+        sf::FloatRect bulletHitbox = bullet.getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        if (bulletHitbox.intersects(slimeHitbox))
+        {
+            // On masque la flèche et le monstre !
+            mobDestroyed = true;
+            bulletActive = false;
+            slime->setPosition(10000, 10000);
+        }
+
+    }
     void renderColisison() {
         for (unsigned int j = 0; j < 18; ++j) {
             for (unsigned int i = 0; i < 25; ++i) {
@@ -325,7 +402,8 @@ public:
 
         window->draw(map);
         player->render(*window);
-        slime->render(*window);
+        if(!mobDestroyed)
+            slime->render(*window);
         pnj->render(*window);
         if (coffreOuvert) {
             window->draw(sprite2); // Affiche le coffre ouvert
@@ -340,8 +418,7 @@ public:
         if (PrintInventaire == true) {
             Inventaire(*window, *player);
         }
-        
-        
+        HandleBullet();
         window->display();
     }
 };
