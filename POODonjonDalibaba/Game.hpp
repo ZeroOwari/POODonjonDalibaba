@@ -308,31 +308,32 @@ public:
             positionPlayer.y >= 256 && positionPlayer.y <= 320) {
 
 
-
-            const std::string texte1 = "PRESS E ";
-            text.setFont(font);
-            text.setCharacterSize(18);
-            text.setFillColor(sf::Color::White);
-            text.setStyle(sf::Text::Bold);
-            text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-            text.setString(texte1);
-
-            //la box de dialogue
-            dialTexture.loadFromFile("res/dialbox.png");
-            dial.setTexture(dialTexture);
-            dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-            dial.setScale(1.9f, 0.75f);
-
-            window->draw(dial);
-            window->draw(text);
             if (coffreFerme == true) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                    coffreFerme = !coffreFerme; // Inverser l'état du coffre
-                    sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-                    newPOIDS(2, "Consommable", "Boison_de_papi");
+                const std::string texte1 = "PRESS E ";
+                text.setFont(font);
+                text.setCharacterSize(18);
+                text.setFillColor(sf::Color::White);
+                text.setStyle(sf::Text::Bold);
+                text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+                text.setString(texte1);
+
+                //la box de dialogue
+                dialTexture.loadFromFile("res/dialbox.png");
+                dial.setTexture(dialTexture);
+                dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+                dial.setScale(1.9f, 0.75f);
+
+                window->draw(dial);
+                window->draw(text);
+                if (coffreFerme == true) {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+                        coffreFerme = !coffreFerme; // Inverser l'état du coffre
+                        sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
+                        newPOIDS(2, "Consommable", "Boison_de_papi");
 
 
 
+                    }
                 }
             }
         }
