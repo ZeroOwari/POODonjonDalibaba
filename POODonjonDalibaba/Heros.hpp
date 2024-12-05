@@ -9,11 +9,12 @@
 class Heros : public Personnages, public Subject {
 protected:
     double poidsmax;
-    double poidsactuel; 
+    double poidsactuel;
     int points;
+    std::string metier;
     std::vector<std::string> inventaire;
-	std::vector<std::string> spells;
-	std::map <std::string, int> competences_specifiques;
+    std::vector<std::string> spells;
+    std::map <std::string, int> competences_specifiques;
 
 public:
     Heros(int pv, double poidsmax) : poidsmax(poidsmax), poidsactuel(0), points(0) {}
@@ -34,6 +35,10 @@ public:
         this->points = points;
     }
 
+    virtual void set_metier(const std::string& metier) {
+        this->metier = metier;
+    }
+
     virtual double get_poidsmax() {
         return this->poidsmax;
     }
@@ -44,6 +49,10 @@ public:
 
     virtual int get_points() {
         return this->points;
+    }
+
+    virtual std::string get_metier() {
+        return this->metier;
     }
 
     virtual void UpNiveau() {
@@ -62,35 +71,35 @@ public:
         this->points -= n;
     }
 
-	virtual void AddSpells(std::string spell) {
-		this->spells.push_back(spell);
-	}
+    virtual void AddSpells(std::string spell) {
+        this->spells.push_back(spell);
+    }
 
     virtual void AddCompetenceSpecifique(std::string competence, int n) {
-		this->competences_specifiques[competence] = n;
+        this->competences_specifiques[competence] = n;
     }
 
     virtual void AddInventaire(std::string objet) {
         this->inventaire.push_back(objet);
     }
 
-	virtual void afficherInventaire() {
-		std::cout << "" << std::endl;
-		std::cout << "=Inventaire=" << std::endl;
-		for (int i = 0; i < this->inventaire.size(); i++) {
-			std::cout << this->inventaire[i] << std::endl;
-		}
-		std::cout << "============" << std::endl;
-	}
+    virtual void afficherInventaire() {
+        std::cout << "" << std::endl;
+        std::cout << "=Inventaire=" << std::endl;
+        for (int i = 0; i < this->inventaire.size(); i++) {
+            std::cout << this->inventaire[i] << std::endl;
+        }
+        std::cout << "============" << std::endl;
+    }
 
-	virtual void AfficherSpells() {
-		std::cout << "" << std::endl;
-		std::cout << "===Spells===" << std::endl;
-		for (int i = 0; i < this->spells.size(); i++) {
-			std::cout << this->spells[i] << std::endl;
-		}
-		std::cout << "============" << std::endl;
-	}
+    virtual void AfficherSpells() {
+        std::cout << "" << std::endl;
+        std::cout << "===Spells===" << std::endl;
+        for (int i = 0; i < this->spells.size(); i++) {
+            std::cout << this->spells[i] << std::endl;
+        }
+        std::cout << "============" << std::endl;
+    }
 
     virtual std::string get_origine() override {
         return "Heros";

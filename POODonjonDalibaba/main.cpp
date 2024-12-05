@@ -8,11 +8,11 @@
 #include "TrollRhetoricien.hpp"
 #include "CanardExplosif.hpp"
 #include "Game.hpp"
-
+#include "ObserverMetier.hpp"
 
 int main() {
-	Game game;
-	game.run();
+	//Game game;
+	//game.run();
 	//std::cout << "Heros" << std::endl;
 	//Heros monHeros(100, 50.0);
 	//monHeros.JetDuHeros();
