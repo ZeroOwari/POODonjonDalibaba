@@ -10,6 +10,7 @@
 #include "Map.hpp"
 #include "Asset.hpp"
 #include "pnj.hpp"
+#include "CombatGraphique.hpp"
 
 using namespace sf;
 
@@ -23,6 +24,8 @@ private:
 	bool pKeyReleased = true;
     bool proche_du_coffre = false;
 	bool IsStarting = true;
+    bool dialogueRecompense = false;
+    bool recompense = false;
     sf::Music music;
     PNJ* pnj;
 
@@ -68,6 +71,7 @@ protected:
     bool bulletActive = false;
     const int Bullet_Speed = 5;
     enum BulletDirection { Down, Left, Right, Up };
+    bool inCombat;
 public:
 
     Game() {
@@ -367,7 +371,7 @@ public:
             else {
                 pKeyReleased = true;
             }
-
+            
             // Vérifier si les boutons sont cliqués
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
@@ -398,6 +402,8 @@ public:
             // On masque la flèche et le monstre !
             mobDestroyed = true;
             bulletActive = false;
+            handleCombat();
+            slime->setPosition(100000, 10000);
         }
     }
 
@@ -436,7 +442,8 @@ public:
             // On masque la flèche et le monstre !
             mobDestroyed = true;
             bulletActive = false;
-            slime->setPosition(10000, 10000);
+            handleCombat();
+            slime->setPosition(100000, 10000);
         }
 
     }
@@ -496,29 +503,48 @@ public:
         }
     }
 
-    void renderDialogue() {
+    void setText(Text& txt, String str) {
+        //le texte
+        text.setFont(font);
+        text.setCharacterSize(18);
+        text.setFillColor(sf::Color::White);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+        text.setString(str);
+
+        //la box de dialogue
+        dialTexture.loadFromFile("res/dialbox.png");
+        dial.setTexture(dialTexture);
+        dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+        dial.setScale(1.9f, 0.75f);
+        if (str != "") {
+            window->draw(dial);
+            window->draw(txt);
+        }
+    }
+    void DialoguePnj() {    
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
         
-        if  (positionPlayer.x >= 278 && positionPlayer.x <= 310 &&
+        if  (positionPlayer.x >= 278 && positionPlayer.x <= 310 && 
             positionPlayer.y >= 300 && positionPlayer.y <= 374) {
-            //le texte 
-            const std::string texte1 = "Fait attention aux ennemis";
-            text.setFont(font);
-            text.setCharacterSize(18);
-            text.setFillColor(sf::Color::White);
-            text.setStyle(sf::Text::Bold);
-            text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-            text.setString(texte1);
-
-            //la box de dialogue
-            dialTexture.loadFromFile("res/dialbox.png");
-            dial.setTexture(dialTexture);
-            dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-            dial.setScale(1.9f, 0.75f);
             
-            window->draw(dial);
-            window->draw(text);
+            if (!mobDestroyed)
+                setText(text, "He toi la, aide moi, va tuer l'ennemi juste au dessus !");
+            else {
+                if (!dialogueRecompense) {
+                    setText(text, "Merci aventurier, voila 5 pieces et une cle pour ce coffre !");
+                    recompense = true;
+                }
+                else {
+                    setText(text, "Fait attention au ennemi et au piege, il y en a beaucoup !");
+                }
+            }
+        }
+        else {
+            setText(text, "");
+            if (recompense)
+                dialogueRecompense = true;
         }
     }
     
@@ -549,6 +575,12 @@ public:
         window->display();
     }
 
+    void handleCombat() {
+        CombatWindow combatWindow;
+        combatWindow.run();
+        inCombat = false;
+    }
+
     void render() {
         window->setView(view);
         window->clear();
@@ -570,7 +602,7 @@ public:
             window->draw(sprite3); // Affiche le coffre fermé
         }
 
-        renderDialogue();
+        DialoguePnj();
         renderColisison();
         if (PrintInventaire == true) {
             Inventaire(*window, *player);
