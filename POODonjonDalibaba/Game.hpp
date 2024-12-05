@@ -62,9 +62,9 @@ protected:
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
 
-    int levelLoaded[450];
-    int levelColision[450];
-    sf::RectangleShape rects[450];
+    int levelLoaded[2500];
+    int levelColision[2500];
+    sf::RectangleShape rects[2500];
     bool canShowCollisionDebug = false;
     bool mobDestroyed = false;
 
@@ -196,7 +196,7 @@ public:
     }
 
     void initMap() {
-        if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
+        if (!map.loadFromFile("res/map1.txt", levelLoaded, 2500)) {
             std::cerr << "Erreur lors du chargement de la carte" << std::endl;
             return;
         }
@@ -207,7 +207,7 @@ public:
     }
 
     void initMapColision() {
-        if (!map.loadFromFile("res/map1_colision.txt", levelColision, 450)) {
+        if (!map.loadFromFile("res/map1_colision.txt", levelColision, 2500)) {
             std::cerr << "Erreur lors du chargement de la carte de collision" << std::endl;
             return;
         }
@@ -448,15 +448,15 @@ public:
 
     }
     void renderColisison() {
-        for (unsigned int j = 0; j < 18; ++j) {
-            for (unsigned int i = 0; i < 25; ++i) {
-                if (levelColision[(i + j * 25)] == 1) {
+        for (unsigned int j = 0; j < 50; ++j) {
+            for (unsigned int i = 0; i < 50; ++i) {
+                if (levelColision[(i + j * 50)] == 1) {
                     sf::Vector2f pos = sf::Vector2f(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize())); // Conversion explicite en float
-                    rects[(i + j * 25)].setPosition(pos);
-                    rects[(i + j * 25)].setSize(sf::Vector2f(static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize()))); // Conversion explicite en float
-                    rects[(i + j * 25)].setFillColor(Color(250, 0, 0, 100));
+                    rects[(i + j * 50)].setPosition(pos);
+                    rects[(i + j * 50)].setSize(sf::Vector2f(static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize()))); // Conversion explicite en float
+                    rects[(i + j * 50)].setFillColor(Color(250, 0, 0, 100));
                     if (canShowCollisionDebug)
-                        window->draw(rects[(i + j * 25)]);
+                        window->draw(rects[(i + j * 50)]);
                 }
             }
         }
@@ -464,9 +464,9 @@ public:
 
     void checkCollision() {
         sf::FloatRect playerBounds = player->getShape().getGlobalBounds();
-        for (unsigned int j = 0; j < 18; ++j) {
-            for (unsigned int i = 0; i < 25; ++i) {
-                if (levelColision[(i + j * 25)] == 1) {
+        for (unsigned int j = 0; j < 50; ++j) {
+            for (unsigned int i = 0; i < 50; ++i) {
+                if (levelColision[(i + j * 50)] == 1) {
                     sf::FloatRect tileBounds(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize()), static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize())); // Conversion explicite en float
                     if (playerBounds.intersects(tileBounds)) {
                         // Ajuster la position du joueur en fonction de la collision

@@ -18,8 +18,8 @@ private:
     }
 
 public:
-    const int COL_COUNT = 25;
-    const int ROW_COUNT = 18;
+    const int COL_COUNT = 50;
+    const int ROW_COUNT = 50;
 
 
 
