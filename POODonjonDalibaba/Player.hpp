@@ -11,7 +11,7 @@ public:
 		initTexture("texture/soldat.png");
 		sprite.scale(0.7f, 0.7f);
 		initSprite();
-		sprite.setPosition(10 * SPRITE_SIZE, 10 * SPRITE_SIZE);
+		sprite.setPosition(7 * SPRITE_SIZE, 5 * SPRITE_SIZE);
 	}
 
 	void initAnimation() override {

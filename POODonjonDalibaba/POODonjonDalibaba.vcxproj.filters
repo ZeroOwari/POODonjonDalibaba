@@ -25,6 +25,15 @@
     <Filter Include="Fichiers d%27en-tête\Inventaire">
       <UniqueIdentifier>{085af912-1a94-45f6-853e-a8ef96ddb516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\GUI">
+      <UniqueIdentifier>{ba89f1c4-0eb5-4c05-84f2-4d088322bdd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Entités\FichierHero\Metier">
+      <UniqueIdentifier>{c0e0ba75-b410-4332-a82e-92e4d20081d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\GUI\Combat">
+      <UniqueIdentifier>{f3cefad2-ed4e-485a-8503-1a24ddaf15a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,12 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="salles.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Barbare.hpp">
       <Filter>Fichiers d%27en-tête\Entités\FichierHero</Filter>
     </ClInclude>
@@ -59,9 +62,6 @@
     <ClInclude Include="Combat.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Map.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="CanardExplosif.hpp">
       <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
     </ClInclude>
@@ -80,12 +80,6 @@
     <ClInclude Include="Monstre.hpp">
       <Filter>Fichiers d%27en-tête\Entités\Monstres</Filter>
     </ClInclude>
-    <ClInclude Include="MonstresGraphique.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Asset.hpp">
       <Filter>Fichiers d%27en-tête\Inventaire</Filter>
     </ClInclude>
@@ -98,8 +92,53 @@
     <ClInclude Include="Item_sous_classe.h">
       <Filter>Fichiers d%27en-tête\Inventaire</Filter>
     </ClInclude>
+    <ClInclude Include="SlimeGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="pnj.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Guerrier.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="Magicien.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverMetier.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="Ranger.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="Voleur.hpp">
+      <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="GobelinGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterGraphique.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatGobelin.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSlime.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatTroll.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

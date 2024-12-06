@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include "Monstre.hpp"
+#include "Personnages.hpp"
 using namespace std;
 
 class CanardExplosif : public Monstre, public Observer
@@ -17,7 +18,7 @@ public:
         this->set_charisme(1);
         this->set_courage(1);
     }
-
+    
     string get_origine() override
     {
         return "Canard Explosif";
@@ -28,7 +29,7 @@ public:
         Monstre::afficher();
         cout << "Ceci est un Canard explosif." << endl;
     }
-    //void update(Monstre* monstre) override {
-    //    cout << "Canard Explosif a été notifié que " << monstre->get_origine() << " a subi des dégâts." << endl;
-    //}
+    void update(const std::string& origine) override {
+        cout << "Gobelin Sarcastique a été notifié que " << origine << " a subi des dégâts." << endl;
+    }
 };

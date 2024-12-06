@@ -8,7 +8,7 @@
 #include "TrollRhetoricien.hpp"
 #include "CanardExplosif.hpp"
 #include "Game.hpp"
-
+#include "ObserverMetier.hpp"
 
 int main() {
 	Game game;
@@ -19,25 +19,6 @@ int main() {
 	//std::cout << "Monstre" << std::endl;
 	//Monstre monMonstre(100,2);
 	//monMonstre.JetDuMonstllre();
-	Heros* heros = new Heros(100, 50.0);
-	Barbare* barbare = new Barbare(100, 50.0);
-	Elfe* elfe = new Elfe(100, 50.0);
-	Nain* nain = new Nain(100, 50.0);
-	Humain* humain = new Humain(100, 50.0);
-
-	heros->addObserver(barbare);
-	heros->addObserver(elfe);
-	heros->addObserver(nain);
-	heros->addObserver(humain);
-
-	heros->changeOrigine("Elfe");
-	heros->afficher();
-
-	delete heros;
-	delete barbare;
-	delete elfe;
-	delete nain;
-	delete humain;
 
 	//std::cout << "Fin du jeu" << std::endl;
 	/*window fenetre(1920, 1080);

@@ -5,11 +5,16 @@
 #include "Heros.hpp"
 #include <vector>
 
-class Metier : public Heros {
+class Metier : public virtual Heros {
 protected:
     std::string metier;
 
 public:
+
+    Metier()
+        : Heros(10, 50.0),
+        metier("Inconnu") {}
+
     Metier(int pv, double poidsmax, const std::string& metier)
         : Heros(pv, poidsmax), metier(metier) {
         initialiserCompetencesSpecifiques();
@@ -17,20 +22,20 @@ public:
 
     void initialiserCompetencesSpecifiques() {
         if (metier == "Guerrier") {
-            this->AddCompetenceSpecifique("Combat a l'epee");
-            this->AddCompetenceSpecifique("Parade");
+            this->AddCompetenceSpecifique("Combat a l'epee", 1);
+            this->AddCompetenceSpecifique("Parade", 1);
         }
         else if (metier == "Magicien") {
-            this->AddCompetenceSpecifique("Magie");
-            this->AddCompetenceSpecifique("Concentration");
+            this->AddCompetenceSpecifique("Magie", 1);
+            this->AddCompetenceSpecifique("Concentration", 1);
         }
         else if (metier == "Voleur") {
-            this->AddCompetenceSpecifique("Crochetage");
-            this->AddCompetenceSpecifique("Furtivite");
+            this->AddCompetenceSpecifique("Crochetage", 1);
+            this->AddCompetenceSpecifique("Furtivite", 1);
         }
         else if (metier == "Ranger") {
-            this->AddCompetenceSpecifique("Tir a l'arc");
-            this->AddCompetenceSpecifique("Survie dans les arbres");
+            this->AddCompetenceSpecifique("Tir a l'arc", 1);
+            this->AddCompetenceSpecifique("Survie dans les arbres", 1);
         }
     }
 
@@ -41,8 +46,8 @@ public:
     void afficherCompetencesSpecifiques() {
         std::cout << "" << std::endl;
         std::cout << "===Competences specifiques===" << std::endl;
-        for (int i = 0; i < this->competences_specifiques.size(); i++) {
-            std::cout << this->competences_specifiques[i] << std::endl;
+        for (const auto& pair : competences_specifiques) {
+            std::cout << pair.first << " (Niveau " << pair.second << ")" << std::endl;
         }
         std::cout << "=============================" << std::endl;
     }

@@ -6,10 +6,15 @@
 #include <sstream>
 #include <stdlib.h>
 #include "Player.hpp"
-#include "MonstresGraphique.hpp"
+#include "SlimeGUI.hpp"
 #include "Map.hpp"
 #include "Asset.hpp"
 #include "pnj.hpp"
+#include "CombatSlime.hpp"
+#include "CombatGobelin.hpp"
+#include "CombatTroll.hpp"
+#include "GobelinGUI.hpp"
+#include "TrollGUI.hpp"
 
 using namespace sf;
 
@@ -24,6 +29,8 @@ private:
 	bool pKeyReleased = true;
     bool proche_du_coffre = false;
 	bool IsStarting = true;
+    bool dialogueRecompense = false;
+    bool recompense = false;
     bool parler1=false;
     sf::Music music;
     PNJ* pnj;
@@ -34,7 +41,9 @@ protected:
     RenderWindow* window;
     VideoMode videoMode;
     Player* player;
-    Monstres* slime;
+    Slime* slime;
+    Gobelin* gobelin;
+    Troll* troll;
     Map map;
     View view;
     sf::Font font;
@@ -60,25 +69,38 @@ protected:
 	sf::Sprite startButton;
 	sf::Texture StartBackgroundTexture;
 	sf::Sprite startBackground;
+	sf::Texture crystal1;
+    sf::Texture crystal2;
+    sf::Texture crystal3;
+    sf::Texture crystal4;
+	sf::Sprite crystal1Sprite;
+	sf::Sprite crystal2Sprite;
+	sf::Sprite crystal3Sprite;
+	sf::Sprite crystal4Sprite;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
 
-    int levelLoaded[450];
-    int levelColision[450];
-    sf::RectangleShape rects[450];
+    int levelLoaded[2500];
+    int levelColision[2500];
+    sf::RectangleShape rects[2500];
     bool canShowCollisionDebug = false;
-    bool mobDestroyed = false;
+    bool slimeDestroyed = false;
+    bool gobelinDestroyed = false;
+    bool trollDestroyed = false;
 
     bool bulletActive = false;
     const int Bullet_Speed = 5;
     enum BulletDirection { Down, Left, Right, Up };
+    bool inCombat;
 public:
 
     Game() {
         initWindow();
         initPlayer();
         initSlime();
+        initGobelin();
+        initTroll();
         initMap();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
@@ -86,8 +108,11 @@ public:
         initPNJ();
         initFont();
         initBullet();
-        mobDestroyed = false;
+        slimeDestroyed = false;
+        gobelinDestroyed = false;
+        trollDestroyed = false;
         initcoffre();
+		initcrystal();
         initButtons();
         initStartMenu(); // Initialiser le menu de démarrage
     }
@@ -98,6 +123,8 @@ public:
         delete player;
         delete slime;
         delete pnj;
+        delete gobelin;
+        delete troll;
     }
 
     void run() {
@@ -146,7 +173,6 @@ public:
         startButton.setPosition(675, 675);
     }
 
-
     void initFont() {
         if (!font.loadFromFile("fonts/poppins.ttf")) {
             std::cout << "Erreur chargement fonte" << std::endl;
@@ -173,6 +199,32 @@ public:
     }
 
 
+    void initcrystal() {
+		if (!crystal1.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal2.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal3.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal4.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		crystal1Sprite.setTexture(crystal1);
+		crystal2Sprite.setTexture(crystal2);
+		crystal3Sprite.setTexture(crystal3);
+		crystal4Sprite.setTexture(crystal4);
+		crystal1Sprite.setPosition(800, 416);
+		crystal2Sprite.setPosition(1344, 416);
+		crystal3Sprite.setPosition(800, 960);
+		crystal4Sprite.setPosition(1344, 960);
+	}
 
     void initcoffre() {
 
@@ -200,7 +252,7 @@ public:
     }
 
     void initMap() {
-        if (!map.loadFromFile("res/map1.txt", levelLoaded, 450)) {
+        if (!map.loadFromFile("res/map1.txt", levelLoaded, 2500)) {
             std::cerr << "Erreur lors du chargement de la carte" << std::endl;
             return;
         }
@@ -211,7 +263,7 @@ public:
     }
 
     void initMapColision() {
-        if (!map.loadFromFile("res/map1_colision.txt", levelColision, 450)) {
+        if (!map.loadFromFile("res/map1_colision.txt", levelColision, 2500)) {
             std::cerr << "Erreur lors du chargement de la carte de collision" << std::endl;
             return;
         }
@@ -228,11 +280,19 @@ public:
     }
 
     void initSlime() {
-        slime = new Monstres();
+        slime = new Slime();
+    }
+
+    void initGobelin() {
+        gobelin = new Gobelin();
     }
 
     void initPNJ() {
         pnj = new PNJ();
+    }
+
+    void initTroll() {
+        troll = new Troll();
     }
 
     void updatePollEvent() {
@@ -288,9 +348,6 @@ public:
                 bulletClock.restart();
             }
         }
-    
-  
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
             if (pKeyReleased) {
                 pause = !pause;
@@ -312,8 +369,8 @@ public:
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
 
-        if (positionPlayer.x >= 416 && positionPlayer.x <= 480 &&
-            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
+        if (positionPlayer.x >= 256 && positionPlayer.x <= 320 &&
+            positionPlayer.y >= 192 && positionPlayer.y <= 256) {
 
 
             if (coffreFerme1 == true) {
@@ -419,7 +476,7 @@ public:
             else {
                 pKeyReleased = true;
             }
-
+            
             // Vérifier si les boutons sont cliqués
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
@@ -437,19 +494,50 @@ public:
         }
         updateInput();
         checkCollision();
-        mob();
+        slimeMovement();
+        gobelinMovement();
+        trollMovement();
         view.setCenter(player->getPosition());
     }
-
-    void mob() {
-        slime->initAnimation();
-        sf::FloatRect herrohITBOX = player->getGlobalBounds(); // Initialiser bulletHitbox
-        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
-        if (herrohITBOX.intersects(slimeHitbox))
+    void trollMovement() {
+        troll->initAnimation();
+        sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect trollHitbox = troll->getGlobalBounds();
+        if (herrohitbox.intersects(trollHitbox))
         {
             // On masque la flèche et le monstre !
-            mobDestroyed = true;
+            trollDestroyed = true;
             bulletActive = false;
+            handleCombatTroll();
+            troll->setPosition(100000, 10000);
+        }
+    }
+
+    void gobelinMovement() {
+        gobelin->initAnimation();
+        sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect gobelinHitbox = gobelin->getGlobalBounds();
+        if (herrohitbox.intersects(gobelinHitbox))
+        {
+            // On masque la flèche et le monstre !
+            gobelinDestroyed = true;
+            bulletActive = false;
+            handleCombatGobelin();
+            gobelin->setPosition(100000, 10000);
+        }
+    }
+
+    void slimeMovement() {
+        slime->initAnimation();
+        sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        if (herrohitbox.intersects(slimeHitbox))
+        {
+            // On masque la flèche et le monstre !
+            slimeDestroyed = true;
+            bulletActive = false;
+            handleCombatSlime();
+            slime->setPosition(100000, 10000);
         }
     }
 
@@ -483,25 +571,46 @@ public:
 
         sf::FloatRect bulletHitbox = bullet.getGlobalBounds(); // Initialiser bulletHitbox
         sf::FloatRect slimeHitbox = slime->getGlobalBounds();
+        sf::FloatRect gobelinHitbox = gobelin->getGlobalBounds();
+        sf::FloatRect trollHitbox = troll->getGlobalBounds();
         if (bulletHitbox.intersects(slimeHitbox))
         {
             // On masque la flèche et le monstre !
-            mobDestroyed = true;
+            slimeDestroyed = true;
             bulletActive = false;
-            slime->setPosition(10000, 10000);
+            handleCombatSlime();
+            slime->setPosition(100000, 10000);
+        }
+
+        if (bulletHitbox.intersects(gobelinHitbox))
+        {
+            // On masque la flèche et le monstre !
+            gobelinDestroyed = true;
+            bulletActive = false;
+            handleCombatGobelin();
+            gobelin->setPosition(100000, 10000);
+        }
+
+        if (bulletHitbox.intersects(trollHitbox))
+        {
+            // On masque la flèche et le monstre !
+            trollDestroyed = true;
+            bulletActive = false;
+            handleCombatTroll();
+            troll->setPosition(100000, 10000);
         }
 
     }
     void renderColisison() {
-        for (unsigned int j = 0; j < 18; ++j) {
-            for (unsigned int i = 0; i < 25; ++i) {
-                if (levelColision[(i + j * 25)] == 1) {
+        for (unsigned int j = 0; j < 50; ++j) {
+            for (unsigned int i = 0; i < 50; ++i) {
+                if (levelColision[(i + j * 50)] == 1) {
                     sf::Vector2f pos = sf::Vector2f(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize())); // Conversion explicite en float
-                    rects[(i + j * 25)].setPosition(pos);
-                    rects[(i + j * 25)].setSize(sf::Vector2f(static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize()))); // Conversion explicite en float
-                    rects[(i + j * 25)].setFillColor(Color(250, 0, 0, 100));
+                    rects[(i + j * 50)].setPosition(pos);
+                    rects[(i + j * 50)].setSize(sf::Vector2f(static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize()))); // Conversion explicite en float
+                    rects[(i + j * 50)].setFillColor(Color(250, 0, 0, 100));
                     if (canShowCollisionDebug)
-                        window->draw(rects[(i + j * 25)]);
+                        window->draw(rects[(i + j * 50)]);
                 }
             }
         }
@@ -509,9 +618,9 @@ public:
 
     void checkCollision() {
         sf::FloatRect playerBounds = player->getShape().getGlobalBounds();
-        for (unsigned int j = 0; j < 18; ++j) {
-            for (unsigned int i = 0; i < 25; ++i) {
-                if (levelColision[(i + j * 25)] == 1) {
+        for (unsigned int j = 0; j < 50; ++j) {
+            for (unsigned int i = 0; i < 50; ++i) {
+                if (levelColision[(i + j * 50)] == 1) {
                     sf::FloatRect tileBounds(static_cast<float>(i * player->getSpriteSize()), static_cast<float>(j * player->getSpriteSize()), static_cast<float>(player->getSpriteSize()), static_cast<float>(player->getSpriteSize())); // Conversion explicite en float
                     if (playerBounds.intersects(tileBounds)) {
                         // Ajuster la position du joueur en fonction de la collision
@@ -548,29 +657,48 @@ public:
         }
     }
 
-    void renderDialogue() {
+    void setText(Text& txt, String str) {
+        //le texte
+        text.setFont(font);
+        text.setCharacterSize(18);
+        text.setFillColor(sf::Color::White);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+        text.setString(str);
+
+        //la box de dialogue
+        dialTexture.loadFromFile("res/dialbox.png");
+        dial.setTexture(dialTexture);
+        dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+        dial.setScale(1.9f, 0.75f);
+        if (str != "") {
+            window->draw(dial);
+            window->draw(txt);
+        }
+    }
+    void DialoguePnj() {    
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
         
-        if  (positionPlayer.x >= 278 && positionPlayer.x <= 310 &&
-            positionPlayer.y >= 300 && positionPlayer.y <= 374) {
-            //le texte 
-            const std::string texte1 = "Fait attention aux ennemis";
-            text.setFont(font);
-            text.setCharacterSize(18);
-            text.setFillColor(sf::Color::White);
-            text.setStyle(sf::Text::Bold);
-            text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-            text.setString(texte1);
-
-            //la box de dialogue
-            dialTexture.loadFromFile("res/dialbox.png");
-            dial.setTexture(dialTexture);
-            dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-            dial.setScale(1.9f, 0.75f);
+        if  (positionPlayer.x >= 96 && positionPlayer.x <= 160 && 
+            positionPlayer.y >= 160 && positionPlayer.y <= 192) {
             
-            window->draw(dial);
-            window->draw(text);
+            if (!slimeDestroyed)
+                setText(text, "He toi la, aide moi, va tuer l'ennemi juste en dessous !");
+            else {
+                if (!dialogueRecompense) {
+                    setText(text, "Merci aventurier, voila une cle pour ce coffre !");
+                    recompense = true;
+                }
+                else {
+                    setText(text, "Fait attention au ennemi et au piege, il y en a beaucoup !");
+                }
+            }
+        }
+        else {
+            setText(text, "");
+            if (recompense)
+                dialogueRecompense = true;
         }
     }
     
@@ -606,6 +734,24 @@ public:
         window->display();
     }
 
+    void handleCombatSlime() {
+        CombatSlimeWindow combatWindow;
+        combatWindow.runSlimeCombat();
+        inCombat = false;
+    }
+
+    void handleCombatGobelin() {
+        CombatGobelinWindow combatGobelinWindow;
+        combatGobelinWindow.runGobelinCombat();
+        inCombat = false;
+    }
+
+    void handleCombatTroll() {
+        CombatTrollWindow combatTrollWindow;
+        combatTrollWindow.runTrollCombat();
+        inCombat = false;
+    }
+
     void render() {
         window->setView(view);
         window->clear();
@@ -617,8 +763,12 @@ public:
 
         window->draw(map);
         player->render(*window);
-        if (!mobDestroyed)
+        if (!slimeDestroyed)
             slime->render(*window);
+        if (!gobelinDestroyed)
+            gobelin->render(*window);
+        if (!trollDestroyed)
+            troll->render(*window);
         pnj->render(*window);
         if (coffreFerme1) {
             window->draw(sprite2); // Affiche le coffre ouvert
@@ -637,6 +787,11 @@ public:
 
 
         }
+		window->draw(crystal1Sprite);
+		window->draw(crystal2Sprite);
+		window->draw(crystal3Sprite);
+		window->draw(crystal4Sprite);
+        DialoguePnj();
 
 
         renderDialogue();

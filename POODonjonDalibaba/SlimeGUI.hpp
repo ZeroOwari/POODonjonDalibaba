@@ -1,20 +1,20 @@
 #pragma once
 #include "Entity.hpp"
 
-class Monstres : public Entity {
+class Slime : public Entity {
 public:
-    Monstres() {
+    Slime() {
         walkSpeed = 2.f;
         initTexture("res/slime.png");
         sprite.scale(0.5f, 0.5f);
         initSprite();
-        sprite.setPosition(8 * SPRITE_SIZE, 8 * SPRITE_SIZE);
+        sprite.setPosition(8 * SPRITE_SIZE, 12 * SPRITE_SIZE);
     }
 
     void initAnimation() override {
         sprite.move(walkSpeed, 0);
 
-        if (sprite.getPosition().x > 400 || sprite.getPosition().x < 200)
+        if (sprite.getPosition().x > 300 || sprite.getPosition().x < 150)
             walkSpeed *= -1;
 
         sprite.setTextureRect(sf::IntRect(anim.x * SPRITE_SIZE, anim.y * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE));
