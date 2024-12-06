@@ -150,6 +150,7 @@
     <ClInclude Include="Combat.hpp" />
     <ClInclude Include="CombatSlime.hpp" />
     <ClInclude Include="CombatGobelin.hpp" />
+    <ClInclude Include="CombatTroll.hpp" />
     <ClInclude Include="Elfe.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Game.hpp" />

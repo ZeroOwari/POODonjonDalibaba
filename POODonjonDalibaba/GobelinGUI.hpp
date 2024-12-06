@@ -22,7 +22,7 @@ public:
             sprite.setScale(movingRight ? 1.f : -1.f, 1.f);
         }
 
-        sprite.setTextureRect(sf::IntRect(anim.x * SPRITE_SIZE, anim.y * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE));
+        sprite.setTextureRect(sf::IntRect(anim.x* SPRITE_SIZE, anim.y* SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE));
         if (animClock.getElapsedTime().asSeconds() > 0.1f) {
             if (anim.x * SPRITE_SIZE >= texture.getSize().x - SPRITE_SIZE) {
                 anim.x = 0;

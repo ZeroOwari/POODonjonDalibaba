@@ -12,7 +12,9 @@
 #include "pnj.hpp"
 #include "CombatSlime.hpp"
 #include "CombatGobelin.hpp"
+#include "CombatTroll.hpp"
 #include "GobelinGUI.hpp"
+#include "TrollGUI.hpp"
 
 using namespace sf;
 
@@ -38,6 +40,7 @@ protected:
     Player* player;
     Slime* slime;
     Gobelin* gobelin;
+    Troll* troll;
     Map map;
     View view;
     sf::Font font;
@@ -71,6 +74,7 @@ protected:
     bool canShowCollisionDebug = false;
     bool slimeDestroyed = false;
     bool gobelinDestroyed = false;
+    bool trollDestroyed = false;
 
     bool bulletActive = false;
     const int Bullet_Speed = 5;
@@ -83,6 +87,7 @@ public:
         initPlayer();
         initSlime();
         initGobelin();
+        initTroll();
         initMap();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
@@ -92,6 +97,7 @@ public:
         initBullet();
         slimeDestroyed = false;
         gobelinDestroyed = false;
+        trollDestroyed = false;
         initcoffre();
         initButtons();
         initStartMenu(); // Initialiser le menu de démarrage
@@ -104,6 +110,7 @@ public:
         delete slime;
         delete pnj;
         delete gobelin;
+        delete troll;
     }
 
     void run() {
@@ -236,6 +243,10 @@ public:
 
     void initPNJ() {
         pnj = new PNJ();
+    }
+
+    void initTroll() {
+        troll = new Troll();
     }
 
     void updatePollEvent() {
@@ -392,7 +403,21 @@ public:
         checkCollision();
         slimeMovement();
         gobelinMovement();
+        trollMovement();
         view.setCenter(player->getPosition());
+    }
+    void trollMovement() {
+        troll->initAnimation();
+        sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect trollHitbox = troll->getGlobalBounds();
+        if (herrohitbox.intersects(trollHitbox))
+        {
+            // On masque la flèche et le monstre !
+            trollDestroyed = true;
+            bulletActive = false;
+            handleCombatTroll();
+            troll->setPosition(100000, 10000);
+        }
     }
 
     void gobelinMovement() {
@@ -454,6 +479,7 @@ public:
         sf::FloatRect bulletHitbox = bullet.getGlobalBounds(); // Initialiser bulletHitbox
         sf::FloatRect slimeHitbox = slime->getGlobalBounds();
         sf::FloatRect gobelinHitbox = gobelin->getGlobalBounds();
+        sf::FloatRect trollHitbox = troll->getGlobalBounds();
         if (bulletHitbox.intersects(slimeHitbox))
         {
             // On masque la flèche et le monstre !
@@ -470,6 +496,15 @@ public:
             bulletActive = false;
             handleCombatGobelin();
             gobelin->setPosition(100000, 10000);
+        }
+
+        if (bulletHitbox.intersects(trollHitbox))
+        {
+            // On masque la flèche et le monstre !
+            trollDestroyed = true;
+            bulletActive = false;
+            handleCombatTroll();
+            troll->setPosition(100000, 10000);
         }
 
     }
@@ -613,6 +648,12 @@ public:
         inCombat = false;
     }
 
+    void handleCombatTroll() {
+        CombatTrollWindow combatTrollWindow;
+        combatTrollWindow.runTrollCombat();
+        inCombat = false;
+    }
+
     void render() {
         window->setView(view);
         window->clear();
@@ -628,6 +669,8 @@ public:
             slime->render(*window);
         if (!gobelinDestroyed)
             gobelin->render(*window);
+        if (!trollDestroyed)
+            troll->render(*window);
         pnj->render(*window);
         if (coffreFerme) {
             window->draw(sprite2); // Affiche le coffre ouvert
