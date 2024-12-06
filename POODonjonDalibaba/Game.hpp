@@ -16,15 +16,18 @@ using namespace sf;
 class Game {
 
 private:
-    bool coffreFerme=true;
+    bool coffreFerme1=true;
+    bool coffreFerme2 = true;
     bool inventaireOuvert = false;
     bool PrintInventaire = false;
 	bool pause = false;
 	bool pKeyReleased = true;
     bool proche_du_coffre = false;
 	bool IsStarting = true;
+    bool parler1=false;
     sf::Music music;
     PNJ* pnj;
+    string new_item = "";
 
 
 protected:
@@ -47,6 +50,8 @@ protected:
     sf::Texture texture2;
     sf::Sprite sprite2;
     sf::Sprite sprite3;
+    sf::Sprite sprite4;
+    sf::Sprite sprite5;
 	sf::Texture resumeButtonTexture;
 	sf::Sprite resumeButton;
     sf::Texture leaveButtonTexture;
@@ -182,13 +187,16 @@ public:
 
         sprite2.setTexture(texture2);
 
-
-
         sprite3.setTexture(texture3);
+
+        sprite4.setTexture(texture2);
+        sprite5.setTexture(texture3);
 
 
         sprite2.setPosition(448, 288);
         sprite3.setPosition(448, 288);
+        sprite4.setPosition(224, 288);
+        sprite5.setPosition(224, 288);
     }
 
     void initMap() {
@@ -308,7 +316,7 @@ public:
             positionPlayer.y >= 256 && positionPlayer.y <= 320) {
 
 
-            if (coffreFerme == true) {
+            if (coffreFerme1 == true) {
                 const std::string texte1 = "PRESS E ";
                 text.setFont(font);
                 text.setCharacterSize(18);
@@ -325,11 +333,54 @@ public:
 
                 window->draw(dial);
                 window->draw(text);
-                if (coffreFerme == true) {
+                if (coffreFerme1 == true) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                        coffreFerme = !coffreFerme; // Inverser l'état du coffre
+                        coffreFerme1 = !coffreFerme1; // Inverser l'état du coffre
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
                         newPOIDS(2, "Consommable", "Boison_de_papi");
+                        new_item = "Potion_d_intelligence_discutable";
+                        
+                        
+
+
+                    }
+                }
+            }
+        }
+
+        sprite2.setPosition(448, 288);
+        sprite3.setPosition(448, 288);
+        sprite4.setPosition(224, 288);
+        sprite5.setPosition(224, 288);
+
+        if (positionPlayer.x >= 192 && positionPlayer.x <= 256 &&
+            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
+
+
+            if (coffreFerme2 == true) {
+                const std::string texte1 = "PRESS E ";
+                text.setFont(font);
+                text.setCharacterSize(18);
+                text.setFillColor(sf::Color::White);
+                text.setStyle(sf::Text::Bold);
+                text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+                text.setString(texte1);
+
+                //la box de dialogue
+                dialTexture.loadFromFile("res/dialbox.png");
+                dial.setTexture(dialTexture);
+                dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+                dial.setScale(1.9f, 0.75f);
+
+                window->draw(dial);
+                window->draw(text);
+                if (coffreFerme2 == true) {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+                        coffreFerme2 = !coffreFerme2; // Inverser l'état du coffre
+                        sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
+                        newPOIDS(1, "Consommable", "Bierre");
+                        new_item = "Bierre";
+
 
 
 
@@ -337,6 +388,7 @@ public:
                 }
             }
         }
+
     }
 
 
@@ -524,6 +576,11 @@ public:
     
     
     void renderPauseMessage() {
+
+
+
+
+        
         sf::Text pauseText;
         pauseText.setFont(font);
         pauseText.setCharacterSize(50);
@@ -563,17 +620,29 @@ public:
         if (!mobDestroyed)
             slime->render(*window);
         pnj->render(*window);
-        if (coffreFerme) {
+        if (coffreFerme1) {
             window->draw(sprite2); // Affiche le coffre ouvert
         }
         else {
             window->draw(sprite3); // Affiche le coffre fermé
+
+
         }
+
+        if (coffreFerme2) {
+            window->draw(sprite4); // Affiche le coffre ouvert
+        }
+        else {
+            window->draw(sprite5); // Affiche le coffre fermé
+
+
+        }
+
 
         renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
-            Inventaire(*window, *player);
+            Inventaire(*window, *player,new_item);
         }
         HandleBullet();
         if (pause == true) {

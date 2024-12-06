@@ -84,6 +84,7 @@ void newPOIDS(int newpoids, string type, string nom_de_l_obejet) {
     cout << poidsTotal << endl;
     poidsTotal = poidsTotal + newpoids;
     cout << "voici le nouveau poids de votre inventaire : " << poidsTotal << endl;
+    
 
 
 

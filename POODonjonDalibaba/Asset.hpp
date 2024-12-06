@@ -13,7 +13,75 @@
 #include "calcul_new_poids.hpp"
 #include "Player.hpp"
 
-void Inventaire(sf::RenderWindow& window, const Player& player) {
+
+
+int position_associer_x;
+int position_associer_y;
+
+
+bool checkcase1 = false;
+bool checkcase2 = false;
+bool checkcase3 = false;
+bool checkcase4 = false;
+bool checkcase5 = false;
+bool checkcase6 = false;
+bool checkcase7 = false;
+bool checkcase8 = false;
+bool checkcase9 = false;
+bool checkcase10 = false;
+
+
+
+
+
+bool boisson_de_papi = false;
+bool calcul_de_position_boisson_de_papi =false;
+int position_boisson_de_papi[2];
+
+
+bool bierre = false;
+bool calcul_de_position_bierre = false;
+int position_bierre[2];
+
+bool potion_humoristique = false;
+bool calcul_de_position_potion_humoristique = false;
+int position_potion_humoristique[2];
+
+bool clef_rouillee = false;
+bool calcul_de_position_clef_rouillee = false;
+int position_clef_rouillee[2];
+
+bool Potion_d_intelligence_discutable = false;
+bool calcul_de_position_Potion_d_intelligence_discutable = false;
+int position_Potion_d_intelligence_discutable[2];
+
+bool Chaussures_de_discrétion_bruyante = false;
+bool calcul_de_position_Chaussures_de_discrétion_bruyante = false;
+int position_Chaussures_de_discrétion_bruyante[2];
+
+bool Épée_émoussée = false;
+bool calcul_de_position_Épée_émoussée = false;
+int position_Épée_émoussée[2];
+
+bool Potion_de_soin_majeur = false;
+bool calcul_de_position_Potion_de_soin_majeur = false;
+int position_Potion_de_soin_majeur[2]; 
+
+bool Sceptre_de_la_Supériorité_Syntaxique = false;
+bool calcul_de_position_Sceptre_de_la_Supériorité_Syntaxique = false;
+int position_Sceptre_de_la_Supériorité_Syntaxique[2];
+
+
+bool Livre_des_règles_perdues = false;
+bool calcul_de_position_Livre_des_règles_perdues = false;
+int position_Livre_des_règles_perdues[2];
+
+
+
+
+
+void Inventaire(sf::RenderWindow& window, const Player& player, string nom_de_l_item) {
+
     sf::Vector2f playerPosition = player.getPosition();
 
     const float inventoryWidth = 1000;
@@ -54,8 +122,14 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
         return;
     }
 
-    sf::Texture Boisson;
-    if (!Boisson.loadFromFile("res/Boisson papi.png")) {
+    sf::Texture Boisson_de_papi;
+    if (!Boisson_de_papi.loadFromFile("res/Boisson papi.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+    sf::Texture Bierre;
+    if (!Bierre.loadFromFile("res/potion_de_bierre.png")) {
         std::cout << "Erreur lors du chargement de la texture" << std::endl;
         return;
     }
@@ -89,6 +163,52 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
         std::cout << "Erreur lors du chargement de la texture" << std::endl;
         return;
     }
+    sf::Texture Clef_rouille;
+    if (!Clef_rouille.loadFromFile("res/clef rouillé.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+    sf::Texture tex_potion_humoristique;
+    if (!tex_potion_humoristique.loadFromFile("res/potion_humoristique.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+    sf::Texture tex_potion_dintelligence_discutable;
+    if (!tex_potion_dintelligence_discutable.loadFromFile("res/potion_dintelligence_discutable.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+    sf::Texture Chaussures_de_discretion_bruyante;
+    if (!Chaussures_de_discretion_bruyante.loadFromFile("res/Chaussures_de_discretion_bruyante.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+    sf::Texture tex_Potion_de_soin_majeur;
+    if (!tex_Potion_de_soin_majeur.loadFromFile("res/Potion_de_soin_majeur.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+    sf::Texture epee_emousee;
+    if (!epee_emousee.loadFromFile("res/epee_emousee.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+    sf::Texture Livre_des_regles_perdues;
+    if (!Livre_des_regles_perdues.loadFromFile("res/Livre_des_regles_perdues.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+    sf::Texture Sceptre_de_la_Superiorite_Syntaxique;
+    if (!Sceptre_de_la_Superiorite_Syntaxique.loadFromFile("res/Sceptre_de_la_Superiorite_Syntaxique.png")) {
+        std::cout << "Erreur lors du chargement de la texture" << std::endl;
+        return;
+    }
+
+
 
     // Création des sprites
     sf::Sprite sprite_casque;
@@ -104,7 +224,10 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
     sprite_Chaussure.setTexture(Chaussure);
 
     sf::Sprite sprite_Boisson;
-    sprite_Boisson.setTexture(Boisson);
+    sprite_Boisson.setTexture(Boisson_de_papi);
+
+    sf::Sprite sprite_Bierre;
+    sprite_Bierre.setTexture(Bierre);
 
     sf::Sprite sprite_Personnage;
     sprite_Personnage.setTexture(Personnage);
@@ -120,6 +243,35 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
 
     sf::Sprite sprite_Dragon;
     sprite_Dragon.setTexture(Dragon);
+
+    /////////////////////////////////////////////////////////////
+
+    sf::Sprite sprite_Clef_rouille;
+    sprite_Clef_rouille.setTexture(Clef_rouille);
+
+
+    sf::Sprite sprite_potion_humoristique;
+    sprite_potion_humoristique.setTexture(tex_potion_humoristique);
+
+    sf::Sprite sprite_potion_dintelligence_discutable;
+    sprite_potion_dintelligence_discutable.setTexture(tex_potion_dintelligence_discutable);
+
+    sf::Sprite sprite_Chaussures_de_discretion_bruyante;
+    sprite_Chaussures_de_discretion_bruyante.setTexture(Chaussures_de_discretion_bruyante);
+
+    sf::Sprite sprite_Potion_de_soin_majeur;
+    sprite_Potion_de_soin_majeur.setTexture(tex_Potion_de_soin_majeur);
+
+    sf::Sprite sprite_epee_emousee;
+    sprite_epee_emousee.setTexture(epee_emousee);
+
+    sf::Sprite sprite_Livre_des_regles_perdues;
+    sprite_Livre_des_regles_perdues.setTexture(Livre_des_regles_perdues);
+
+    sf::Sprite sprite_Sceptre_de_la_Superiorite_Syntaxique;
+    sprite_Sceptre_de_la_Superiorite_Syntaxique.setTexture(Sceptre_de_la_Superiorite_Syntaxique);
+
+
 
     // Interface Inventaire
 
@@ -146,7 +298,7 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
 
     sf::RectangleShape Inventaire(sf::Vector2f(480, 336));
     Inventaire.setFillColor(sf::Color(34, 34, 34, 200));
-    Inventaire.setPosition(inventoryPosition.x +260, inventoryPosition.y +200);
+    Inventaire.setPosition(inventoryPosition.x + 260, inventoryPosition.y + 200);
     Inventaire.setOutlineThickness(3);
     Inventaire.setOutlineColor(sf::Color(255, 255, 255));
     window.draw(Inventaire);
@@ -201,7 +353,7 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
     PRESS_X.setPosition(inventoryPosition.x + 260, inventoryPosition.y + 545);
     window.draw(PRESS_X);
 
- 
+
     int Position_en_y = 285;
     int MOOVE_DE_Y = 0;
     int Position_de_x = 483;
@@ -216,7 +368,7 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
             Case_inventaire_Item.setOutlineColor(sf::Color(255, 255, 255));
             window.draw(Case_inventaire_Item);
         }
-        
+
         MOOVE_DE_Y += 25;
     }
 
@@ -254,7 +406,7 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
             Case_inventaire_Item.setFillColor(sf::Color(255, 255, 255, 0));
             Case_inventaire_Item.setPosition(inventoryPosition.x + 277 + MOOVE_DE_X, inventoryPosition.y + 210 + MOOVE_DE_Y);
             Case_inventaire_Item.setOutlineThickness(3);
-            Case_inventaire_Item.setOutlineColor(sf::Color(0,0,0));
+            Case_inventaire_Item.setOutlineColor(sf::Color(0, 0, 0));
             window.draw(Case_inventaire_Item);
             MOOVE_DE_Y = MOOVE_DE_Y + 60;
         }
@@ -285,5 +437,315 @@ void Inventaire(sf::RenderWindow& window, const Player& player) {
     window.draw(Personnage_inventaire);
     window.draw(Sac_a_dos_text);
     window.draw(Poids_personnage);
+
+
+    
+
+        if (nom_de_l_item!="") {
+            // Gestion des cases disponibles
+            if (!checkcase1) {
+                position_associer_x = 508;  // Mise à jour de la position de la première case
+                position_associer_y = 283;
+                checkcase1 = true;
+            }
+            else if (checkcase2 == false && checkcase1 == true) {
+                position_associer_x = 533;  // Mise à jour de la position de la deuxième case
+                position_associer_y = 283;
+                checkcase2 = true;
+            }
+            else if (checkcase3 == false && checkcase2 == true) {
+                position_associer_x = 558;
+                position_associer_y = 283;
+                checkcase3 = true;
+                cout << position_associer_x << endl;
+         
+            }
+
+            else if (checkcase4 == false && checkcase3 == true) {
+                position_associer_x = 583;
+                position_associer_y = 283;
+                checkcase4 = true;
+            }
+
+            else if (checkcase5 == false && checkcase4 == true) {
+                position_associer_x = 608;
+                position_associer_y = 283;
+                checkcase5 = true;
+            }
+
+            else if (checkcase6 == false && checkcase5 == true) {
+                position_associer_x = 633;
+                position_associer_y = 283;
+                checkcase6 = true;
+            }
+
+            else if (checkcase7 == false && checkcase6 == true) {
+                position_associer_x = 658;
+                position_associer_y = 283;
+                checkcase7 = true;
+            }
+
+            else if (checkcase8 == false && checkcase7 == true) {
+                position_associer_x = 683;
+                position_associer_y = 283;
+                checkcase8 = true;
+            }
+
+            else if (checkcase9 == false && checkcase8 == true) {
+                position_associer_x = 708;
+                position_associer_y = 283;
+                checkcase9 = true;
+            }
+            else if (checkcase10 == false && checkcase9 == true) {
+                position_associer_x = 508;
+                position_associer_y = 283;
+                checkcase10 = true;
+                
+            }
+
+        // Gestion des items spécifiques
+
+
+        if (nom_de_l_item == "Boisson_de_papi") {
+            boisson_de_papi = true;
+        }
+
+        if (nom_de_l_item == "potion_humoristique") {
+            potion_humoristique = true;
+        }
+
+
+
+        if (nom_de_l_item == "clef_rouillee") {
+            clef_rouillee = true;
+        }
+
+        if (nom_de_l_item == "Potion_d_intelligence_discutable") {
+            Potion_d_intelligence_discutable = true;
+        }
+
+        if (nom_de_l_item == "Chaussures_de_discrétion_bruyante") {
+            Chaussures_de_discrétion_bruyante = true;
+        }
+
+        if (nom_de_l_item == "Épée_émoussée") {
+            Épée_émoussée = true;
+        }
+
+        if (nom_de_l_item == "Potion_de_soin_majeur") {
+            Potion_de_soin_majeur = true;
+        }
+
+        if (nom_de_l_item == "Sceptre_de_la_Supériorité_Syntaxique") {
+            Sceptre_de_la_Supériorité_Syntaxique = true;
+        }
+
+        if (nom_de_l_item == "Livre_des_règles_perdues") {
+            Livre_des_règles_perdues = true;
+        }
+        if (nom_de_l_item == "Bierre") {
+            bierre = true;
+        }
+
+    }
+
+    if (potion_humoristique) {
+        if (calcul_de_position_potion_humoristique == false) {
+            sprite_potion_humoristique.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+            window.draw(sprite_potion_humoristique);
+
+            position_potion_humoristique[0] = position_associer_x;
+            position_potion_humoristique[1] = position_associer_y;
+            calcul_de_position_potion_humoristique = true;
+
+        }
+        else {
+            sprite_potion_humoristique.setPosition(inventoryPosition.x + position_potion_humoristique[0], inventoryPosition.y + position_potion_humoristique[1]);
+            window.draw(sprite_potion_humoristique);
+        }
+    }
+
+
+
+        if (Livre_des_règles_perdues) {
+            if (calcul_de_position_Livre_des_règles_perdues == false) {
+                sprite_Livre_des_regles_perdues.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Livre_des_regles_perdues);
+
+                position_Livre_des_règles_perdues[0] = position_associer_x;
+                position_Livre_des_règles_perdues[1] = position_associer_y;
+                calcul_de_position_Livre_des_règles_perdues = true;
+
+            }
+            else {
+                sprite_Livre_des_regles_perdues.setPosition(inventoryPosition.x + position_Livre_des_règles_perdues[0], inventoryPosition.y + position_Livre_des_règles_perdues[1]);
+                window.draw(sprite_Livre_des_regles_perdues);
+            }
+
+        }
+
+
+
+
+
+   
+        if (Sceptre_de_la_Supériorité_Syntaxique) {
+            if (calcul_de_position_Sceptre_de_la_Supériorité_Syntaxique == false) {
+                sprite_Sceptre_de_la_Superiorite_Syntaxique.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Sceptre_de_la_Superiorite_Syntaxique);
+
+                position_Sceptre_de_la_Supériorité_Syntaxique[0] = position_associer_x;
+                position_Sceptre_de_la_Supériorité_Syntaxique[1] = position_associer_y;
+                calcul_de_position_Sceptre_de_la_Supériorité_Syntaxique = true;
+
+            }
+            else {
+                sprite_Sceptre_de_la_Superiorite_Syntaxique.setPosition(inventoryPosition.x + position_Sceptre_de_la_Supériorité_Syntaxique[0], inventoryPosition.y + position_Sceptre_de_la_Supériorité_Syntaxique[1]);
+                window.draw(sprite_Sceptre_de_la_Superiorite_Syntaxique);
+            }
+
+        }
+
+
+
+
+        if (Potion_de_soin_majeur) {
+            if (calcul_de_position_Potion_de_soin_majeur == false) {
+                sprite_Potion_de_soin_majeur.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Potion_de_soin_majeur);
+
+                position_Potion_de_soin_majeur[0] = position_associer_x;
+                position_Potion_de_soin_majeur[1] = position_associer_y;
+                calcul_de_position_Potion_de_soin_majeur = true;
+
+            }
+            else {
+                sprite_Potion_de_soin_majeur.setPosition(inventoryPosition.x + position_Potion_de_soin_majeur[0], inventoryPosition.y + position_Potion_de_soin_majeur[1]);
+                window.draw(sprite_Potion_de_soin_majeur);
+            }
+
+        }
+
+        if (Épée_émoussée) {
+            if (calcul_de_position_Épée_émoussée == false) {
+                sprite_epee_emousee.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_epee_emousee);
+
+                position_Épée_émoussée[0] = position_associer_x;
+                position_Épée_émoussée[1] = position_associer_y;
+                calcul_de_position_Épée_émoussée = true;
+
+            }
+            else {
+                sprite_epee_emousee.setPosition(inventoryPosition.x + position_Épée_émoussée[0], inventoryPosition.y + position_Épée_émoussée[1]);
+                window.draw(sprite_epee_emousee);
+            }
+
+        }
+
+
+
+
+
+        if (Potion_d_intelligence_discutable) {
+            if (calcul_de_position_Potion_d_intelligence_discutable == false) {
+                sprite_potion_dintelligence_discutable.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_potion_dintelligence_discutable);
+
+                position_Potion_d_intelligence_discutable[0] = position_associer_x;
+                position_Potion_d_intelligence_discutable[1] = position_associer_y;
+                calcul_de_position_Potion_d_intelligence_discutable = true;
+
+            }
+            else {
+                sprite_potion_dintelligence_discutable.setPosition(inventoryPosition.x + position_Potion_d_intelligence_discutable[0], inventoryPosition.y + position_Potion_d_intelligence_discutable[1]);
+                window.draw(sprite_potion_dintelligence_discutable);
+            }
+
+        }
+
+
+
+        if (Chaussures_de_discrétion_bruyante) {
+            if (calcul_de_position_Chaussures_de_discrétion_bruyante == false) {
+                sprite_Chaussures_de_discretion_bruyante.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Chaussures_de_discretion_bruyante);
+
+                position_Chaussures_de_discrétion_bruyante[0] = position_associer_x;
+                position_Chaussures_de_discrétion_bruyante[1] = position_associer_y;
+                calcul_de_position_Chaussures_de_discrétion_bruyante = true;
+
+            }
+            else {
+                sprite_Chaussures_de_discretion_bruyante.setPosition(inventoryPosition.x + position_Chaussures_de_discrétion_bruyante[0], inventoryPosition.y + position_Chaussures_de_discrétion_bruyante[1]);
+                window.draw(sprite_Chaussures_de_discretion_bruyante);
+            }
+
+        }
+
+
+        if (clef_rouillee) {
+            if (calcul_de_position_clef_rouillee == false) {
+                sprite_Clef_rouille.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Clef_rouille);
+
+                position_clef_rouillee[0] = position_associer_x;
+                position_clef_rouillee[1] = position_associer_y;
+                calcul_de_position_clef_rouillee = true;
+
+            }
+            else {
+                sprite_Clef_rouille.setPosition(inventoryPosition.x + position_clef_rouillee[0], inventoryPosition.y + position_clef_rouillee[1]);
+                window.draw(sprite_Clef_rouille);
+            }
+
+        }
+
+        if (boisson_de_papi) {
+            if (calcul_de_position_boisson_de_papi == false) {
+                sprite_Boisson.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Boisson);
+
+
+                position_boisson_de_papi[0] = position_associer_x;
+                position_boisson_de_papi[1] = position_associer_y;
+                calcul_de_position_boisson_de_papi = true;
+
+            }
+            else {
+                sprite_Boisson.setPosition(inventoryPosition.x + position_boisson_de_papi[0], inventoryPosition.y + position_boisson_de_papi[1]);
+                window.draw(sprite_Boisson);
+                
+            }
+        }
+
+        if (bierre) {
+            if (calcul_de_position_bierre == false) {
+                sprite_Bierre.setPosition(inventoryPosition.x + position_associer_x, inventoryPosition.y + position_associer_y);
+                window.draw(sprite_Bierre);
+
+                position_bierre[0] = position_associer_x;
+                position_bierre[1] = position_associer_y;
+                calcul_de_position_bierre = true;
+
+            }
+            else {
+                sprite_Bierre.setPosition(inventoryPosition.x + position_bierre[0], inventoryPosition.y + position_bierre[1]);
+                window.draw(sprite_Bierre);
+                cout << position_bierre[0] << endl;
+            }
+        }
+
+
+
+
+
+    
 }
+
+
+
+
+
+
 
