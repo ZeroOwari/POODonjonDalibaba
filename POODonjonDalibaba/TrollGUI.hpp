@@ -5,10 +5,10 @@ class Troll : public Entity {
 public:
     Troll() {
         walkSpeed = 2.f;
-        initTexture("res/trollCombat.png");
+        initTexture("res/trollface.png");
         initSprite();
         sprite.setScale(2.f, 2.f);
-        sprite.setPosition(11 * SPRITE_SIZE, 32 * SPRITE_SIZE);
+        sprite.setPosition(10 * SPRITE_SIZE, 32 * SPRITE_SIZE);
     }
 
     void initAnimation() override {
