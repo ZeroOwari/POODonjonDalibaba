@@ -4,7 +4,7 @@
 #include <vector>
 #include "CharacterGraphique.hpp"
 
-class CombatWindow {
+class CombatGobelinWindow {
 private:
     sf::RenderWindow window;
     sf::Font font;
@@ -34,15 +34,15 @@ private:
     bool playerTurn = true;
 public:
 
-    CombatWindow() :player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
-        enemy1("texture/samouraiIdle.png", font, 100, sf::Vector2f(1350, 760), sf::Vector2f(5.f, 5.f)),
-        enemy2("texture/samouraiIdle.png", font, 100, sf::Vector2f(1550, 760), sf::Vector2f(5.f, 5.f)) {
+    CombatGobelinWindow() :player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
+        enemy1("res/gobelinCombat.png", font, 100, sf::Vector2f(1350, 760), sf::Vector2f(5.f, 5.f)),
+        enemy2("res/gobelinCombat.png", font, 100, sf::Vector2f(1550, 760), sf::Vector2f(5.f, 5.f)) {
         // Paramètres de l'anti-aliasing
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8;
 
         // Initialisation de la fenêtre avec anti-aliasing
-        window.create(sf::VideoMode(1920, 1080), "Combat Pokémon", sf::Style::Fullscreen, settings);
+        window.create(sf::VideoMode(1920, 1080), "Combat Gobelin", sf::Style::Fullscreen, settings);
 
         // Charger les ressources
         font.loadFromFile("fonts/fontRpg.ttf");
@@ -147,7 +147,7 @@ public:
 
     void enemyTurn() {
         if (!playerTurn) {
-            player.health -= 2;
+            player.health -= 60;
             if (player.health < 0) player.health = 0;
             player.updateHealthText();
 
@@ -194,7 +194,7 @@ public:
         return (player.health == 0 || (enemy1.health == 0 && enemy2.health == 0));
     }
 
-    void run() {
+    void runGobelinCombat() {
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {

@@ -92,10 +92,10 @@
     <ClInclude Include="CharacterGraphique.hpp">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="CombatGraphique.hpp">
+    <ClInclude Include="CombatGobelin.hpp">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="MonstresGraphique.hpp">
+    <ClInclude Include="SlimeGUI.hpp">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
@@ -124,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="Voleur.hpp">
       <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="GobelinGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSlime.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

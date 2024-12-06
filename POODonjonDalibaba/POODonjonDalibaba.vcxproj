@@ -148,10 +148,12 @@
     <ClInclude Include="CanardExplosif.hpp" />
     <ClInclude Include="CharacterGraphique.hpp" />
     <ClInclude Include="Combat.hpp" />
-    <ClInclude Include="CombatGraphique.hpp" />
+    <ClInclude Include="CombatSlime.hpp" />
+    <ClInclude Include="CombatGobelin.hpp" />
     <ClInclude Include="Elfe.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GobelinGUI.hpp" />
     <ClInclude Include="GobelinSarcastique.hpp" />
     <ClInclude Include="Guerrier.hpp" />
     <ClInclude Include="Heros.hpp" />
@@ -162,13 +164,14 @@
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Metier.hpp" />
     <ClInclude Include="Monstre.hpp" />
-    <ClInclude Include="MonstresGraphique.hpp" />
+    <ClInclude Include="SlimeGUI.hpp" />
     <ClInclude Include="Nain.hpp" />
     <ClInclude Include="ObserverMetier.hpp" />
     <ClInclude Include="Personnages.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="pnj.hpp" />
     <ClInclude Include="Ranger.hpp" />
+    <ClInclude Include="TrollGUI.hpp" />
     <ClInclude Include="TrollRhetoricien.hpp" />
     <ClInclude Include="Voleur.hpp" />
   </ItemGroup>
