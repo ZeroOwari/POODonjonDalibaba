@@ -58,6 +58,14 @@ protected:
 	sf::Sprite startButton;
 	sf::Texture StartBackgroundTexture;
 	sf::Sprite startBackground;
+	sf::Texture crystal1;
+    sf::Texture crystal2;
+    sf::Texture crystal3;
+    sf::Texture crystal4;
+	sf::Sprite crystal1Sprite;
+	sf::Sprite crystal2Sprite;
+	sf::Sprite crystal3Sprite;
+	sf::Sprite crystal4Sprite;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -87,6 +95,7 @@ public:
         initBullet();
         mobDestroyed = false;
         initcoffre();
+		initcrystal();
         initButtons();
         initStartMenu(); // Initialiser le menu de démarrage
     }
@@ -171,6 +180,32 @@ public:
     }
 
 
+    void initcrystal() {
+		if (!crystal1.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal2.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal3.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!crystal4.loadFromFile("res/crystal.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		crystal1Sprite.setTexture(crystal1);
+		crystal2Sprite.setTexture(crystal2);
+		crystal3Sprite.setTexture(crystal3);
+		crystal4Sprite.setTexture(crystal4);
+		crystal1Sprite.setPosition(800, 416);
+		crystal2Sprite.setPosition(1344, 416);
+		crystal3Sprite.setPosition(800, 960);
+		crystal4Sprite.setPosition(1344, 960);
+	}
 
     void initcoffre() {
 
@@ -594,7 +629,10 @@ public:
         else {
             window->draw(sprite3); // Affiche le coffre fermé
         }
-
+		window->draw(crystal1Sprite);
+		window->draw(crystal2Sprite);
+		window->draw(crystal3Sprite);
+		window->draw(crystal4Sprite);
         DialoguePnj();
         renderColisison();
         if (PrintInventaire == true) {
