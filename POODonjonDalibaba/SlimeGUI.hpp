@@ -1,9 +1,9 @@
 #pragma once
 #include "Entity.hpp"
 
-class Monstres : public Entity {
+class Slime : public Entity {
 public:
-    Monstres() {
+    Slime() {
         walkSpeed = 2.f;
         initTexture("res/slime.png");
         sprite.scale(0.5f, 0.5f);

@@ -31,6 +31,9 @@
     <Filter Include="Fichiers d%27en-tête\Entités\FichierHero\Metier">
       <UniqueIdentifier>{c0e0ba75-b410-4332-a82e-92e4d20081d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\GUI\Combat">
+      <UniqueIdentifier>{f3cefad2-ed4e-485a-8503-1a24ddaf15a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,13 +92,7 @@
     <ClInclude Include="Item_sous_classe.h">
       <Filter>Fichiers d%27en-tête\Inventaire</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterGraphique.hpp">
-      <Filter>Fichiers d%27en-tête\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="CombatGraphique.hpp">
-      <Filter>Fichiers d%27en-tête\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MonstresGraphique.hpp">
+    <ClInclude Include="SlimeGUI.hpp">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
@@ -124,6 +121,24 @@
     </ClInclude>
     <ClInclude Include="Voleur.hpp">
       <Filter>Fichiers d%27en-tête\Entités\FichierHero\Metier</Filter>
+    </ClInclude>
+    <ClInclude Include="GobelinGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollGUI.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterGraphique.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatGobelin.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSlime.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatTroll.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

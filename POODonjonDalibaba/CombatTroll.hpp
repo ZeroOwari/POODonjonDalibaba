@@ -4,7 +4,7 @@
 #include <vector>
 #include "CharacterGraphique.hpp"
 
-class CombatWindow {
+class CombatTrollWindow {
 private:
     sf::RenderWindow window;
     sf::Font font;
@@ -15,34 +15,29 @@ private:
 
     //player
     Character player;
-    Character enemy1;
-    Character enemy2;
+    Character troll;
     sf::Sprite curseurSprite;
     sf::Texture curseurTexture;
 
     sf::Text playerHealthText;
-    sf::Text enemyHealthText;
-    sf::Text enemyHealthText2;
+    sf::Text trollHealthText;
 
     bool selectingTarget = false;
     int selectedTarget = 0;
 
-    int enemyHealth = 100;
-    int enemyHealth2 = 100;
-
     const std::string defaultMessage = "Attack : A    Objet : O\nGarde : G      Fuir : F";
     bool playerTurn = true;
-public:
 
-    CombatWindow() :player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
-        enemy1("texture/samouraiIdle.png", font, 100, sf::Vector2f(1350, 760), sf::Vector2f(5.f, 5.f)),
-        enemy2("texture/samouraiIdle.png", font, 100, sf::Vector2f(1550, 760), sf::Vector2f(5.f, 5.f)) {
+public:
+    CombatTrollWindow() : player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
+        troll("res/trollCombat.png", font, 200, sf::Vector2f(1200, 620), sf::Vector2f(10.f, 10.f)) {
+
         // Paramètres de l'anti-aliasing
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8;
 
         // Initialisation de la fenêtre avec anti-aliasing
-        window.create(sf::VideoMode(1920, 1080), "Combat Pokémon", sf::Style::Fullscreen, settings);
+        window.create(sf::VideoMode(1920, 1080), "Combat Slime", sf::Style::Fullscreen, settings);
 
         // Charger les ressources
         font.loadFromFile("fonts/fontRpg.ttf");
@@ -50,7 +45,7 @@ public:
 
         // Configurer le curseur
         curseurSprite.setTexture(curseurTexture);
-        curseurSprite.setPosition(1430, 700);
+        curseurSprite.setPosition(1350, 550);
         curseurSprite.setScale(0.1f, 0.1f);
 
         // Configurer le fond
@@ -68,6 +63,9 @@ public:
         configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "Vie : 100/100  Mana : 100/100");
         configureDialogueBox(sf::Vector2f(600, 60), sf::Vector2f(660, 1000), "");
 
+        // Initialiser les points de vie
+        configureHealthText(playerHealthText, player.sprite, player.health);
+        configureHealthText(trollHealthText, troll.sprite, troll.health);
     }
 
     void configureHealthText(sf::Text& healthText, const sf::Sprite& sprite, int health) {
@@ -98,15 +96,9 @@ public:
         if (event.type == sf::Event::KeyPressed) {
             if (playerTurn) {
                 if (selectingTarget) {
-                    if (event.key.code == sf::Keyboard::Left) {
-                        selectedTarget = (selectedTarget - 1 + 2) % 2; // Gérer deux ennemis
-                    }
-                    else if (event.key.code == sf::Keyboard::Right) {
-                        selectedTarget = (selectedTarget + 1) % 2; // Gérer deux ennemis
-                    }
-                    else if (event.key.code == sf::Keyboard::Enter) {
-                        textBoxes[3].setString("Vous attaquez l'ennemi " + std::to_string(selectedTarget + 1) + " !");
-                        attackEnemy(selectedTarget);
+                    if (event.key.code == sf::Keyboard::Enter) {
+                        textBoxes[3].setString("Vous attaquez l'ennemi !");
+                        attackEnemy(0);
                         selectingTarget = false;
                         textBoxes[0].setString(defaultMessage);
                         playerTurn = false;
@@ -114,13 +106,6 @@ public:
                     else if (event.key.code == sf::Keyboard::X) {
                         selectingTarget = false;
                         textBoxes[0].setString(defaultMessage);
-                    }
-
-                    if (selectedTarget == 0) {
-                        curseurSprite.setPosition(1430, 700);
-                    }
-                    else {
-                        curseurSprite.setPosition(1630, 700);
                     }
                 }
                 else {
@@ -149,7 +134,7 @@ public:
         if (!playerTurn) {
             player.health -= 2;
             if (player.health < 0) player.health = 0;
-            player.updateHealthText();
+            configureHealthText(playerHealthText, player.sprite, player.health); // Mettre à jour le texte de santé
 
             if (player.health == 0) {
                 textBoxes[3].setString("Vous avez été vaincu !");
@@ -163,38 +148,27 @@ public:
     void attackEnemy(int target) {
         int damage = 10;
         if (target == 0) {
-            enemy1.health -= damage;
-            if (enemy1.health < 0) enemy1.health = 0;
-            enemy1.updateHealthText();
-            if (enemy1.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu l'ennemi 1 !");
-                enemy1.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
-                enemy1.healthText.setString(""); // Masquer les points de vie
+            troll.health -= damage;
+            if (troll.health < 0) troll.health = 0;
+            configureHealthText(trollHealthText, troll.sprite, troll.health); // Mettre à jour le texte de santé
+            if (troll.health == 0) {
+                textBoxes[3].setString("Vous avez vaincu le slime !");
+                troll.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
+                troll.healthText.setString(""); // Masquer les points de vie
                 curseurSprite.setPosition(1630, 700);
             }
         }
-        else if (target == 1) {
-            enemy2.health -= damage;
-            if (enemy2.health < 0) enemy2.health = 0;
-            enemy2.updateHealthText();
-            if (enemy2.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu l'ennemi 2 !");
-                enemy2.sprite.setColor(sf::Color::Transparent);
-                enemy2.healthText.setString("");
-                curseurSprite.setPosition(1430, 700);
-            }
-        }
         // Vérifier la condition de victoire
-        if (enemy1.health == 0 && enemy2.health == 0) {
+        if (troll.health == 0) {
             textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
         }
     }
 
     bool isCombatOver() {
-        return (player.health == 0 || (enemy1.health == 0 && enemy2.health == 0));
+        return (player.health == 0 || troll.health == 0);
     }
 
-    void run() {
+    void runTrollCombat() {
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -215,13 +189,11 @@ public:
             window.clear();
             // Dessiner les éléments
             window.draw(backgroundSprite);
-            window.draw(enemy1.sprite);
-            window.draw(enemy2.sprite);
+            window.draw(troll.sprite);
             window.draw(player.sprite);
             window.draw(curseurSprite);
-            window.draw(player.healthText);
-            window.draw(enemy1.healthText);
-            window.draw(enemy2.healthText);
+            window.draw(playerHealthText);
+            window.draw(trollHealthText);
             for (const auto& dialogueBox : dialogueBoxes) {
                 window.draw(dialogueBox);
             }

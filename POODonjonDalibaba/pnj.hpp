@@ -9,10 +9,6 @@ private:
     sf::Text txt;
     sf::Texture dialTexture;
     sf::Sprite dial;
-    bool recompenseOk = false;
-    int po = 0;
-    bool dialMerci = false;
-
 public:
     PNJ() {
         initTexture("res/pnj.png");
