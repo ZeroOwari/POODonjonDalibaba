@@ -794,7 +794,7 @@ public:
         DialoguePnj();
 
 
-        renderDialogue();
+        //renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
             Inventaire(*window, *player,new_item);
