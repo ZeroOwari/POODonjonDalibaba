@@ -145,7 +145,6 @@ public:
         startButton.setPosition(675, 675);
     }
 
-
     void initFont() {
         if (!font.loadFromFile("fonts/poppins.ttf")) {
             std::cout << "Erreur chargement fonte" << std::endl;
@@ -185,14 +184,11 @@ public:
         }
 
         sprite2.setTexture(texture2);
-
-
-
         sprite3.setTexture(texture3);
 
+        sprite2.setPosition(288, 160);
+        sprite3.setPosition(288, 160);
 
-        sprite2.setPosition(448, 288);
-        sprite3.setPosition(448, 288);
     }
 
     void initMap() {
@@ -308,8 +304,8 @@ public:
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
 
-        if (positionPlayer.x >= 416 && positionPlayer.x <= 480 &&
-            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
+        if (positionPlayer.x >= 256 && positionPlayer.x <= 320 &&
+            positionPlayer.y >= 192 && positionPlayer.y <= 256) {
 
 
             if (coffreFerme == true) {
@@ -334,9 +330,6 @@ public:
                         coffreFerme = !coffreFerme; // Inverser l'état du coffre
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
                         newPOIDS(2, "Consommable", "Boison_de_papi");
-
-
-
                     }
                 }
             }
@@ -526,14 +519,14 @@ public:
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
         
-        if  (positionPlayer.x >= 278 && positionPlayer.x <= 310 && 
-            positionPlayer.y >= 300 && positionPlayer.y <= 374) {
+        if  (positionPlayer.x >= 96 && positionPlayer.x <= 160 && 
+            positionPlayer.y >= 160 && positionPlayer.y <= 192) {
             
             if (!mobDestroyed)
-                setText(text, "He toi la, aide moi, va tuer l'ennemi juste au dessus !");
+                setText(text, "He toi la, aide moi, va tuer l'ennemi juste en dessous !");
             else {
                 if (!dialogueRecompense) {
-                    setText(text, "Merci aventurier, voila 5 pieces et une cle pour ce coffre !");
+                    setText(text, "Merci aventurier, voila une cle pour ce coffre !");
                     recompense = true;
                 }
                 else {

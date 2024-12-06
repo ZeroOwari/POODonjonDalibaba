@@ -3,7 +3,6 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <ctime>
-#include "salles.hpp"
 #include "SFML/Audio.hpp"
 #include "SFML/Config.hpp"
 #include "SFML/Graphics.hpp"

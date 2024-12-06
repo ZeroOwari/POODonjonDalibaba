@@ -2,8 +2,6 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 
-#include "salles.hpp"
-
 #include "sfml/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include <iostream>
@@ -14,8 +12,6 @@
 
 #include "Item.h"
 #include "Item_sous_classe.h"
-
-
 
 #include <iostream>
 #include "SFML/Graphics.hpp"
