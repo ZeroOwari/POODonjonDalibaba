@@ -35,6 +35,7 @@ private:
     sf::Music music;
     PNJ* pnj;
     string new_item = "";
+    bool clef_coffre;
 
 
 protected:
@@ -241,14 +242,11 @@ public:
 
         sprite3.setTexture(texture3);
 
-        sprite4.setTexture(texture2);
-        sprite5.setTexture(texture3);
 
 
-        sprite2.setPosition(448, 288);
-        sprite3.setPosition(448, 288);
-        sprite4.setPosition(224, 288);
-        sprite5.setPosition(224, 288);
+        sprite2.setPosition(288, 160);
+        sprite3.setPosition(288, 160);
+
     }
 
     void initMap() {
@@ -369,8 +367,13 @@ public:
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
 
+
+        sprite2.setPosition(288, 160);
+        sprite3.setPosition(288, 160);
+
+
         if (positionPlayer.x >= 256 && positionPlayer.x <= 320 &&
-            positionPlayer.y >= 192 && positionPlayer.y <= 256) {
+            positionPlayer.y >= 128 && positionPlayer.y <= 192) {
 
 
             if (coffreFerme1 == true) {
@@ -390,50 +393,9 @@ public:
 
                 window->draw(dial);
                 window->draw(text);
-                if (coffreFerme1 == true) {
+                if (coffreFerme2 == true&& clef_coffre==true) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
                         coffreFerme1 = !coffreFerme1; // Inverser l'état du coffre
-                        sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-                        newPOIDS(2, "Consommable", "Boison_de_papi");
-                        new_item = "Potion_d_intelligence_discutable";
-                        
-                        
-
-
-                    }
-                }
-            }
-        }
-
-        sprite2.setPosition(448, 288);
-        sprite3.setPosition(448, 288);
-        sprite4.setPosition(224, 288);
-        sprite5.setPosition(224, 288);
-
-        if (positionPlayer.x >= 192 && positionPlayer.x <= 256 &&
-            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
-
-
-            if (coffreFerme2 == true) {
-                const std::string texte1 = "PRESS E ";
-                text.setFont(font);
-                text.setCharacterSize(18);
-                text.setFillColor(sf::Color::White);
-                text.setStyle(sf::Text::Bold);
-                text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-                text.setString(texte1);
-
-                //la box de dialogue
-                dialTexture.loadFromFile("res/dialbox.png");
-                dial.setTexture(dialTexture);
-                dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-                dial.setScale(1.9f, 0.75f);
-
-                window->draw(dial);
-                window->draw(text);
-                if (coffreFerme2 == true) {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                        coffreFerme2 = !coffreFerme2; // Inverser l'état du coffre
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
                         newPOIDS(1, "Consommable", "Bierre");
                         new_item = "Bierre";
@@ -676,6 +638,7 @@ public:
             window->draw(txt);
         }
     }
+
     void DialoguePnj() {    
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
@@ -689,6 +652,8 @@ public:
                 if (!dialogueRecompense) {
                     setText(text, "Merci aventurier, voila une cle pour ce coffre !");
                     recompense = true;
+                    new_item = "clef_rouillee";
+                    clef_coffre = true;
                 }
                 else {
                     setText(text, "Fait attention au ennemi et au piege, il y en a beaucoup !");
