@@ -16,6 +16,8 @@
 #include "GobelinGUI.hpp"
 #include "TrollGUI.hpp"
 #include "CombatCanard.hpp"
+#include "Liche.hpp"
+#include "BulletBoss.hpp"
 
 using namespace sf;
 
@@ -46,6 +48,7 @@ protected:
     Slime* slime;
     Gobelin* gobelin;
     Troll* troll;
+    Liche* liche;
     Map map;
     View view;
     sf::Font font;
@@ -93,6 +96,12 @@ protected:
     bool slimeDestroyed = false;
     bool gobelinDestroyed = false;
     bool trollDestroyed = false;
+    bool licheDestoyed = false;
+
+    bool crystal1Destroyed = false;
+    bool crystal2Destroyed = false;
+    bool crystal3Destroyed = false;
+    bool crystal4Destroyed = false;
 
     bool bulletActive = false;
     const int Bullet_Speed = 5;
@@ -123,6 +132,7 @@ public:
         initGobelin();
         initTroll();
         initMap();
+        initLiche();
         initMapColision();
         view.setSize(static_cast<float>(WIN_WIDTH), static_cast<float>(WIN_HEIGHT)); // Conversion explicite en float
         initMusic();
@@ -344,6 +354,9 @@ public:
     void initTroll() {
         troll = new Troll();
     }
+    void initLiche() {
+        liche = new Liche();
+    }
 
     void updatePollEvent() {
         Event event;
@@ -438,6 +451,35 @@ public:
         }
     }
 
+    void checkBulletCrystalCollision() {
+        if (bulletActive) {
+            if (bullet.getGlobalBounds().intersects(crystal1Sprite.getGlobalBounds())) {
+                crystal1Sprite.setPosition(-100, -100);
+                bulletActive = false;
+                crystal1Destroyed = true;
+
+            }
+            if (bullet.getGlobalBounds().intersects(crystal2Sprite.getGlobalBounds())) {
+                crystal2Sprite.setPosition(-100, -100);
+                bulletActive = false;
+                crystal2Destroyed = true;
+
+            }
+            if (bullet.getGlobalBounds().intersects(crystal3Sprite.getGlobalBounds())) {
+                crystal3Sprite.setPosition(-100, -100);
+                bulletActive = false;
+                crystal3Destroyed = true;
+
+            }
+            if (bullet.getGlobalBounds().intersects(crystal4Sprite.getGlobalBounds())) {
+                crystal4Sprite.setPosition(-100, -100);
+                bulletActive = false;
+                crystal4Destroyed = true;
+
+            }
+        }
+    }
+
     void check_coffre() {
         sf::Vector2f positionPlayer = player->getPosition();
 
@@ -520,13 +562,27 @@ public:
             }
             return;
         }
+        checkBulletCrystalCollision();
         updateInput();
         checkCollision();
         slimeMovement();
         gobelinMovement();
         trollMovement();
+        licheMovement();
         view.setCenter(player->getPosition());
     }
+
+    void licheMovement() {
+        troll->initAnimation();
+        sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect licheHitbox = liche->getGlobalBounds();
+
+        if (herrohitbox.intersects(licheHitbox))
+        {
+            // herro Hp - 5
+        }
+    }
+
     void trollMovement() {
         troll->initAnimation();
         sf::FloatRect herrohitbox = player->getGlobalBounds(); // Initialiser bulletHitbox
@@ -657,6 +713,7 @@ public:
         sf::FloatRect slimeHitbox = slime->getGlobalBounds();
         sf::FloatRect gobelinHitbox = gobelin->getGlobalBounds();
         sf::FloatRect trollHitbox = troll->getGlobalBounds();
+        sf::FloatRect licheHitbox = liche->getGlobalBounds();
 
         if (bulletHitbox.intersects(slimeHitbox))
         {
@@ -685,6 +742,20 @@ public:
             troll->setPosition(100000, 10000);
         }
 
+        if (bulletHitbox.intersects(licheHitbox))
+        {
+            if (crystal1Destroyed && crystal2Destroyed && crystal3Destroyed && crystal4Destroyed) {
+
+                licheDestoyed = true;
+                bulletActive = false;
+                liche->setPosition(100000, 10000);
+            }
+            else {
+                setText(text, "Les 4 cristaux doivent etre detruit pour attaquer le boss !");
+                bulletActive = false;
+            }
+        }
+
     }
     void renderColisison() {
         for (unsigned int j = 0; j < 50; ++j) {
@@ -697,6 +768,15 @@ public:
                     if (canShowCollisionDebug)
                         window->draw(rects[(i + j * 50)]);
                 }
+            }
+        }
+    }
+
+    void checkProjectileCollisions() {
+        auto& projectiles = liche->getProjectiles();
+        for (auto& bullet : projectiles) {
+            if (bullet.isActive && bullet.bullet.getGlobalBounds().intersects(player->getGlobalBounds())) {
+                bullet.isActive = false;
             }
         }
     }
@@ -865,10 +945,19 @@ public:
             gobelin->render(*window);
         if (!trollDestroyed)
             troll->render(*window);
+        if (!licheDestoyed)
+            liche->render(*window);
         pnj->render(*window);
         
+        sf::Vector2f playerPosition = player->getPosition();
+        if (liche->isPlayerInSalle(playerPosition)) {
+            liche->moveToPlayer(playerPosition);
+            liche->shootAtPlayer(playerPosition);
+        }
+        liche->updateBossBullet();
+        liche->drawProjectiles(*window);
+            
 
-        
 		window->draw(crystal1Sprite);
 		window->draw(crystal2Sprite);
 		window->draw(crystal3Sprite);
@@ -888,6 +977,7 @@ public:
             music.pause();
         }
 
+        checkProjectileCollisions();
         check_coffre();
 		checkprisonniers();
         window->display();

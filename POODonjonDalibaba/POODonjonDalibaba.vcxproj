@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="Asset.hpp" />
     <ClInclude Include="Barbare.hpp" />
+    <ClInclude Include="BulletBoss.hpp" />
     <ClInclude Include="calcul_new_poids.hpp" />
     <ClInclude Include="CombatCanard.hpp" />
     <ClInclude Include="CanardExplosif.hpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Humain.hpp" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Item_sous_classe.h" />
+    <ClInclude Include="Liche.hpp" />
     <ClInclude Include="Magicien.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Metier.hpp" />
