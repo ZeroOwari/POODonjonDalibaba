@@ -77,6 +77,7 @@ protected:
 	sf::Sprite crystal2Sprite;
 	sf::Sprite crystal3Sprite;
 	sf::Sprite crystal4Sprite;
+    sf::Sprite trapBullet;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -93,6 +94,11 @@ protected:
     const int Bullet_Speed = 5;
     enum BulletDirection { Down, Left, Right, Up };
     bool inCombat;
+
+    //bulletTrap
+    std::vector<sf::Sprite> trapBullets;
+    sf::Clock trapBulletClock;
+    bool trapBulletActive = false;
 public:
 
     Game() {
@@ -114,6 +120,7 @@ public:
         initcoffre();
 		initcrystal();
         initButtons();
+        initTrapBullets();
         initStartMenu(); // Initialiser le menu de démarrage
     }
 
@@ -238,15 +245,13 @@ public:
         }
 
         sprite2.setTexture(texture2);
-
         sprite3.setTexture(texture3);
 
         sprite4.setTexture(texture2);
         sprite5.setTexture(texture3);
 
-
-        sprite2.setPosition(448, 288);
-        sprite3.setPosition(448, 288);
+        sprite2.setPosition(288, 160);
+        sprite3.setPosition(288, 160);
         sprite4.setPosition(224, 288);
         sprite5.setPosition(224, 288);
     }
@@ -396,10 +401,6 @@ public:
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
                         newPOIDS(2, "Consommable", "Boison_de_papi");
                         new_item = "Potion_d_intelligence_discutable";
-                        
-                        
-
-
                     }
                 }
             }
@@ -437,10 +438,6 @@ public:
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
                         newPOIDS(1, "Consommable", "Bierre");
                         new_item = "Bierre";
-
-
-
-
                     }
                 }
             }
@@ -541,6 +538,62 @@ public:
         }
     }
 
+    void initTrapBullets() {
+        for (int i = 0; i < 8; i++) { // Correction du nombre de projectiles
+            trapBullet.setTexture(bTexture);
+            trapBullet.setScale(0.75f, 0.75f);
+            trapBullet.setOrigin(16.f, 16.f); // Conversion en float
+            trapBullets.push_back(trapBullet);
+        }
+
+        trapBullets[0].setPosition(108.f, 1376.f);
+        trapBullets[1].setPosition(172.f, 1376.f);
+        trapBullets[2].setPosition(236.f, 1376.f);
+        trapBullets[3].setPosition(300.f, 1376.f);
+        trapBullets[4].setPosition(428.f, 1376.f);
+        trapBullets[5].setPosition(492.f, 1376.f);
+        trapBullets[6].setPosition(556.f, 1376.f);
+        trapBullets[7].setPosition(620.f, 1376.f);
+    }
+
+    void updateTrapBullets() {
+        if (trapBulletClock.getElapsedTime().asSeconds() > 3.0f) {
+            trapBulletActive = true;
+            trapBulletClock.restart();
+        }
+
+        if (trapBulletActive) {
+            for (auto& bullet : trapBullets) {
+                bullet.setRotation(270.f);
+                bullet.move(0.f, static_cast<float>(Bullet_Speed));
+                window->draw(bullet);
+            }
+            if (trapBulletClock.getElapsedTime().asSeconds() > 1.5f) {
+                trapBulletActive = false;
+                trapBullets[0].setPosition(108.f, 1376.f);
+                trapBullets[1].setPosition(172.f, 1376.f);
+                trapBullets[2].setPosition(236.f, 1376.f);
+                trapBullets[3].setPosition(300.f, 1376.f);
+                trapBullets[4].setPosition(428.f, 1376.f);
+                trapBullets[5].setPosition(492.f, 1376.f);
+                trapBullets[6].setPosition(556.f, 1376.f);
+                trapBullets[7].setPosition(620.f, 1376.f);
+    
+            }
+        }
+
+        for (auto& bullet : trapBullets) {
+            sf::FloatRect bulletTrapHitbox = bullet.getGlobalBounds();
+            sf::FloatRect heroHitbox = player->getGlobalBounds();
+
+            if (bulletTrapHitbox.intersects(heroHitbox)) {
+                trapBulletActive = false;
+                break;
+            }
+        }
+    }
+
+
     void HandleBullet() {
         if (bulletActive) {
             switch (bulletDirection) {
@@ -569,10 +622,11 @@ public:
             bulletActive = false;
         }
 
-        sf::FloatRect bulletHitbox = bullet.getGlobalBounds(); // Initialiser bulletHitbox
+        sf::FloatRect bulletHitbox = bullet.getGlobalBounds();
         sf::FloatRect slimeHitbox = slime->getGlobalBounds();
         sf::FloatRect gobelinHitbox = gobelin->getGlobalBounds();
         sf::FloatRect trollHitbox = troll->getGlobalBounds();
+
         if (bulletHitbox.intersects(slimeHitbox))
         {
             // On masque la flèche et le monstre !
@@ -704,11 +758,6 @@ public:
     
     
     void renderPauseMessage() {
-
-
-
-
-        
         sf::Text pauseText;
         pauseText.setFont(font);
         pauseText.setCharacterSize(50);
@@ -791,6 +840,7 @@ public:
 		window->draw(crystal2Sprite);
 		window->draw(crystal3Sprite);
 		window->draw(crystal4Sprite);
+        updateTrapBullets();
         DialoguePnj();
 
 
