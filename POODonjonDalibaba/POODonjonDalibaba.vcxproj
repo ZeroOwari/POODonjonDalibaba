@@ -145,6 +145,7 @@
     <ClInclude Include="Asset.hpp" />
     <ClInclude Include="Barbare.hpp" />
     <ClInclude Include="calcul_new_poids.hpp" />
+    <ClInclude Include="CombatCanard.hpp" />
     <ClInclude Include="CanardExplosif.hpp" />
     <ClInclude Include="CharacterGraphique.hpp" />
     <ClInclude Include="Combat.hpp" />

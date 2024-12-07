@@ -15,6 +15,7 @@
 #include "CombatTroll.hpp"
 #include "GobelinGUI.hpp"
 #include "TrollGUI.hpp"
+#include "CombatCanard.hpp"
 
 using namespace sf;
 
@@ -110,6 +111,7 @@ protected:
         bool estFerme;
         sf::Vector2f position;
         std::string item;
+        bool estPiege;
     };
     std::vector<Coffre> coffres;
 public:
@@ -290,6 +292,7 @@ public:
             coffres[i].spriteOuvert.setTexture(texture3);
             coffres[i].estFerme = true;
             coffres[i].item = (i % 2 == 0) ? "Boison_de_papi" : "Bierre";
+            coffres[i].estPiege = (i != 0  && i % 3 == 0); // chaque troisième coffre est un piège
 
             // Positionner les coffres selon les positions fournies
             coffres[i].position = positions[i];
@@ -438,33 +441,34 @@ public:
     void check_coffre() {
         sf::Vector2f positionPlayer = player->getPosition();
 
-        for (auto& coffre : coffres) {
+        for (int i = 0; i < coffres.size(); i++) {
+            auto& coffre = coffres[i];
             if (positionPlayer.x >= coffre.position.x - 32 && positionPlayer.x <= coffre.position.x + 32 &&
                 positionPlayer.y >= coffre.position.y - 32 && positionPlayer.y <= coffre.position.y + 32) {
 
                 if (coffre.estFerme) {
-                    const std::string texte1 = "PRESS E ";
-                    text.setFont(font);
-                    text.setCharacterSize(18);
-                    text.setFillColor(sf::Color::White);
-                    text.setStyle(sf::Text::Bold);
-                    text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-                    text.setString(texte1);
-
-                    //la box de dialogue
-                    dialTexture.loadFromFile("res/dialbox.png");
-                    dial.setTexture(dialTexture);
-                    dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-                    dial.setScale(1.9f, 0.75f);
-
-                    window->draw(dial);
-                    window->draw(text);
-
+                    if (i == 0 && !clef_coffre) {
+                        setText(text, "CLE REQUISE");
+                    }
+                    else {
+                        setText(text, "PRESS E");
+                    }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                        coffre.estFerme = false; // Ouvrir le coffre
-                        sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-                        newPOIDS(2, "Consommable", coffre.item);
-                        new_item = coffre.item;
+                        if (i == 0 && !clef_coffre) {
+                            setText(text, "CLE REQUISE");
+                        }
+                        else {
+                            coffre.estFerme = false;
+                            sf::sleep(sf::milliseconds(200)); 
+
+                            if (coffre.estPiege) {
+                                handleCombatCanard();
+                            }
+                            else {
+                                newPOIDS(2, "Consommable", coffre.item);
+                                new_item = coffre.item;
+                            }
+                        }
                     }
                 }
             }
@@ -831,6 +835,11 @@ public:
         inCombat = false;
     }
 
+    void handleCombatCanard() {
+        CombatCanardWindow combatCanardWindow;
+        combatCanardWindow.runCanardCombat();
+        inCombat = false;
+    }
     void render() {
         window->setView(view);
         window->clear();
