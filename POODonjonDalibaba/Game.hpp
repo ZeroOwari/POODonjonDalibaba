@@ -113,10 +113,9 @@ protected:
     sf::Clock trapBulletClock;
     bool trapBulletActive = false;
 
-    //
     struct Coffre {
-        sf::Sprite spriteFerme;
-        sf::Sprite spriteOuvert;
+        sf::Sprite coffreFerme;
+        sf::Sprite coffreOuvert;
         bool estFerme;
         sf::Vector2f position;
         std::string item;
@@ -298,16 +297,16 @@ public:
         coffres.resize(positions.size());
 
         for (int i = 0; i < coffres.size(); ++i) {
-            coffres[i].spriteFerme.setTexture(texture2);
-            coffres[i].spriteOuvert.setTexture(texture3);
+            coffres[i].coffreFerme.setTexture(texture2);
+            coffres[i].coffreOuvert.setTexture(texture3);
             coffres[i].estFerme = true;
             coffres[i].item = (i % 2 == 0) ? "Boison_de_papi" : "Bierre";
             coffres[i].estPiege = (i != 0  && i % 3 == 0); // chaque troisième coffre est un piège
 
             // Positionner les coffres selon les positions fournies
             coffres[i].position = positions[i];
-            coffres[i].spriteFerme.setPosition(coffres[i].position);
-            coffres[i].spriteOuvert.setPosition(coffres[i].position);
+            coffres[i].coffreFerme.setPosition(coffres[i].position);
+            coffres[i].coffreOuvert.setPosition(coffres[i].position);
         }
     }
 
@@ -932,10 +931,10 @@ public:
         window->draw(map);
         for (const auto& coffre : coffres) {
             if (coffre.estFerme) {
-                window->draw(coffre.spriteFerme);
+                window->draw(coffre.coffreFerme);
             }
             else {
-                window->draw(coffre.spriteOuvert);
+                window->draw(coffre.coffreOuvert);
             }
         }
         player->render(*window);
