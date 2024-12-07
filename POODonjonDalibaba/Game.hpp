@@ -79,6 +79,12 @@ protected:
 	sf::Sprite crystal3Sprite;
 	sf::Sprite crystal4Sprite;
     sf::Sprite trapBullet;
+    sf::Texture Mohamed;
+	sf::Sprite MohamedSprite;
+	sf::Texture Thibault;
+	sf::Sprite ThibaultSprite;
+    sf::Texture Julien;
+	sf::Sprite JulienSprite;
 
     const int WIN_WIDTH = 800;
     const int WIN_HEIGHT = 576;
@@ -120,6 +126,7 @@ public:
         trollDestroyed = false;
         initcoffre();
 		initcrystal();
+		initPrisonniers();
         initButtons();
         initTrapBullets();
         initStartMenu(); // Initialiser le menu de démarrage
@@ -206,6 +213,27 @@ public:
         bullet.setTexture(bTexture);
     }
 
+
+    void initPrisonniers() {
+		if (!Mohamed.loadFromFile("res/mohamed.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!Thibault.loadFromFile("res/thibault.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		if (!Julien.loadFromFile("res/julien.png")) {
+			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+			return;
+		}
+		JulienSprite.setTexture(Julien);
+		JulienSprite.setPosition(640, 960);
+		ThibaultSprite.setTexture(Thibault);
+		ThibaultSprite.setPosition(640, 992);
+		MohamedSprite.setTexture(Mohamed);
+		MohamedSprite.setPosition(672, 992);
+	}
 
     void initcrystal() {
 		if (!crystal1.loadFromFile("res/crystal.png")) {
@@ -367,6 +395,29 @@ public:
         }
 
         canShowCollisionDebug = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+    }
+
+    void checkprisonniers() {
+        sf::Vector2f positionPlayer = player->getPosition();
+        if (positionPlayer.x >= 640 && positionPlayer.x <= 704 &&
+            positionPlayer.y >= 1120 && positionPlayer.y <= 1152) {
+			const std::string texte = "LIBERE NOUS !! TU DOIS ALLER TUER LA LICHE ET REVENIR NOUS VOIR POUR NOUS LIBERER ! ";
+			text.setFont(font);
+			text.setCharacterSize(14);
+			text.setFillColor(sf::Color::White);
+			text.setStyle(sf::Text::Bold);
+			text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+			text.setString(texte);
+
+			//la box de dialogue
+			dialTexture.loadFromFile("res/dialbox.png");
+			dial.setTexture(dialTexture);
+			dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+			dial.setScale(1.9f, 0.75f);
+
+			window->draw(dial);
+            window->draw(text);
+        }
     }
 
     void check_coffre() {
@@ -851,6 +902,9 @@ public:
 		window->draw(crystal2Sprite);
 		window->draw(crystal3Sprite);
 		window->draw(crystal4Sprite);
+		window->draw(JulienSprite);
+		window->draw(ThibaultSprite);
+		window->draw(MohamedSprite);
         updateTrapBullets();
         DialoguePnj();
 
@@ -867,6 +921,7 @@ public:
         }
 
         check_coffre();
+		checkprisonniers();
         window->display();
     }
 };
