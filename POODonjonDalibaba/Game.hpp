@@ -58,10 +58,6 @@ protected:
     int bulletDirection;
     sf::Texture texture3;
     sf::Texture texture2;
-    sf::Sprite sprite2;
-    sf::Sprite sprite3;
-    sf::Sprite sprite4;
-    sf::Sprite sprite5;
 	sf::Texture resumeButtonTexture;
 	sf::Sprite resumeButton;
     sf::Texture leaveButtonTexture;
@@ -106,6 +102,16 @@ protected:
     std::vector<sf::Sprite> trapBullets;
     sf::Clock trapBulletClock;
     bool trapBulletActive = false;
+
+    //
+    struct Coffre {
+        sf::Sprite spriteFerme;
+        sf::Sprite spriteOuvert;
+        bool estFerme;
+        sf::Vector2f position;
+        std::string item;
+    };
+    std::vector<Coffre> coffres;
 public:
 
     Game() {
@@ -124,7 +130,13 @@ public:
         slimeDestroyed = false;
         gobelinDestroyed = false;
         trollDestroyed = false;
-        initcoffre();
+        std::vector<sf::Vector2f> positions = {
+            {288, 160}, {800, 1376}, {864, 1376}, {928, 1376}, {800, 1312},
+            {864, 1312}, {928, 1312}, {800, 1248}, {864, 1248}, {928, 1248},
+            {1056, 1376}, {1120, 1376}, {1184, 1376}, {1056, 1312}, {1120, 1312},
+            {1184, 1312}, {1056, 1248}, {1120, 1248}, {1184, 1248}
+        };
+        initcoffre(positions);
 		initcrystal();
 		initPrisonniers();
         initButtons();
@@ -262,8 +274,7 @@ public:
 		crystal4Sprite.setPosition(1344, 960);
 	}
 
-    void initcoffre() {
-
+    void initcoffre(const std::vector<sf::Vector2f>& positions) {
         if (!texture2.loadFromFile("texture/Coffre_final.png")) {
             std::cout << "Erreur lors du chargement de la texture" << std::endl;
             return;
@@ -272,15 +283,19 @@ public:
             std::cout << "Erreur lors du chargement de la texture" << std::endl;
             return;
         }
+        coffres.resize(positions.size());
 
-        sprite2.setTexture(texture2);
-        sprite3.setTexture(texture3);
+        for (int i = 0; i < coffres.size(); ++i) {
+            coffres[i].spriteFerme.setTexture(texture2);
+            coffres[i].spriteOuvert.setTexture(texture3);
+            coffres[i].estFerme = true;
+            coffres[i].item = (i % 2 == 0) ? "Boison_de_papi" : "Bierre";
 
-
-
-        sprite2.setPosition(288, 160);
-        sprite3.setPosition(288, 160);
-
+            // Positionner les coffres selon les positions fournies
+            coffres[i].position = positions[i];
+            coffres[i].spriteFerme.setPosition(coffres[i].position);
+            coffres[i].spriteOuvert.setPosition(coffres[i].position);
+        }
     }
 
     void initMap() {
@@ -422,87 +437,40 @@ public:
 
     void check_coffre() {
         sf::Vector2f positionPlayer = player->getPosition();
-        sf::Vector2f positionPnj = pnj->getPosition();
 
+        for (auto& coffre : coffres) {
+            if (positionPlayer.x >= coffre.position.x - 32 && positionPlayer.x <= coffre.position.x + 32 &&
+                positionPlayer.y >= coffre.position.y - 32 && positionPlayer.y <= coffre.position.y + 32) {
 
-        sprite2.setPosition(288, 160);
-        sprite3.setPosition(288, 160);
+                if (coffre.estFerme) {
+                    const std::string texte1 = "PRESS E ";
+                    text.setFont(font);
+                    text.setCharacterSize(18);
+                    text.setFillColor(sf::Color::White);
+                    text.setStyle(sf::Text::Bold);
+                    text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+                    text.setString(texte1);
 
+                    //la box de dialogue
+                    dialTexture.loadFromFile("res/dialbox.png");
+                    dial.setTexture(dialTexture);
+                    dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+                    dial.setScale(1.9f, 0.75f);
 
-        if (positionPlayer.x >= 256 && positionPlayer.x <= 320 &&
-            positionPlayer.y >= 128 && positionPlayer.y <= 192) {
+                    window->draw(dial);
+                    window->draw(text);
 
-
-            if (coffreFerme1 == true) {
-                const std::string texte1 = "PRESS E ";
-                text.setFont(font);
-                text.setCharacterSize(18);
-                text.setFillColor(sf::Color::White);
-                text.setStyle(sf::Text::Bold);
-                text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-                text.setString(texte1);
-
-                //la box de dialogue
-                dialTexture.loadFromFile("res/dialbox.png");
-                dial.setTexture(dialTexture);
-                dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-                dial.setScale(1.9f, 0.75f);
-
-                window->draw(dial);
-                window->draw(text);
-                if (coffreFerme2 == true&& clef_coffre==true) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                        coffreFerme1 = !coffreFerme1; // Inverser l'état du coffre
+                        coffre.estFerme = false; // Ouvrir le coffre
                         sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-                        newPOIDS(2, "Consommable", "Boison_de_papi");
-                        new_item = "Potion_d_intelligence_discutable";
-                        
-                        
-
-
+                        newPOIDS(2, "Consommable", coffre.item);
+                        new_item = coffre.item;
                     }
                 }
             }
         }
-
-        sprite2.setPosition(448, 288);
-        sprite3.setPosition(448, 288);
-        sprite4.setPosition(224, 288);
-        sprite5.setPosition(224, 288);
-
-        if (positionPlayer.x >= 192 && positionPlayer.x <= 256 &&
-            positionPlayer.y >= 256 && positionPlayer.y <= 320) {
-
-
-            if (coffreFerme2 == true) {
-                const std::string texte1 = "PRESS E ";
-                text.setFont(font);
-                text.setCharacterSize(18);
-                text.setFillColor(sf::Color::White);
-                text.setStyle(sf::Text::Bold);
-                text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
-                text.setString(texte1);
-
-                //la box de dialogue
-                dialTexture.loadFromFile("res/dialbox.png");
-                dial.setTexture(dialTexture);
-                dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
-                dial.setScale(1.9f, 0.75f);
-
-                window->draw(dial);
-                window->draw(text);
-                if (coffreFerme2 == true) {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-                        coffreFerme2 = !coffreFerme2; // Inverser l'état du coffre
-                        sf::sleep(sf::milliseconds(200)); // Pause pour éviter une répétition rapide
-                        newPOIDS(1, "Consommable", "Bierre");
-                        new_item = "Bierre";
-                    }
-                }
-            }
-        }
-
     }
+
 
 
     void update() {
@@ -873,6 +841,14 @@ public:
         }
 
         window->draw(map);
+        for (const auto& coffre : coffres) {
+            if (coffre.estFerme) {
+                window->draw(coffre.spriteFerme);
+            }
+            else {
+                window->draw(coffre.spriteOuvert);
+            }
+        }
         player->render(*window);
         if (!slimeDestroyed)
             slime->render(*window);
@@ -881,23 +857,9 @@ public:
         if (!trollDestroyed)
             troll->render(*window);
         pnj->render(*window);
-        if (coffreFerme1) {
-            window->draw(sprite2); // Affiche le coffre ouvert
-        }
-        else {
-            window->draw(sprite3); // Affiche le coffre fermé
+        
 
-
-        }
-
-        if (coffreFerme2) {
-            window->draw(sprite4); // Affiche le coffre ouvert
-        }
-        else {
-            window->draw(sprite5); // Affiche le coffre fermé
-
-
-        }
+        
 		window->draw(crystal1Sprite);
 		window->draw(crystal2Sprite);
 		window->draw(crystal3Sprite);
@@ -907,9 +869,6 @@ public:
 		window->draw(MohamedSprite);
         updateTrapBullets();
         DialoguePnj();
-
-
-        //renderDialogue();
         renderColisison();
         if (PrintInventaire == true) {
             Inventaire(*window, *player,new_item);
