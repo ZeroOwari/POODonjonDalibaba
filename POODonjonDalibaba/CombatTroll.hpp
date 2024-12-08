@@ -39,7 +39,7 @@ public:
         settings.antialiasingLevel = 8;
 
         // Initialisation de la fenêtre avec anti-aliasing
-        window.create(sf::VideoMode(1920, 1080), "Combat Slime", sf::Style::Fullscreen, settings);
+        window.create(sf::VideoMode(1920, 1080), "Combat troll", sf::Style::Fullscreen, settings);
 
         // Charger les ressources
         font.loadFromFile("fonts/fontRpg.ttf");
@@ -94,6 +94,10 @@ public:
         textBoxes.push_back(textBox);
     }
 
+    int lancerDe() {
+        return std::rand() % 20 + 1;
+    }
+
     void handleCombatLogic(sf::Event& event) {
         if (event.type == sf::Event::KeyPressed) {
             if (playerTurn) {
@@ -134,35 +138,48 @@ public:
 
     void enemyTurn() {
         if (!playerTurn) {
-            player.health -= 2;
-            if (player.health < 0) player.health = 0;
-            configureHealthText(playerHealthText, player.sprite, player.health); // Mettre à jour le texte de santé
+            int de = lancerDe();
+            if (de > trollForce) {
+                player.health -= 2;
+                if (player.health < 0) player.health = 0;
+                configureHealthText(playerHealthText, player.sprite, player.health); // Mettre à jour le texte de santé
 
-            if (player.health == 0) {
-                textBoxes[3].setString("Vous avez été vaincu !");
+                if (player.health == 0) {
+                    textBoxes[3].setString("Vous avez ete vaincu !");
+                }
+                else {
+                    textBoxes[2].setString("L'ennemi vous attaque !");
+                }
             }
             else {
-                playerTurn = true;
+                textBoxes[2].setString("L'ennemi a rate son attaque !");
             }
+            playerTurn = true;
         }
     }
 
     void attackEnemy(int target) {
-        int damage = 10;
-        if (target == 0) {
-            troll.health -= damage;
-            if (troll.health < 0) troll.health = 0;
-            configureHealthText(trollHealthText, troll.sprite, troll.health); // Mettre à jour le texte de santé
+        int de = lancerDe();
+        if (de > playerForce) {
+            int damage = 10;
+            if (target == 0) {
+                troll.health -= damage;
+                if (troll.health < 0) troll.health = 0;
+                configureHealthText(trollHealthText, troll.sprite, troll.health); // Mettre à jour le texte de santé
+                if (troll.health == 0) {
+                    textBoxes[3].setString("Vous avez vaincu le troll !");
+                    troll.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
+                    troll.healthText.setString(""); // Masquer les points de vie
+                    curseurSprite.setPosition(1630, 700);
+                }
+            }
+            // Vérifier la condition de victoire
             if (troll.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu le slime !");
-                troll.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
-                troll.healthText.setString(""); // Masquer les points de vie
-                curseurSprite.setPosition(1630, 700);
+                textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
             }
         }
-        // Vérifier la condition de victoire
-        if (troll.health == 0) {
-            textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
+        else {
+            textBoxes[3].setString("Vous avez rate votre attaque !");
         }
     }
 

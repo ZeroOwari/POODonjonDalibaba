@@ -147,7 +147,8 @@ public:
             {288, 160}, {800, 1376}, {864, 1376}, {928, 1376}, {800, 1312},
             {864, 1312}, {928, 1312}, {800, 1248}, {864, 1248}, {928, 1248},
             {1056, 1376}, {1120, 1376}, {1184, 1376}, {1056, 1312}, {1120, 1312},
-            {1184, 1312}, {1056, 1248}, {1120, 1248}, {1184, 1248}
+            {1184, 1312}, {1056, 1248}, {1120, 1248}, {1184, 1248}, {448, 704},
+            {64, 1376}
         };
         initcoffre(positions);
 		initcrystal();
@@ -240,10 +241,6 @@ public:
 
 
     void initPrisonniers() {
-
-
-        
-
             if (!Mohamed.loadFromFile("res/mohamed.png")) {
                 std::cerr << "Erreur lors du chargement de la texture" << std::endl;
                 return;
@@ -309,7 +306,21 @@ public:
             coffres[i].coffreFerme.setTexture(texture2);
             coffres[i].coffreOuvert.setTexture(texture3);
             coffres[i].estFerme = true;
-            coffres[i].item = (i % 2 == 0) ? "Boison_de_papi" : "Bierre";
+            if (i == 20) {
+                coffres[i].item = "Chaussures_de_discrétion_bruyante";
+            }
+            else if (i == 19) {
+                coffres[i].item = "Potion_d_intelligence_discutable";
+            }
+            else if (i == 13) {
+                coffres[i].item = "Épée_émoussée";
+            }
+            else if (i == 7) {
+                coffres[i].item = "Potion_de_soin_majeur";
+            }
+            else {
+                coffres[i].item = (i == 0) ? "Bierre" : (i % 2 == 0) ? "Boison_de_papi" : "Bierre";
+            }
             coffres[i].estPiege = (i != 0  && i % 3 == 0); // chaque troisième coffre est un piège
 
             // Positionner les coffres selon les positions fournies
