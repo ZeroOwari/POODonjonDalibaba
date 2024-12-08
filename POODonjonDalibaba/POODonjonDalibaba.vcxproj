@@ -175,6 +175,7 @@
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="pnj.hpp" />
     <ClInclude Include="Ranger.hpp" />
+    <ClInclude Include="tests.hpp" />
     <ClInclude Include="TrollGUI.hpp" />
     <ClInclude Include="TrollRhetoricien.hpp" />
     <ClInclude Include="Voleur.hpp" />
