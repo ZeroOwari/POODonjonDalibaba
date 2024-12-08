@@ -11,7 +11,7 @@ class CanardExplosif : public Monstre, public Observer
 public:
     CanardExplosif()
     {
-        this->set_pv(1);
+        this->set_pv(20);
         this->set_force(20);
         this->set_intelligence(1);
         this->set_adresse(1);

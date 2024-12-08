@@ -140,5 +140,14 @@
     <ClInclude Include="CombatTroll.hpp">
       <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
     </ClInclude>
+    <ClInclude Include="CombatCanard.hpp">
+      <Filter>Fichiers d%27en-tête\GUI\Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Liche.hpp">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletBoss.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

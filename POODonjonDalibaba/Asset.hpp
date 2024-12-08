@@ -734,17 +734,4 @@ void Inventaire(sf::RenderWindow& window, const Player& player, string nom_de_l_
                 cout << position_bierre[0] << endl;
             }
         }
-
-
-
-
-
-    
 }
-
-
-
-
-
-
-
