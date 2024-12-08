@@ -122,6 +122,8 @@ protected:
         bool estPiege;
     };
     std::vector<Coffre> coffres;
+
+
 public:
 
     Game() {
@@ -238,24 +240,31 @@ public:
 
 
     void initPrisonniers() {
-		if (!Mohamed.loadFromFile("res/mohamed.png")) {
-			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
-			return;
-		}
-		if (!Thibault.loadFromFile("res/thibault.png")) {
-			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
-			return;
-		}
-		if (!Julien.loadFromFile("res/julien.png")) {
-			std::cerr << "Erreur lors du chargement de la texture" << std::endl;
-			return;
-		}
-		JulienSprite.setTexture(Julien);
-		JulienSprite.setPosition(640, 960);
-		ThibaultSprite.setTexture(Thibault);
-		ThibaultSprite.setPosition(640, 992);
-		MohamedSprite.setTexture(Mohamed);
-		MohamedSprite.setPosition(672, 992);
+
+
+        
+
+            if (!Mohamed.loadFromFile("res/mohamed.png")) {
+                std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                return;
+            }
+            if (!Thibault.loadFromFile("res/thibault.png")) {
+                std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                return;
+            }
+            if (!Julien.loadFromFile("res/julien.png")) {
+                std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                return;
+            }
+            JulienSprite.setTexture(Julien);
+            JulienSprite.setPosition(640, 960);
+            ThibaultSprite.setTexture(Thibault);
+            ThibaultSprite.setPosition(640, 992);
+            MohamedSprite.setTexture(Mohamed);
+            MohamedSprite.setPosition(672, 992);
+
+
+        
 	}
 
     void initcrystal() {
@@ -308,6 +317,12 @@ public:
             coffres[i].coffreFerme.setPosition(coffres[i].position);
             coffres[i].coffreOuvert.setPosition(coffres[i].position);
         }
+    }
+
+    void init() {
+        
+
+
     }
 
     void initMap() {
@@ -748,6 +763,51 @@ public:
                 licheDestoyed = true;
                 bulletActive = false;
                 liche->setPosition(100000, 10000);
+                cout << "la liche est morte" << endl;
+                if (licheDestoyed == true) {
+                    if (!Mohamed.loadFromFile("res/mohamed.png")) {
+                        std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                        return;
+                    }
+                    if (!Thibault.loadFromFile("res/thibault.png")) {
+                        std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                        return;
+                    }
+                    if (!Julien.loadFromFile("res/julien.png")) {
+                        std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                        return;
+                    }
+                    JulienSprite.setTexture(Julien);
+                    JulienSprite.setPosition(1024, 500);
+                    ThibaultSprite.setTexture(Thibault);
+                    ThibaultSprite.setPosition(1088, 500);
+                    MohamedSprite.setTexture(Mohamed);
+                    MohamedSprite.setPosition(1152, 500);
+                    /*
+                    sf::Vector2f positionPlayer = player->getPosition();
+                    if (positionPlayer.x >= 1024 && positionPlayer.x <= 1152 &&
+                        positionPlayer.y >= 500 && positionPlayer.y <= 596) {
+                        const std::string Final = "Tu as gagné et tu as fini le donjon ! ";
+                        text.setFont(font);
+                        text.setCharacterSize(14);
+                        text.setFillColor(sf::Color::White);
+                        text.setStyle(sf::Text::Bold);
+                        text.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 55, view.getCenter().y + WIN_HEIGHT / 2 - 106);
+                        text.setString(Final);
+
+                        //la box de dialogue
+                        dialTexture.loadFromFile("res/dialbox.png");
+                        dial.setTexture(dialTexture);
+                        dial.setPosition(view.getCenter().x - WIN_WIDTH / 2 + 20, view.getCenter().y + WIN_HEIGHT / 2 - 126);
+                        dial.setScale(1.9f, 0.75f);
+
+                        window->draw(dial);
+                        window->draw(text);
+                        cout << "salut" << endl;
+                    }
+                    */
+
+                }
             }
             else {
                 setText(text, "Les 4 cristaux doivent etre detruit pour attaquer le boss !");
