@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Game">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Game::BulletDirection" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="Game::Coffre" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>kRo4/x4IQAdvEgyClLtJAt+lHKyAZAqJKzKQAhAsehA=</HashCode>
+      <FileName>Game.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="item">
+    <Position X="3.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAADBAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Consommable">
+    <Position X="1" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item_sous_classe.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Equipement">
+    <Position X="3.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item_sous_classe.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Armement">
+    <Position X="5.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item_sous_classe.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="6" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIQACAAAAAACAQAQCAAgCABAQAgAAAQAAAASQCIA=</HashCode>
+      <FileName>Entity.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gobelin">
+    <Position X="8.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAIAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>GobelinGUI.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Liche">
+    <Position X="11" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAKAABAAAUEBQAAAADgEAAAAgAAABAAAAAAAAACAAAA=</HashCode>
+      <FileName>Liche.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABoAAAAAACAIAAAAAAAABAAAAAAAQACAAAAA=</HashCode>
+      <FileName>Map.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Slime">
+    <Position X="0.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAA=</HashCode>
+      <FileName>SlimeGUI.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="1.5" Y="13" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Player::Dir" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Player.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAQCAAAA=</HashCode>
+      <FileName>Player.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PNJ">
+    <Position X="3.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAACAAAA=</HashCode>
+      <FileName>pnj.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Troll">
+    <Position X="8.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCAAAA=</HashCode>
+      <FileName>TrollGUI.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
