@@ -639,6 +639,7 @@ public:
         }
     }
 
+
     void DialoguePnj() {    
         sf::Vector2f positionPlayer = player->getPosition();
         sf::Vector2f positionPnj = pnj->getPosition();
@@ -670,10 +671,6 @@ public:
     
     void renderPauseMessage() {
 
-
-
-
-        
         sf::Text pauseText;
         pauseText.setFont(font);
         pauseText.setCharacterSize(50);
