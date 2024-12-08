@@ -8,8 +8,6 @@ using namespace std;
 class GobelinSarcastique : public Monstre, public Observer
 {
 public:
-    GobelinSarcastique(int pv, int niveau) : Monstre(pv, niveau) {}
-
     GobelinSarcastique()
     {
         this->set_pv(25);

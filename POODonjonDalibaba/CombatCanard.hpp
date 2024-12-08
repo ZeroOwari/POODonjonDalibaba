@@ -47,7 +47,7 @@ public:
         curseurSprite.setTexture(curseurTexture);
         curseurSprite.setScale(0.1f, 0.1f);
         updateCurseurPosition();
-        
+
 
         // Configurer le fond
         backgroundTexture.loadFromFile("texture/donjon2.png");

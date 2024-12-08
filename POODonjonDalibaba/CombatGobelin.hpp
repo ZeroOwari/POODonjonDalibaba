@@ -32,6 +32,9 @@ private:
 
     const std::string defaultMessage = "Attack : A    Objet : O\nGarde : G      Fuir : F";
     bool playerTurn = true;
+
+    int playerForce = 18;
+    int gobelinForce = 6;
 public:
 
     CombatGobelinWindow() :player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
@@ -65,7 +68,7 @@ public:
         // Configurer les boîtes de dialogue et les textes
         configureDialogueBox(sf::Vector2f(245, 60), sf::Vector2f(0, 1000), defaultMessage);
         configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(270, 1000), "Vie : 100/100  Mana : 100/100\nArmure : 20/20");
-        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "Vie : 100/100  Mana : 100/100");
+        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "");
         configureDialogueBox(sf::Vector2f(600, 60), sf::Vector2f(660, 1000), "");
 
     }
@@ -92,6 +95,10 @@ public:
         textBox.setPosition(position.x + 1, position.y);
         textBox.setString(message);
         textBoxes.push_back(textBox);
+    }
+
+    int lancerDe() {
+        return std::rand() % 20 + 1;
     }
 
     void handleCombatLogic(sf::Event& event) {
@@ -147,46 +154,58 @@ public:
 
     void enemyTurn() {
         if (!playerTurn) {
-            player.health -= 60;
-            if (player.health < 0) player.health = 0;
-            player.updateHealthText();
+            int de = lancerDe();
+            if (de > gobelinForce) {
+                player.health -= 2;
+                if (player.health < 0) player.health = 0;
+                player.updateHealthText(); // Mettre à jour le texte de santé
 
-            if (player.health == 0) {
-                textBoxes[3].setString("Vous avez été vaincu !");
+                if (player.health == 0) {
+                    textBoxes[3].setString("Vous avez ete vaincu !");
+                }
+                else {
+                    textBoxes[2].setString("L'ennemi vous attaque !");
+                }
             }
             else {
-                playerTurn = true;
+                textBoxes[2].setString("L'ennemi a rate son attaque !");
             }
+            playerTurn = true;
         }
     }
 
     void attackEnemy(int target) {
-        int damage = 10;
-        if (target == 0) {
-            enemy1.health -= damage;
-            if (enemy1.health < 0) enemy1.health = 0;
-            enemy1.updateHealthText();
-            if (enemy1.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu l'ennemi 1 !");
-                enemy1.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
-                enemy1.healthText.setString(""); // Masquer les points de vie
-                curseurSprite.setPosition(1630, 700);
+        int de = lancerDe();
+        if (de > playerForce / 2) {
+            int damage = 10;
+            if (target == 0) {
+                enemy1.health -= damage;
+                if (enemy1.health < 0) enemy1.health = 0;
+                enemy1.updateHealthText();
+                if (enemy1.health == 0) {
+                    textBoxes[3].setString("Vous avez vaincu l'ennemi 1 !");
+                    enemy1.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
+                    enemy1.healthText.setString(""); // Masquer les points de vie
+                    curseurSprite.setPosition(1630, 700);
+                }
+            }
+            else if (target == 1) {
+                enemy2.health -= damage;
+                if (enemy2.health < 0) enemy2.health = 0;
+                enemy2.updateHealthText();
+                if (enemy2.health == 0) {
+                    textBoxes[3].setString("Vous avez vaincu l'ennemi 2 !");
+                    enemy2.sprite.setColor(sf::Color::Transparent);
+                    enemy2.healthText.setString("");
+                    curseurSprite.setPosition(1430, 700);
+                }
+            }
+            if (enemy1.health == 0 && enemy2.health == 0) {
+                textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
             }
         }
-        else if (target == 1) {
-            enemy2.health -= damage;
-            if (enemy2.health < 0) enemy2.health = 0;
-            enemy2.updateHealthText();
-            if (enemy2.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu l'ennemi 2 !");
-                enemy2.sprite.setColor(sf::Color::Transparent);
-                enemy2.healthText.setString("");
-                curseurSprite.setPosition(1430, 700);
-            }
-        }
-        // Vérifier la condition de victoire
-        if (enemy1.health == 0 && enemy2.health == 0) {
-            textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
+        else {
+            textBoxes[3].setString("Vous avez rate votre attaque !");
         }
     }
 

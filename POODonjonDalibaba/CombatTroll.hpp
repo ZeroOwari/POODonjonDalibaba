@@ -28,6 +28,8 @@ private:
     const std::string defaultMessage = "Attack : A    Objet : O\nGarde : G      Fuir : F";
     bool playerTurn = true;
 
+    int playerForce = 9;
+    int trollForce = 6;
 public:
     CombatTrollWindow() : player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
         troll("res/trollCombat.png", font, 200, sf::Vector2f(1200, 620), sf::Vector2f(10.f, 10.f)) {
@@ -60,7 +62,7 @@ public:
         // Configurer les boîtes de dialogue et les textes
         configureDialogueBox(sf::Vector2f(245, 60), sf::Vector2f(0, 1000), defaultMessage);
         configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(270, 1000), "Vie : 100/100  Mana : 100/100\nArmure : 20/20");
-        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "Vie : 100/100  Mana : 100/100");
+        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "");
         configureDialogueBox(sf::Vector2f(600, 60), sf::Vector2f(660, 1000), "");
 
         // Initialiser les points de vie
@@ -80,7 +82,7 @@ public:
         sf::RectangleShape dialogueBox;
         dialogueBox.setSize(size);
         dialogueBox.setPosition(position);
-        dialogueBox.setFillColor(sf::Color(255, 255, 255, 200));
+        dialogueBox.setFillColor(sf::Color(255, 255,     255, 200));
         dialogueBoxes.push_back(dialogueBox);
 
         sf::Text textBox;

@@ -319,12 +319,6 @@ public:
         }
     }
 
-    void init() {
-        
-
-
-    }
-
     void initMap() {
         if (!map.loadFromFile("res/map1.txt", levelLoaded, 2500)) {
             std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -689,6 +683,7 @@ public:
 
             if (bulletTrapHitbox.intersects(heroHitbox)) {
                 trapBulletActive = false;
+                window->close();
                 break;
             }
         }

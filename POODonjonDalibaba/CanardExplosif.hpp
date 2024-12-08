@@ -18,7 +18,7 @@ public:
         this->set_charisme(1);
         this->set_courage(1);
     }
-    
+
     string get_origine() override
     {
         return "Canard Explosif";

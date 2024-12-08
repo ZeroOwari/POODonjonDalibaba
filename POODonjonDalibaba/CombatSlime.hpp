@@ -28,6 +28,9 @@ private:
     const std::string defaultMessage = "Attack : A    Objet : O\nGarde : G      Fuir : F";
     bool playerTurn = true;
 
+    int playerForce = 9;
+    int slimeForce = 5;
+
 public:
     CombatSlimeWindow() : player("texture/chevalierIdle.png", font, 100, sf::Vector2f(200, 750), sf::Vector2f(5.f, 5.f)),
         slime("res/slimeCombat.png", font, 20, sf::Vector2f(1350, 840), sf::Vector2f(3.f, 3.f)) {
@@ -60,7 +63,7 @@ public:
         // Configurer les boîtes de dialogue et les textes
         configureDialogueBox(sf::Vector2f(245, 60), sf::Vector2f(0, 1000), defaultMessage);
         configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(270, 1000), "Vie : 100/100  Mana : 100/100\nArmure : 20/20");
-        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "Vie : 100/100  Mana : 100/100");
+        configureDialogueBox(sf::Vector2f(320, 60), sf::Vector2f(1300, 1000), "");
         configureDialogueBox(sf::Vector2f(600, 60), sf::Vector2f(660, 1000), "");
 
         // Initialiser les points de vie
@@ -90,6 +93,10 @@ public:
         textBox.setPosition(position.x + 1, position.y);
         textBox.setString(message);
         textBoxes.push_back(textBox);
+    }
+
+    int lancerDe() {
+        return std::rand() % 20 + 1;
     }
 
     void handleCombatLogic(sf::Event& event) {
@@ -132,35 +139,48 @@ public:
 
     void enemyTurn() {
         if (!playerTurn) {
-            player.health -= 2;
-            if (player.health < 0) player.health = 0;
-            configureHealthText(playerHealthText, player.sprite, player.health); // Mettre à jour le texte de santé
+            int de = lancerDe();
+            if (de > slimeForce) {
+                player.health -= 2;
+                if (player.health < 0) player.health = 0;
+                configureHealthText(playerHealthText, player.sprite, player.health); // Mettre à jour le texte de santé
 
-            if (player.health == 0) {
-                textBoxes[3].setString("Vous avez été vaincu !");
+                if (player.health == 0) {
+                    textBoxes[3].setString("Vous avez ete vaincu !");
+                }
+                else {
+                    textBoxes[2].setString("L'ennemi vous attaque !");
+                }
             }
             else {
-                playerTurn = true;
+                textBoxes[2].setString("L'ennemi a rate son attaque !");
             }
+            playerTurn = true;
         }
     }
 
     void attackEnemy(int target) {
-        int damage = 10;
-        if (target == 0) {
-            slime.health -= damage;
-            if (slime.health < 0) slime.health = 0;
-            configureHealthText(slimeHealthText, slime.sprite, slime.health); // Mettre à jour le texte de santé
+        int de = lancerDe();
+        if (de > playerForce) {
+            int damage = 10;
+            if (target == 0) {
+                slime.health -= damage;
+                if (slime.health < 0) slime.health = 0;
+                configureHealthText(slimeHealthText, slime.sprite, slime.health); // Mettre à jour le texte de santé
+                if (slime.health == 0) {
+                    textBoxes[3].setString("Vous avez vaincu le slime !");
+                    slime.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
+                    slime.healthText.setString(""); // Masquer les points de vie
+                    curseurSprite.setPosition(1630, 700);
+                }
+            }
+            // Vérifier la condition de victoire
             if (slime.health == 0) {
-                textBoxes[3].setString("Vous avez vaincu le slime !");
-                slime.sprite.setColor(sf::Color::Transparent); // Rendre l'ennemi invisible
-                slime.healthText.setString(""); // Masquer les points de vie
-                curseurSprite.setPosition(1630, 700);
+                textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
             }
         }
-        // Vérifier la condition de victoire
-        if (slime.health == 0) {
-            textBoxes[3].setString("Victoire ! Tous les ennemis sont vaincus !");
+        else {
+            textBoxes[3].setString("Vous avez rate votre attaque !");
         }
     }
 
