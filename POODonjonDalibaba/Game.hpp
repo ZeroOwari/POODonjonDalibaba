@@ -598,7 +598,7 @@ public:
 
         if (herrohitbox.intersects(licheHitbox))
         {
-            // herro Hp - 5
+            window->close();
         }
     }
 
